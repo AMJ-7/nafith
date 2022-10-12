@@ -1,4 +1,4 @@
-import 'package:conditional_builder/conditional_builder.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
 import 'package:raqi/raqi_app/styles/Iconly-Broken_icons.dart';

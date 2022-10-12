@@ -70,9 +70,9 @@ class RaqiGetCommentsLoadingState extends RaqiStates {}
 class RaqiGetCommentsErrorState extends RaqiStates {}
 class RaqiGetCommentsSuccessState extends RaqiStates {}
 
-class RaqiGetAnotherUserLoadingState extends RaqiStates {}
-class RaqiGetAnotherUserErrorState extends RaqiStates {}
-class RaqiGetAnotherUserSuccessState extends RaqiStates {}
+class RaqiGetTeacherLoadingState extends RaqiStates {}
+class RaqiGetTeacherErrorState extends RaqiStates {}
+class RaqiGetTeacherSuccessState extends RaqiStates {}
 
 
 class RaqiPostImagePickedSuccessState extends RaqiStates {}

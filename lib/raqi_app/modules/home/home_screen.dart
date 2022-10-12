@@ -1,10 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:conditional_builder/conditional_builder.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/app_cubit/app_states.dart';
+import 'package:raqi/raqi_app/modules/call/video/video_call.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -51,12 +53,14 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 15,),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: defaultButton(function: (){},
-                      text: 'Subscribe a new package'),
+                  child: defaultButton(function: (){
+
+                  },
+                      text: "${getLang(context,"subscribe")}"),
                 ),
                 defaultTextButton(function: (){
                   RaqiCubit.get(context).changeBottomNav(1);
-                }, text: 'Teacher List', color: Colors.blue)
+                }, text: "${getLang(context,"Tlist")}", color: Colors.blue)
               ],) ,
               fallback: (context) => Center(child: CircularProgressIndicator(color: buttonsColor,)));
 

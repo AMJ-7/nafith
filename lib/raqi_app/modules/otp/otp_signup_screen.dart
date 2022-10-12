@@ -7,6 +7,7 @@ import 'package:raqi/raqi_app/layout/raqi_layout.dart';
 import 'package:raqi/raqi_app/modules/signup/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/signup/cubit/states.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
 import 'package:raqi/raqi_app/shared/network/local/cache_helper.dart';
@@ -39,7 +40,7 @@ class OtpScreen extends StatelessWidget {
         builder:(context , state){
           RaqiSignupCubit.get(context).verifyPhone(phone, email, name, gender, type, context);
           return Scaffold(
-            appBar: AppBar(title: Text('OTP verification'),),
+            appBar: AppBar(title: Text("${getLang(context,"otpV")}"),),
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(top: 50.0),
@@ -50,7 +51,7 @@ class OtpScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Code sent to ' , style: TextStyle(fontSize: 20),),
+                        Text("${getLang(context,"codeSentTo")}" , style: TextStyle(fontSize: 20),),
                         Text('${phone}' , style: TextStyle(fontSize: 24,color: textColor),)
                       ],
                     ),

@@ -1,4 +1,4 @@
-import 'package:conditional_builder/conditional_builder.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +7,7 @@ import 'package:raqi/raqi_app/modules/login/cubit/states.dart';
 import 'package:raqi/raqi_app/modules/otp/otp_login_screen.dart';
 import 'package:raqi/raqi_app/modules/signup/sign_up.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -49,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'LOGIN.',
+                          "${getLang(context,"login")}",
                           style: Theme.of(context).textTheme.headline3!.copyWith(
                               color: textColor
                           ),
@@ -58,12 +59,12 @@ class LoginScreen extends StatelessWidget {
                         Center(child: Container(
                             height: 300,
                             width: 300,
-                            child: Image(image: AssetImage('assets/images/login.png')))),
+                            child: Image(image: AssetImage('assets/images/loginimg.png')))),
                         SizedBox(
                           height: 10,
                         ),
                         Text(
-                          "Let's Start our Journey !",
+                          "${getLang(context,"lets")}",
                           style: Theme.of(context).textTheme.headline5!.copyWith(
                             color: Colors.grey[500],
                           ),
@@ -75,12 +76,12 @@ class LoginScreen extends StatelessWidget {
                           keyboardType: TextInputType.phone,
                           validator: (value){
                             if(value!.isEmpty){
-                              return "Your phone can't be empty !";
+                              return "${getLang(context,"phoneQ")}";
                             }
                           },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Phone',
+                            labelText: "${getLang(context,"phone")}",
                             prefixIcon: country == null ? GestureDetector(
                                 child: Icon(Icons.arrow_drop_down_sharp), onTap: (){
                               pickCountry(context);
@@ -104,10 +105,10 @@ class LoginScreen extends StatelessWidget {
                           builder: (context) => defaultButton(
                               function: (){
                                 if(formKey.currentState!.validate()){
-                                  navigateTo(context, OtpLoginScreen("+${country}${phoneController.text}"));
+                                  navigateTo(context,country != null ? OtpLoginScreen("+${country}${phoneController.text}") : OtpLoginScreen("${phoneController.text}"));
                                 }
                               },
-                              text: 'Login'
+                              text: "${getLang(context,"loginB")}"
                           ),
                           fallback: (context) => Center(child: CircularProgressIndicator(color: buttonsColor,)),
                         ),
@@ -118,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "or login with",
+                              "${getLang(context,"orLW")}",
                               style: TextStyle(fontSize: 16),
                             ),
 
@@ -156,12 +157,12 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Don't have an account ?",
+                              "${getLang(context,"dontHave")}",
                               style: TextStyle(fontSize: 16),
                             ),
                             defaultTextButton(function: (){
                                navigateTo(context , SignupScreen());
-                            }, text: 'Signup'),
+                            }, text: "${getLang(context,"signup")}"),
 
                           ],
                         ),

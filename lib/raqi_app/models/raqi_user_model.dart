@@ -6,6 +6,10 @@ class UserModel{
   dynamic  image;
   dynamic type ;
   dynamic gender ;
+  dynamic bio ;
+  dynamic degree ;
+  dynamic ejazat ;
+  dynamic language ;
 
   UserModel({
     this.name,
@@ -14,7 +18,11 @@ class UserModel{
     this.uId,
     this.image,
     this.type,
-    this.gender
+    this.gender,
+    this.bio ,
+    this.degree ,
+    this.ejazat ,
+    this.language ,
 });
 
   UserModel.fromJson(Map<String , dynamic>? json){
@@ -25,6 +33,10 @@ class UserModel{
     image = json['image'];
     type = json['type'];
     gender = json['gender'];
+    bio = json['bio'];
+    degree = json['degree'];
+    ejazat = json['ejazat'];
+    language = json['language'];
   }
 
   Map<String , dynamic> toMap(){
@@ -36,6 +48,10 @@ class UserModel{
       'image' : image ,
       'type' : type ,
       'gender' : gender,
+      'bio' : bio,
+      'degree' : degree,
+      'ejazat' : ejazat,
+      'language' : language,
 
     };
   }

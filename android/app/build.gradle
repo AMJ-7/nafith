@@ -26,8 +26,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -48,15 +55,29 @@ android {
         minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
         multiDexEnabled true
+        ndk { abiFilters "armeabi", "x86", "armeabi-v7a","x86_64", "mips",
+                "mips64", "arm64-v8a" }
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
+    signingConfigs {
+        release {
+            storeFile file('keystores/debug.keystore')
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            ndk {
+                abiFilters 'armeabi-v7a','arm64-v8a','x86_64'
+            }
+            shrinkResources false
+            minifyEnabled false
+            signingConfig signingConfigs.release
         }
     }
 }

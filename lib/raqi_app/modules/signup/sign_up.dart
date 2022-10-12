@@ -1,4 +1,4 @@
-import 'package:conditional_builder/conditional_builder.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +7,7 @@ import 'package:raqi/raqi_app/modules/otp/otp_signup_screen.dart';
 import 'package:raqi/raqi_app/modules/signup/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/signup/cubit/states.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -50,7 +51,7 @@ class SignupScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Signup',
+                        "${getLang(context,"signup")}",
                           style: Theme.of(context).textTheme.headline3!.copyWith(
                               color: textColor
                           ),
@@ -59,7 +60,7 @@ class SignupScreen extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          'Register to be with our family !',
+                          "${getLang(context,"registerTB")}",
                           style: Theme.of(context).textTheme.headline5!.copyWith(
                             color: Colors.grey[500],
                           ),
@@ -70,11 +71,11 @@ class SignupScreen extends StatelessWidget {
                             type: TextInputType.name,
                             validate: (value){
                               if(value!.isEmpty){
-                                return "What\'s your name !";
+                                return "${getLang(context,"nameQ")}";
                               }
 
                             },
-                            label: 'Name',
+                            label: "${getLang(context,"name")}",
                             prefix: Icons.person
                         ),
                         SizedBox(height: 15,),
@@ -83,12 +84,12 @@ class SignupScreen extends StatelessWidget {
                           keyboardType: TextInputType.phone,
                           validator: (value){
                             if(value!.isEmpty){
-                              return "Your phone can't be empty !";
+                              return "${getLang(context,"phoneQ")}";
                             }
                           },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Phone',
+                            labelText: "${getLang(context,"phone")}",
                             prefixIcon: country == null ? GestureDetector(
                               child: Icon(Icons.arrow_drop_down_sharp), onTap: (){
                               pickCountry(context);
@@ -110,19 +111,19 @@ class SignupScreen extends StatelessWidget {
                             type: TextInputType.emailAddress,
                             validate: (value){
                               if(value!.isEmpty){
-                                return "Your email can't be empty !";
+                                return "${getLang(context,"emailQ")}";
                               }
 
                             },
-                            label: 'Email',
+                            label: "${getLang(context,"email")}",
                             prefix: Icons.email_outlined
                         ),
                       Row(children: [
                         Expanded(
                           child: RadioListTile(
                             activeColor: buttonsColor,
-                              title: Text("Male"),
-                              value: "male",
+                              title: Text("${getLang(context,"male")}"),
+                              value: "${getLang(context,"male")}",
                               groupValue: gender,
                               onChanged: (value){
                                 gender = value.toString() ;
@@ -134,8 +135,8 @@ class SignupScreen extends StatelessWidget {
                         Expanded(
                           child: RadioListTile(
                             activeColor: buttonsColor,
-                              title: Text("Female"),
-                              value: "female",
+                              title: Text("${getLang(context,"female")}"),
+                              value: "${getLang(context,"female")}",
                               groupValue: gender,
                               onChanged: (value){
                                 gender = value.toString() ;
@@ -164,7 +165,7 @@ class SignupScreen extends StatelessWidget {
                                     isChecked = !isChecked ;
                                   }
                               ),
-                              Text('Iam a Teacher')
+                              Text("${getLang(context,"amTeacher")}")
                             ],
                           ),
                         ),
@@ -177,7 +178,7 @@ class SignupScreen extends StatelessWidget {
                               function: (){
                                 if(formKey.currentState!.validate()){
                                   navigateTo(context, OtpScreen(
-                                    "+${country}${phoneController.text}",
+                                      country != null ? "+${country}${phoneController.text}" : "${phoneController.text}",
                                     nameController.text,
                                     emailController.text,
                                     type,
@@ -185,7 +186,7 @@ class SignupScreen extends StatelessWidget {
                                 ));
                                 }
                               },
-                              text: 'Signup'
+                              text: "${getLang(context,"signupB")}"
                           ),
                           fallback: (context) => Center(child: CircularProgressIndicator(color: buttonsColor,)),
                         ),
@@ -196,7 +197,7 @@ class SignupScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "or signup with",
+                              "${getLang(context,"orSignup")}",
                               style: TextStyle(fontSize: 16),
                             ),
 

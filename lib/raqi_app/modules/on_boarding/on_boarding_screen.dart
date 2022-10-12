@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:raqi/raqi_app/modules/login/login_screen.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/network/local/cache_helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class BoardingModel{
-  final String image;
-  final String title;
-  final String body ;
+   String image;
+   String title;
+   String body ;
 
   BoardingModel({
     required this.image ,
     required this.title ,
-    required this.body
+    required this.body ,
 });
 }
 
@@ -24,22 +25,10 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
+
   var boardController = PageController();
 
-  List<BoardingModel> boarding = [
-    BoardingModel(
-        image: 'assets/images/on1.png',
-        title: 'Raqi',
-        body: 'It helps you to memorize and recite the Qur\'an'),
-    BoardingModel(
-        image: 'assets/images/on2.png',
-        title: 'Raqi',
-        body: 'It includes the most skilled sheikhs for you and your children'),
-    BoardingModel(
-        image: 'assets/images/on3.png',
-        title: "In Raqi",
-        body: 'Rooms for women only'),
-  ];
+
 
   bool isLast = false ;
 
@@ -52,11 +41,27 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    List<BoardingModel> boarding = [
+      BoardingModel(
+          image: 'assets/images/on1.png',
+          title: "${getLang(context,"Nafith")}",
+          body: "${getLang(context,"onBoard1")}"),
+      BoardingModel(
+          image: 'assets/images/on2.png',
+          title: "${getLang(context,"Nafith")}",
+          body: "${getLang(context,"onBoard2")}"),
+      BoardingModel(
+          image: 'assets/images/on3.png',
+          title: "${getLang(context,"inNafith")}",
+          body: "${getLang(context,"onBoard3")}"),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         actions: [
           defaultTextButton(function: submit,
-              text: 'skip'),
+              text: "${getLang(context,"skip")}"),
         ],
       ),
       body: Padding(
@@ -122,8 +127,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     children: [
       Image(
           image: AssetImage('${model.image}')),
-      SizedBox(
-        height: 180,),
+      Spacer(),
       Text(
         '${model.title}',
         style: TextStyle(
@@ -133,12 +137,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
       SizedBox(
         height: 15,),
-      Text(
-        '${model.body}',
-        style: TextStyle(
-          fontSize: 23,
-        ),
+      Expanded(
+        child: Container(
+          child: Text(
+            '${model.body}',
+            style: TextStyle(
+              fontSize: 23,
+            ),
 
+          ),
+        ),
       ),
     ],) ;
 }
