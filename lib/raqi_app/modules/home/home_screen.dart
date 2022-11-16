@@ -54,6 +54,7 @@ class HomeScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: defaultButton(function: (){
+                    RaqiCubit.get(context).changeBottomNav(3);
 
                   },
                       text: "${getLang(context,"subscribe")}"),

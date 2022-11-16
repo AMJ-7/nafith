@@ -65,10 +65,12 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
     UserModel model = UserModel(
       name: name ,
       email: email ,
+      minutes: "0",
       phone: phone ,
       uId: uId ,
       gender: gender,
-      type: type
+      type: type,
+      image: type == "teacher" ? "https://image.shutterstock.com/image-photo/image-260nw-574775293.jpg" :  "https://i.pinimg.com/564x/32/99/a8/3299a848fb55c90ca201163f9a6abad6.jpg",
     );
       if(type == 'student'){
         FirebaseFirestore.instance

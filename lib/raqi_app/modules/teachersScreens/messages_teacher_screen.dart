@@ -5,6 +5,7 @@ import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/app_cubit/app_states.dart';
 import 'package:raqi/raqi_app/models/raqi_user_model.dart';
 import 'package:raqi/raqi_app/modules/chat/chat_details_screen.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/styles/Iconly-Broken_icons.dart';
 
@@ -28,7 +29,7 @@ class MessagesScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Iconly_Broken.Close_Square,size: 100, color: Colors.grey,) , Text('No Chats !' , style: TextStyle(fontSize: 50 , color: Colors.grey),)],)),
+                      Iconly_Broken.Close_Square,size: 100, color: Colors.grey,) , Text('${getLang(context,"noChats")}' , style: TextStyle(fontSize: 50 , color: Colors.grey),)],)),
           );
 
       },

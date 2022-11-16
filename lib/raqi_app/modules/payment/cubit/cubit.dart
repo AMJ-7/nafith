@@ -10,7 +10,7 @@ class PaymentCubit extends Cubit<PaymentStates>{
   static PaymentCubit get(context) => BlocProvider.of(context);
 
   FirstToken? firstToken;
-  Future getFirstToken(String price , String firstName , String lastName , String email , String phone)async{
+  Future getFirstToken(int price , String firstName , String lastName , String email , String phone)async{
     DioHelperPayment.postData(url: 'auth/tokens', data: {'api_key' : PaymobApiKey})
         .then((value) {
           PaymobToken = value.data['token'];
@@ -24,7 +24,7 @@ class PaymentCubit extends Cubit<PaymentStates>{
     });
   }
 
-  Future getOrderId(String price , String firstName , String lastName , String email , String phone)async{
+  Future getOrderId(int price , String firstName , String lastName , String email , String phone)async{
     DioHelperPayment.postData(url: 'ecommerce/orders',
         data: {
           'auth_token' : PaymobToken,
@@ -46,7 +46,7 @@ class PaymentCubit extends Cubit<PaymentStates>{
     });
   }
 
-  Future getFinalTokenCard(String price , String firstName , String lastName , String email , String phone)async{
+  Future getFinalTokenCard(int price , String firstName , String lastName , String email , String phone)async{
     DioHelperPayment.postData(url: 'acceptance/payment_keys',
         data: {
           "auth_token": PaymobToken,

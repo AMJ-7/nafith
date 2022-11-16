@@ -70,9 +70,21 @@ class RaqiGetCommentsLoadingState extends RaqiStates {}
 class RaqiGetCommentsErrorState extends RaqiStates {}
 class RaqiGetCommentsSuccessState extends RaqiStates {}
 
+class RaqiSaveSessionLoadingState extends RaqiStates {}
+class RaqiSaveSessionErrorState extends RaqiStates {}
+class RaqiSaveSessionSuccessState extends RaqiStates {}
+
+class RaqiGetSessionsLoadingState extends RaqiStates {}
+class RaqiGetSessionsErrorState extends RaqiStates {}
+class RaqiGetSessionsSuccessState extends RaqiStates {}
+
 class RaqiGetTeacherLoadingState extends RaqiStates {}
 class RaqiGetTeacherErrorState extends RaqiStates {}
 class RaqiGetTeacherSuccessState extends RaqiStates {}
+
+class RaqiGetSearchLoadingState extends RaqiStates {}
+class RaqiGetSearchErrorState extends RaqiStates {}
+class RaqiGetSearchSuccessState extends RaqiStates {}
 
 
 class RaqiPostImagePickedSuccessState extends RaqiStates {}
@@ -90,5 +102,14 @@ class RaqiGetIsPostLikedLoadingState extends RaqiStates {}
 
 class RaqiGetSearchUserSuccessState extends RaqiStates {}
 class RaqiGetSearchUserErrorState extends RaqiStates {}
+
+class RaqiEndCallSuccess extends RaqiStates {}
+class RaqiEmitRate extends RaqiStates {}
+
+class RaqiFirstPakka extends RaqiStates {}
+class RaqiSecPakka extends RaqiStates {}
+class RaqiThirdPakka extends RaqiStates {}
+
+class RaqiLoadBook extends RaqiStates {}
 
 

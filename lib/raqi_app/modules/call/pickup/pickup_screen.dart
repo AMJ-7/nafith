@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/models/call_model.dart';
 import 'package:raqi/raqi_app/modules/call/video/video_call.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 
 class PickupScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class PickupScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Incoming...',
+            "${getLang(context,"incoming")}",
               style: TextStyle(fontSize: 30),),
             SizedBox(
               height: 50,),
@@ -40,7 +41,7 @@ class PickupScreen extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: ()async{
-                    await RaqiCubit.get(context).endCall(call);
+                    await RaqiCubit.get(context).endCall(call , context);
                   },
                   child: CircleAvatar(
                     radius: 30,

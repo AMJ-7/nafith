@@ -184,7 +184,7 @@ class LoginScreen extends StatelessWidget {
       showPhoneCode: true, // optional. Shows phone code before the country name.
       onSelect: (Country _country) {
         country = _country.phoneCode ;
-        print('Select country: ${_country.phoneCode}');
+        print('${getLang(context,"signup")} ${_country.phoneCode}');
         RaqiLoginCubit.get(context).changeCountry();
       },
     );

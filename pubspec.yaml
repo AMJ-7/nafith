@@ -51,6 +51,13 @@ dependencies:
   agora_uikit: ^1.0.3
   dio: ^4.0.6
   webview_flutter: ^3.0.4
+  fluttertoast: ^8.1.1
+  flutter_pdfview: ^1.2.1
+  http: ^0.13.5
+  path_provider: ^2.0.11
+  quran: ^1.1.2
+  backdrop: ^0.7.2
+  google_fonts: 2.1.1
 
   #firebase
   firebase_core: ^1.20.0
@@ -93,6 +100,7 @@ flutter:
   assets:
     - assets/images/
     - assets/lang/
+    - assets/surah.json
 
   fonts:
     - family: regular

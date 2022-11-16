@@ -10,6 +10,7 @@ class UserModel{
   dynamic degree ;
   dynamic ejazat ;
   dynamic language ;
+  dynamic minutes ;
 
   UserModel({
     this.name,
@@ -23,6 +24,7 @@ class UserModel{
     this.degree ,
     this.ejazat ,
     this.language ,
+    this.minutes ,
 });
 
   UserModel.fromJson(Map<String , dynamic>? json){
@@ -37,6 +39,7 @@ class UserModel{
     degree = json['degree'];
     ejazat = json['ejazat'];
     language = json['language'];
+    minutes = json['minutes'];
   }
 
   Map<String , dynamic> toMap(){
@@ -52,7 +55,7 @@ class UserModel{
       'degree' : degree,
       'ejazat' : ejazat,
       'language' : language,
-
+      'minutes' : minutes,
     };
   }
 }

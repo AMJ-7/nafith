@@ -1,8 +1,11 @@
 import 'package:agora_uikit/agora_uikit.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/models/call_model.dart';
 import 'package:raqi/raqi_app/modules/call/agora_config.dart';
+import 'package:raqi/raqi_app/shared/components/components.dart';
+import 'package:raqi/raqi_app/shared/components/constants.dart';
 
 class CallPage extends StatefulWidget {
   final String channelId;
@@ -18,11 +21,13 @@ class CallPage extends StatefulWidget {
 }
 
 class _CallPageState extends State<CallPage> {
+  var commentController = TextEditingController();
   AgoraClient? client;
   String baseUrl = 'https://nafith-app.herokuapp.com';
   @override
   void initState() {
     super.initState();
+    RaqiCubit.get(context).startCallTime();
     client = AgoraClient(
       agoraConnectionData: AgoraConnectionData(
         appId: AgoraConfig.appId,
@@ -50,8 +55,14 @@ class _CallPageState extends State<CallPage> {
               disconnectButtonChild: InkWell(
                 onTap: ()async{
                   await client!.engine.leaveChannel();
-                  RaqiCubit.get(context).endCall(widget.call);
+                  whoIcallId = widget.call.receiverId;
+                  whoIcallName = widget.call.receiverName;
+                  whoIcallPic = widget.call.receiverPic;
                   Navigator.pop(context);
+                  RaqiCubit.get(context).endCallTime();
+                  RaqiCubit.get(context).saveSession(teacherName: widget.call.receiverName, teacherImage: widget.call.receiverPic
+                      , dateTime: RaqiCubit.get(context).startCallDate, duration: RaqiCubit.get(context).diffInMinutes.toString() , teacherId: widget.call.receiverId);
+                  RaqiCubit.get(context).endCall(widget.call , context);
                 },
                 child: CircleAvatar(
                   backgroundColor: Colors.red,

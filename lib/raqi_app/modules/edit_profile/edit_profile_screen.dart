@@ -11,7 +11,7 @@ class EditProfileScreen extends StatelessWidget {
 
   var nameController = TextEditingController();
   var bioController = TextEditingController();
-  var phoneController = TextEditingController();
+  var emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,9 @@ class EditProfileScreen extends StatelessWidget {
         var userModel = RaqiCubit.get(context).userModel;
         nameController.text = userModel!.name ;
         bioController.text = userModel.bio ;
-        phoneController.text = userModel.phone ;
+        emailController.text = userModel.email ;
         return Container(
-          decoration: BoxDecoration(image: DecorationImage(
-            image: NetworkImage('https://i.pinimg.com/564x/d4/36/a3/d436a3a87ed95767504cbf66f85b13a5.jpg'),
-            fit: BoxFit.cover
-          ),
-          ),
+         color: textColor,
           child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: defaultAppBar(
@@ -38,7 +34,7 @@ class EditProfileScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: defaultTextButton(function: (){
                       RaqiCubit.get(context).updateUser(name: nameController.text,
-                          phone: phoneController.text,
+                          email: emailController.text,
                           bio: bioController.text);
 
                     }, text: "${getLang(context,"submit")}" , color: Colors.white),
@@ -57,12 +53,23 @@ class EditProfileScreen extends StatelessWidget {
                     height: 150,
                     child: Align(
                       alignment: AlignmentDirectional.bottomCenter,
-                      child: CircleAvatar(
-                        radius: 65,
-                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                        backgroundImage: RaqiCubit.get(context).userModel!.image == null ?
-                        NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png',) :
-                        NetworkImage(RaqiCubit.get(context).userModel!.image),
+                      child: Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 65,
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            backgroundImage: NetworkImage(RaqiCubit.get(context).userModel!.image),
+                          ),
+                          IconButton(onPressed: (){
+                            RaqiCubit.get(context).getProfileImage();
+                          },
+                              icon: CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: Colors.white,
+                                  child: Icon(Icons.camera_alt_outlined,color: textColor,size: 20,)
+                              )
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -83,7 +90,7 @@ class EditProfileScreen extends StatelessWidget {
                                   type: TextInputType.name,
                                   validate: (value){
                                     if(value!.isEmpty){
-                                      return "Whats your name !";
+                                      return "${getLang(context,"nameQ")}";
                                     }
                                     return null ;
                                   },
@@ -102,11 +109,11 @@ class EditProfileScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 15,),
                               defaultTxtForm(
-                                controller: phoneController,
-                                type: TextInputType.phone,
+                                controller: emailController,
+                                type: TextInputType.emailAddress,
                                 validate: (value){},
-                                label: "${getLang(context,"phone")}",
-                                prefix: Icons.call,
+                                label: "${getLang(context,"email")}",
+                                prefix: Icons.email_outlined,
 
                               ),
 

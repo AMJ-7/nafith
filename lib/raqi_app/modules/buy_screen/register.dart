@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raqi/raqi_app/modules/payment/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/payment/cubit/states.dart';
 import 'package:raqi/raqi_app/modules/payment/visacard.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -11,7 +12,8 @@ class RegisterScreen extends StatelessWidget {
   var lastnameController = TextEditingController();
   var emailController = TextEditingController();
   var phoneController = TextEditingController();
-  var priceController = TextEditingController();
+  int price;
+  RegisterScreen(this.price);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -24,7 +26,7 @@ class RegisterScreen extends StatelessWidget {
         },
         builder: (context , state){
           return Scaffold(
-            appBar: AppBar(title: Text("Payment"),),
+            appBar: AppBar(title: Text("${getLang(context,"payment")}"),),
             body: Padding(
               padding: const EdgeInsets.all(18.0),
               child: SingleChildScrollView(
@@ -36,17 +38,19 @@ class RegisterScreen extends StatelessWidget {
                         children: [
                           Expanded(child: Image.asset("assets/images/payments.png",height: 200,))
                         ],),
-                      SizedBox(height: 25,),
+                      SizedBox(height: 20,),
+                      Text("${getLang(context,"youWillPay")} $price L.E",style: TextStyle(fontSize: 20),),
+                      SizedBox(height: 20,),
                       defaultTxtForm(
                           controller: firstnameController,
                           type: TextInputType.name,
                           validate: (value){
                             if(value!.isEmpty){
-                              return "your name must be entered";
+                              return "${getLang(context,"nameQ")}";
                             }
 
                           },
-                          label: "first name",
+                          label: "${getLang(context,"fName")}",
                           prefix: Icons.person
                       ),
                       SizedBox(height: 25,),
@@ -55,11 +59,11 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.name,
                           validate: (value){
                             if(value!.isEmpty){
-                              return "your name must be entered";
+                              return "${getLang(context,"nameQ")}";
                             }
 
                           },
-                          label: "last name",
+                          label: "${getLang(context,"lName")}",
                           prefix: Icons.person
                       ),
                       SizedBox(height: 15,),
@@ -68,11 +72,11 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.phone,
                           validate: (value){
                             if(value!.isEmpty){
-                              return "your phone number must be entered";
+                              return "${getLang(context,"phoneQ")}";
                             }
 
                           },
-                          label: "Phone",
+                          label: "${getLang(context,"phone")}",
                           prefix: Icons.phone
                       ),
                       SizedBox(height: 15,),
@@ -81,34 +85,22 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.emailAddress,
                           validate: (value){
                             if(value!.isEmpty){
-                              return "your email must be entered";
+                              return "${getLang(context,"emailQ")}";
                             }
 
                           },
-                          label: "email",
+                          label: "${getLang(context,"email")}",
                           prefix: Icons.email
-                      ),
-                      SizedBox(height: 15,),
-                      defaultTxtForm(
-                          controller: priceController,
-                          type: TextInputType.number,
-                          validate: (value){
-                            if(value!.isEmpty){
-                              return "what is the price ?";
-                            }
-
-                          },
-                          label: "Price",
-                          prefix: Icons.monetization_on
                       ),
                       SizedBox(height: 15,),
                       defaultButton(function: (){
                         if(formKey.currentState!.validate()){
+                          print(price.toString());
+                          PaymentCubit.get(context).getFirstToken(price, firstnameController.text, lastnameController.text, emailController.text, phoneController.text);
 
                         }
-                        PaymentCubit.get(context).getFirstToken(priceController.text, firstnameController.text, lastnameController.text, emailController.text, phoneController.text);
 
-                      }, text: "Pay"),
+                      }, text: "${getLang(context,"pay")}"),
                     ],
                   ),
                 ),

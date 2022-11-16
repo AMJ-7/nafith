@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/app_cubit/app_states.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 
 class HomeTeacherScreen extends StatelessWidget {
@@ -46,7 +47,7 @@ class HomeTeacherScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Welcome ${userModel!.name}')
+                    Text('${getLang(context,"welcome")} ${userModel!.name}')
                   ],
                 ),
                 SizedBox(height: 15,),
@@ -55,11 +56,11 @@ class HomeTeacherScreen extends StatelessWidget {
                   child: defaultButton(function: (){
 
                   },
-                      text: 'Earning Money'),
+                      text: '${getLang(context,"eMoney")}'),
                 ),
                 defaultTextButton(function: (){
                   RaqiCubit.get(context).changeBottomNav(1);
-                }, text: 'Students List', color: Colors.blue)
+                }, text: '${getLang(context,"sList")}', color: Colors.blue)
               ],) ,
               fallback: (context) => Center(child: CircularProgressIndicator(color: buttonsColor,)));
 
