@@ -7,6 +7,7 @@ import 'package:raqi/raqi_app/app_cubit/app_states.dart';
 import 'package:raqi/raqi_app/models/raqi_user_model.dart';
 import 'package:raqi/raqi_app/modules/chat/chat_details_screen.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/styles/Iconly-Broken_icons.dart';
 
@@ -21,7 +22,7 @@ class MessagesScreenStudent extends StatelessWidget {
             condition: RaqiCubit.get(context).teachers.length > 0,
             builder: (context) => Scaffold(
               backgroundColor: Colors.grey[200],
-              appBar: AppBar(title: Text("Chats"),),
+              appBar: AppBar(title: Text("${getLang(context,"chats")}"),),
               body: ListView.separated(
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context , index) => buildChatItem(RaqiCubit.get(context).teachers[index] , context),
@@ -44,7 +45,7 @@ class MessagesScreenStudent extends StatelessWidget {
   }
 }
 
-Widget buildChatItem(UserModel model , context) => InkWell(
+Widget buildChatItem(UserModel? model , context) => InkWell(
   onTap: (){
     navigateTo(context, ChatDetailsScreen(teacherModel: model,));
   },
@@ -61,7 +62,7 @@ Widget buildChatItem(UserModel model , context) => InkWell(
               CircleAvatar(
                 backgroundColor: Colors.white,
                 radius: 25,
-                backgroundImage: model.image == null ? NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png'): NetworkImage('${model.image}') ,
+                backgroundImage:  NetworkImage('${model!.image}') ,
               ),
               SizedBox(width: 15,),
               Expanded(

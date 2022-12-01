@@ -7,6 +7,7 @@ import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/layout/raqi_layout.dart';
 import 'package:raqi/raqi_app/models/comment_model.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
 import 'package:raqi/raqi_app/styles/Iconly-Broken_icons.dart';
 
@@ -188,8 +189,8 @@ class _BlurryDialogState extends State<BlurryDialog> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("How was the Teacher's call ?"),
-                Text("Rate $whoIcallName"),
+                Text("${getLang(context,"howTCall")}"),
+                Text("${getLang(context,"rate")} $whoIcallName"),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -245,15 +246,15 @@ class _BlurryDialogState extends State<BlurryDialog> {
                   key: commentKey,
                   child: defaultTxtForm(controller: commentController, type: TextInputType.text, validate: (value){
                     if(value!.isEmpty){
-                      return "Where's the comment !";
+                      return "${getLang(context,"commentQ")}";
                     }
-                  }, label: "Comment"),
+                  }, label: "${getLang(context,"comment")}"),
                 )
               ],
             ),
             actions: <Widget>[
               new FlatButton(
-                child: new Text("Comment" ,style: TextStyle(color: Colors.blue),),
+                child: new Text("${getLang(context,"comment")}" ,style: TextStyle(color: Colors.blue),),
                 onPressed: () {
                   if(commentKey.currentState!.validate()){
                     RaqiCubit.get(context).commentOnTeacher(teacherId: whoIcallId, dateTime: now.toString(), text: commentController.text,rate: rate);
@@ -262,7 +263,7 @@ class _BlurryDialogState extends State<BlurryDialog> {
                 },
               ),
               new FlatButton(
-                child: Text("Cancel"),
+                child: Text("${getLang(context,"cancel")}"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -275,7 +276,7 @@ class _BlurryDialogState extends State<BlurryDialog> {
       child:  StatefulBuilder(
         builder: (context, setState){
           return AlertDialog(
-            title: Text("Contact Us"),
+            title: Text("${getLang(context,"contactUs")}"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -283,7 +284,7 @@ class _BlurryDialogState extends State<BlurryDialog> {
                     controller: emailContactController,
                     type: TextInputType.text,
                     validate: (val){},
-                    label: "Email",
+                    label: "${getLang(context,"email")}",
                     isClickable: false,
                     inputTextColor: Colors.grey
                 ),
@@ -292,7 +293,7 @@ class _BlurryDialogState extends State<BlurryDialog> {
                     controller: nameContactController,
                     type: TextInputType.text,
                     validate: (val){},
-                    label: "Full Name",
+                    label: "${getLang(context,"name")}",
                     isClickable: false,
                     inputTextColor: Colors.grey
                 ),
@@ -301,23 +302,24 @@ class _BlurryDialogState extends State<BlurryDialog> {
                   key: commentKey,
                   child: defaultTxtForm(controller: messageContactController, type: TextInputType.text, validate: (value){
                     if(value!.isEmpty){
-                      return "Where's the Message !";
+                      return "${getLang(context,"whatUWillSay")}";
                     }
-                  }, label: "Message"),
+                  }, label: "${getLang(context,"message")}"),
                 )
               ],
             ),
             actions: <Widget>[
               new FlatButton(
-                child: new Text("Send" ,style: TextStyle(color: Colors.blue),),
+                child: new Text("${getLang(context,"send")}" ,style: TextStyle(color: Colors.blue),),
                 onPressed: () {
                   if(commentKey.currentState!.validate()){
-                    // TODO
+                    RaqiCubit.get(context).contactUs(messageContactController.text);
+                    Navigator.pop(context);
                   }
                 },
               ),
               new FlatButton(
-                child: Text("Cancel"),
+                child: Text("${getLang(context,"cancel")}"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

@@ -125,7 +125,7 @@ class TeacherProfile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
+                      padding: const EdgeInsets.only(left: 20.0,right: 20.0),
                       child: Text("${getLang(context,"comments")}", style: TextStyle(fontSize: 20),),
                     ),
                   ],

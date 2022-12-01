@@ -61,7 +61,9 @@ class _CallPageState extends State<CallPage> {
                   Navigator.pop(context);
                   RaqiCubit.get(context).endCallTime();
                   RaqiCubit.get(context).saveSession(teacherName: widget.call.receiverName, teacherImage: widget.call.receiverPic
-                      , dateTime: RaqiCubit.get(context).startCallDate, duration: RaqiCubit.get(context).diffInMinutes.toString() , teacherId: widget.call.receiverId);
+                      , dateTime: RaqiCubit.get(context).startCallDate, duration: RaqiCubit.get(context).diffInMinutes.toString() , teacherId: widget.call.receiverId
+                  ,studentName: widget.call.callerName, studentImage: RaqiCubit.get(context).userModel!.image, studentId: widget.call.callerId
+                  );
                   RaqiCubit.get(context).endCall(widget.call , context);
                 },
                 child: CircleAvatar(

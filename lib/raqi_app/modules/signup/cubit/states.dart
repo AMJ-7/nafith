@@ -23,3 +23,5 @@ class RaqiChangeRadioSignupState extends RaqiSignupStates {}
 class RaqiChangeCountrySuccessState extends RaqiSignupStates {}
 
 class RaqiVerfiyPhoneSuccessState extends RaqiSignupStates {}
+
+class RaqiGoogleLoginSuccessState extends RaqiSignupStates {}

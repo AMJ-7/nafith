@@ -34,11 +34,11 @@
   "messages": "Messages",
   "earning": "Earning",
   "noMessages": "No Messages",
-  "whatUWillSay": "What you will say...",
+  "whatUWillSay": "What will you say...",
   "subscribe": "Subscribe a new package",
   "Tlist": "Teacher List",
   "comments": "Comments",
-  "whoRUSearch": "Who r u search for ?",
+  "whoRUSearch": "Who are you search for ?",
   "findT": "Find a Teacher !",
   "editProfile": "Edit Profile",
   "submit": "Submit",
@@ -64,5 +64,13 @@
   "welcome": "Welcome",
   "eMoney": "Earning Money",
   "sList": "Student List",
-  "noChats": "No Chats !"
+  "noChats": "No Chats !",
+  "howTCall": "How was the Teacher's call ?",
+  "rate": "Rate ",
+  "commentQ": "Where's the comment !",
+  "comment": "Comment",
+  "cancel": "Cancel",
+  "message": "Message",
+  "send": "Send",
+  "chats": "Chats"
 }

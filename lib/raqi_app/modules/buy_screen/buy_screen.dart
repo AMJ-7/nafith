@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
@@ -8,6 +10,7 @@ import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 
 class BuyScreen extends StatelessWidget {
+  var couponController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,31 @@ class BuyScreen extends StatelessWidget {
                     Expanded(child: Image.asset("assets/images/card.png",height: 180,))
                   ],),
                 SizedBox(height: 15,),
+                Row(
+                  children: [
+                    Expanded(
+                      child: defaultTxtForm(
+                          controller: couponController,
+                          type: TextInputType.text,
+                          validate: (val){},
+                          label: "Coupon"
+                      ),
+                    ),
+                    SizedBox(width: 10,),
+                    InkWell(
+                      onTap: (){
+                        RaqiCubit.get(context).getCoupon(couponController.text);
+                        couponController.text = "";
+                      },
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundColor: Colors.green,
+                        child: Icon(CupertinoIcons.check_mark_circled, color: Colors.white,),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 15,),
                 GestureDetector(
                   onTap: (){
                     RaqiCubit.get(context).emitPakka(1);
@@ -60,7 +88,7 @@ class BuyScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("80 L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
+                                RaqiCubit.get(context).dis == 0 ? Text("80 L.E",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${80 - (80*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
                                 Text("3.3 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
 
                               ],
@@ -93,7 +121,7 @@ class BuyScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("280 L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
+                                RaqiCubit.get(context).dis == 0 ? Text("280 L.E",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${280 - (280*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
                                 Text("11.5 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
 
                               ],
@@ -126,7 +154,7 @@ class BuyScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("500 L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
+                                RaqiCubit.get(context).dis == 0 ? Text("500 L.E",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${500 - (500*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
                                 Text("20.6 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
 
                               ],

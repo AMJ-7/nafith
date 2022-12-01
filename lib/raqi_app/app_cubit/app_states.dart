@@ -112,4 +112,12 @@ class RaqiThirdPakka extends RaqiStates {}
 
 class RaqiLoadBook extends RaqiStates {}
 
+class RaqiGetTotalMins extends RaqiStates {}
+
+class RaqiGetCoupons extends RaqiStates {}
+
+class RaqiSendContactSuccessState extends RaqiStates {}
+class RaqiSendContactErrorState extends RaqiStates {}
+
+
 

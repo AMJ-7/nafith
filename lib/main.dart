@@ -58,12 +58,13 @@ class MyApp extends StatelessWidget{
             darkTheme: darkTheme,
             themeMode: ThemeMode.light ,
             home: startWidget,
-            localizationsDelegates: [
+            localizationsDelegates: const[
               AppLocale.delegate,
               GlobalMaterialLocalizations.delegate ,
               GlobalWidgetsLocalizations.delegate ,
+              GlobalCupertinoLocalizations.delegate
             ],
-            supportedLocales: [
+            supportedLocales: const[
               Locale("ar" , "") ,
               Locale("en" , "") ,
               Locale("tr" , "") ,

@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -42,7 +43,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
           if(value.exists){
             print(value.data());
             userModel = UserModel.fromJson(value.data());
-            getSessions();
+            getSessions("students");
             emit(RaqiGetUserSuccessState());
           }else{
             FirebaseFirestore.instance.collection('teachers')
@@ -51,6 +52,8 @@ class RaqiCubit extends Cubit<RaqiStates>{
                 .then((value) {
                 print(value.data());
                 userModel = UserModel.fromJson(value.data());
+                getSessions("teachers");
+                getTotalMinutes();
                 emit(RaqiGetUserSuccessState());
             });
           }
@@ -79,7 +82,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
       getTeachers();
     }
     if(currentIndex == 2){
-      getSessions();
+      getSessions("students");
     }
     if(currentIndex == 3){
       getUserData();
@@ -103,6 +106,10 @@ class RaqiCubit extends Cubit<RaqiStates>{
     currentIndex = index ;
     if(currentIndex == 1){
       getStudents();
+    }
+    if(currentIndex == 2){
+      getSessions("teachers");
+      getTotalMinutes();
     }
     emit(RaqiChangeBottomNavBarState());
   }
@@ -516,16 +523,23 @@ class RaqiCubit extends Cubit<RaqiStates>{
     required String dateTime,
     required String duration,
     required String teacherId,
+    required String studentId,
+    required String studentImage,
+    required String studentName,
   }){
     SessionsModel model = SessionsModel(
       teacherName: teacherName,
       teacherImage: teacherImage,
       sessionId: teacherId,
       dateTime: dateTime,
-      duration: duration
+      duration: duration,
+      studentImage: studentImage,
+      studentName: studentName,
+      studentId: studentId,
     );
     emit(RaqiSaveSessionLoadingState());
     if(int.parse(duration) > 0){
+      // save session to student
       FirebaseFirestore
           .instance
           .collection('students')
@@ -533,6 +547,13 @@ class RaqiCubit extends Cubit<RaqiStates>{
           .collection('sessions')
           .add(model.toMap())
           .then((value) {
+            // save session to teacher
+            FirebaseFirestore
+            .instance
+            .collection('teachers')
+            .doc(teacherId)
+            .collection('sessions')
+            .add(model.toMap());
         emit(RaqiEndCallSuccess());
       }).catchError((error){
         emit(RaqiSaveSessionErrorState());
@@ -544,11 +565,11 @@ class RaqiCubit extends Cubit<RaqiStates>{
 
   List<SessionsModel> sessions =[];
   List<SessionsModel> reversedSessions =[];
-  void getSessions(){
+  void getSessions(String type){
     emit(RaqiGetSessionsLoadingState());
     FirebaseFirestore
         .instance
-        .collection('students')
+        .collection(type)
         .doc(userModel!.uId)
         .collection("sessions")
         .orderBy('dateTime')
@@ -621,5 +642,69 @@ class RaqiCubit extends Cubit<RaqiStates>{
     });
   }
 
+  List<int> teacherMinutes = [];
+  int sumMinutes = 0 ;
+  void getTotalMinutes()async{
+    teacherMinutes = [];
+    sumMinutes = 0;
+    print(sumMinutes);
+    await FirebaseFirestore.instance.collection('teachers').doc(userModel!.uId).collection('sessions').get().then((value) {
+      value.docs.forEach((element) {
+        teacherMinutes.add(int.parse(element.data()['duration']));
+      });
+      print(teacherMinutes);
+      print(teacherMinutes.length);
+      print("-------------------------------");
+      for(int i = 0 ; i < teacherMinutes.length ; i++){
+        sumMinutes = sumMinutes + teacherMinutes[i];
+      }
+      print(sumMinutes);
+      print("-------------------------------");
+      emit(RaqiGetTotalMins());
+    });
+
+  }
+
+  List coupons = [];
+  int dis = 0;
+  bool copExist = false;
+  getCoupon(String coupon){
+    FirebaseFirestore.instance.collection("coupons").get().then((value) {
+      value.docs.forEach((element) {
+        if(element.id == coupon){
+          dis = int.parse(element.data()["discount"]);
+          copExist = true ;
+        }
+      });
+    });
+    if(copExist == true){
+      showToast(text: "Coupon Done", state: ToastStates.SUCCESS);
+    }if(copExist == false){
+      showToast(text: "not exist", state: ToastStates.ERROR);
+    }
+    print(dis);
+    print("==========================================================");
+    emit(RaqiGetCoupons());
+  }
+
+
+  contactUs(String text){
+    FirebaseFirestore
+        .instance
+        .collection('contacts')
+        .doc(userModel!.uId)
+        .set({
+            "sender" : "${userModel!.name}",
+            "email" : "${userModel!.email}",
+            "dateTime" : DateTime.now(),
+            "content" : text,
+    })
+        .then((value) {
+      emit(RaqiSendContactSuccessState());
+    }).catchError((error){
+      emit(RaqiSendContactErrorState());
+    });
+
+  }
 
 }

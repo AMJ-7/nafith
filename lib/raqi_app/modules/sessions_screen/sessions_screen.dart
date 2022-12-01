@@ -106,7 +106,7 @@ class SessionsScreen extends StatelessWidget {
                               clipBehavior: Clip.hardEdge,
                                 onPressed: ()async{
                                   RaqiCubit.get(context).getTeacherThenCall(model.sessionId, context);
-                                }, child: Text("CALL BACK",style: TextStyle(color: Colors.black),),
+                                }, child: Text("${getLang(context,"callBack")}",style: TextStyle(color: Colors.black),),
 
                             ),
                           ),

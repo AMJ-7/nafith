@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Welcome ${userModel!.name}')
+                    Text('${getLang(context,"welcome")} ${userModel!.name}')
                   ],
                 ),
                 SizedBox(height: 15,),

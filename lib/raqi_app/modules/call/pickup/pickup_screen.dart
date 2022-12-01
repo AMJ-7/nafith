@@ -23,11 +23,21 @@ class PickupScreen extends StatelessWidget {
             "${getLang(context,"incoming")}",
               style: TextStyle(fontSize: 30),),
             SizedBox(
-              height: 50,),
-            Image.network(
-              call.callerPic,
-              height: 150,
-              width: 150,),
+              height: 30,),
+            CircleAvatar(
+              radius: 80,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: Image.network(
+                    call.callerPic,
+                    height: 150,
+                    width: 150,),
+                ),
+              ),
+            ),
             SizedBox(height: 15,),
             Text(
               call.callerName,

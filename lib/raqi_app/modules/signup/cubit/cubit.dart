@@ -4,8 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:raqi/raqi_app/models/raqi_user_model.dart';
 import 'package:raqi/raqi_app/modules/signup/cubit/states.dart';
+import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
 
 class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
@@ -56,8 +58,8 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
 
   void userCreate({
     required String email ,
-    required String name ,
-    required String phone ,
+    required String? name ,
+    String? phone ,
     required String uId ,
     required String gender ,
     required String type
@@ -150,6 +152,55 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
         },
       timeout: Duration(seconds: 90)
     );
+  }
+
+  final googleSignIn = GoogleSignIn();
+  GoogleSignInAccount? _user ;
+  GoogleSignInAccount get user => _user!;
+
+  Future googleLogin(
+      context,
+      ) async {
+    print("----------------------0----------------------------");
+    final googleUser = await googleSignIn.signIn();
+    if(googleUser == null) return;
+    _user = googleUser;
+    print("----------------------1----------------------------");
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
+      print("---------${value.user!.uid}--------------!!!!!!!!!");
+      bool isExist = false ;
+      FirebaseFirestore.instance.collection("students").get().then((val) {
+        val.docs.forEach((element) {
+          print("---------${element.id}--------------!!!!!!!!!");
+          if(element.id == value.user!.uid){
+            isExist = true ;
+          }
+        });
+      }).then((smsm) {
+        if(value.user != null && isExist == false){
+          print('Logged in Doooooooone');
+          print(value.user!.uid);
+          RaqiSignupCubit.get(context).userCreate(
+            email: googleUser.email,
+            name: googleUser.displayName,
+            uId: value.user!.uid,
+            gender: "",
+            type: "student",
+          );
+          uId = value.user!.uid;
+          RaqiSignupCubit.get(context).signupSuccess();
+          print("----------------------2----------------------------");
+        }else{
+          showToast(text: "already Exist !", state: ToastStates.ERROR);
+        }
+      });
+
+    });
   }
 
 

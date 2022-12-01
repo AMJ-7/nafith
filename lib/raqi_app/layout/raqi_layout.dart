@@ -51,6 +51,7 @@ class RaqiLayout extends StatelessWidget {
                     UserAccountsDrawerHeader(
                         currentAccountPicture: CircleAvatar(
                           child:  Container(
+                            height: double.infinity,
                             width: double.infinity,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
@@ -219,6 +220,7 @@ class RaqiLayout extends StatelessWidget {
             UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
                   child:  Container(
+                    height: double.infinity,
                     width: double.infinity,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),

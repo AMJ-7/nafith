@@ -2,6 +2,8 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
+import 'package:raqi/raqi_app/layout/raqi_layout.dart';
 import 'package:raqi/raqi_app/modules/login/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/login/cubit/states.dart';
 import 'package:raqi/raqi_app/modules/otp/otp_login_screen.dart';
@@ -9,6 +11,8 @@ import 'package:raqi/raqi_app/modules/signup/sign_up.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
 import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
+import 'package:raqi/raqi_app/shared/components/constants.dart';
+import 'package:raqi/raqi_app/shared/network/local/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
   String? country ;
@@ -30,12 +34,12 @@ class LoginScreen extends StatelessWidget {
             // );
           }
           if(state is RaqiLoginSuccessState){
-            // RaqiCubit.get(context).getUserData();
-            // CacheHelper.saveData(
-            //     key: 'uId',
-            //     value: state.uId).then((value) {
-            //   navigateAndFinish(context, RaqiLayout());
-            // });
+            RaqiCubit.get(context).getUserData();
+            CacheHelper.saveData(
+                key: 'uId',
+                value: uId).then((value) {
+              navigateAndFinish(context, RaqiLayout());
+            });
           }
         },
         builder: (context , state) {
@@ -129,26 +133,22 @@ class LoginScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              height: 70,
-                              width: 70,
-                              child: Card(
-                                elevation: 8,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset('assets/images/Apple.png'),
-                                ),),
-                            ),
-                            SizedBox(width: 20,),
-                            Container(
-                              height: 70,
-                              width: 70,
-                              child: Card(
-                                elevation: 8,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset('assets/images/google.jpg'),
-                                ),),
+                            Expanded(
+                              child: InkWell(
+                                onTap: (){
+                                  RaqiLoginCubit.get(context).googleLogin(context);
+                                },
+                                child: Container(
+                                  height: 60,
+                                  width: double.infinity,
+                                  child: Card(
+                                    elevation: 8,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.asset('assets/images/google.jpg'),
+                                    ),),
+                                ),
+                              ),
                             )
                           ],
                         ),
