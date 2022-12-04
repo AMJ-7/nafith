@@ -1,4 +1,4 @@
-package com.example.raqi
+package com.raqi.app
 
 import io.flutter.embedding.android.FlutterActivity
 

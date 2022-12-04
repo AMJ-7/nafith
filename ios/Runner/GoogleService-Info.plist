@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>854239875016-u15m5pbrkgecc61m0hanbtvka2rb9534.apps.googleusercontent.com</string>
+	<string>854239875016-blk370in5h05u8miam2f8r021nerv1nh.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.854239875016-u15m5pbrkgecc61m0hanbtvka2rb9534</string>
+	<string>com.googleusercontent.apps.854239875016-blk370in5h05u8miam2f8r021nerv1nh</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>854239875016-v9ma51e27j7d6bgrplekpcon8qmruc72.apps.googleusercontent.com</string>
+	<string>854239875016-234grissphhi7fu7pvc86tkb1p1ekd45.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyD1OM-2UQ4sPKkPNIA1frGI85mYYq-JudE</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.raqi</string>
+	<string>com.raqi.app</string>
 	<key>PROJECT_ID</key>
 	<string>raqi-ced36</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:854239875016:ios:d8e23ac398ab02283e7afd</string>
+	<string>1:854239875016:ios:304d6d1f7c4ad0bb3e7afd</string>
 </dict>
 </plist>
