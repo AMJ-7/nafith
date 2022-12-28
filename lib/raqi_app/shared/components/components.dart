@@ -253,7 +253,7 @@ class _BlurryDialogState extends State<BlurryDialog> {
               ],
             ),
             actions: <Widget>[
-              new FlatButton(
+              new TextButton(
                 child: new Text("${getLang(context,"comment")}" ,style: TextStyle(color: Colors.blue),),
                 onPressed: () {
                   if(commentKey.currentState!.validate()){
@@ -262,7 +262,7 @@ class _BlurryDialogState extends State<BlurryDialog> {
                 }
                 },
               ),
-              new FlatButton(
+              new TextButton(
                 child: Text("${getLang(context,"cancel")}"),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -309,7 +309,7 @@ class _BlurryDialogState extends State<BlurryDialog> {
               ],
             ),
             actions: <Widget>[
-              new FlatButton(
+              new TextButton(
                 child: new Text("${getLang(context,"send")}" ,style: TextStyle(color: Colors.blue),),
                 onPressed: () {
                   if(commentKey.currentState!.validate()){
@@ -318,7 +318,7 @@ class _BlurryDialogState extends State<BlurryDialog> {
                   }
                 },
               ),
-              new FlatButton(
+              new TextButton(
                 child: Text("${getLang(context,"cancel")}"),
                 onPressed: () {
                   Navigator.of(context).pop();
