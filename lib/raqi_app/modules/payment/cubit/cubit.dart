@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/models/first_token.dart';
 import 'package:raqi/raqi_app/modules/payment/cubit/states.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
@@ -10,12 +11,12 @@ class PaymentCubit extends Cubit<PaymentStates>{
   static PaymentCubit get(context) => BlocProvider.of(context);
 
   FirstToken? firstToken;
-  Future getFirstToken(int price , String firstName , String lastName , String email , String phone)async{
+  Future getFirstToken(int price , String firstName , String lastName , String email , String phone,context)async{
     DioHelperPayment.postData(url: 'auth/tokens', data: {'api_key' : PaymobApiKey})
         .then((value) {
           PaymobToken = value.data['token'];
           print('First Token : ${PaymobToken}');
-          getOrderId(price, firstName, lastName, email, phone);
+          getOrderId(price, firstName, lastName, email, phone,context);
           emit(PaymentSuccessState());
     })
         .catchError((error){
@@ -24,7 +25,7 @@ class PaymentCubit extends Cubit<PaymentStates>{
     });
   }
 
-  Future getOrderId(int price , String firstName , String lastName , String email , String phone)async{
+  Future getOrderId(int price , String firstName , String lastName , String email , String phone,context)async{
     DioHelperPayment.postData(url: 'ecommerce/orders',
         data: {
           'auth_token' : PaymobToken,
@@ -36,7 +37,7 @@ class PaymentCubit extends Cubit<PaymentStates>{
     ).then((value) {
       PaymobOrderId = value.data['id'].toString();
       print('Order ID : ${PaymobOrderId}');
-      getFinalTokenCard(price, firstName, lastName, email, phone);
+      getFinalTokenCard(price, firstName, lastName, email, phone,context);
       emit(PaymentOrderIdSuccessState());
 
     })
@@ -46,7 +47,7 @@ class PaymentCubit extends Cubit<PaymentStates>{
     });
   }
 
-  Future getFinalTokenCard(int price , String firstName , String lastName , String email , String phone)async{
+  Future getFinalTokenCard(int price , String firstName , String lastName , String email , String phone,context)async{
     DioHelperPayment.postData(url: 'acceptance/payment_keys',
         data: {
           "auth_token": PaymobToken,
@@ -66,7 +67,7 @@ class PaymentCubit extends Cubit<PaymentStates>{
             "city": "NA",
             "country": "NA",
             "last_name": firstName.split(" ").last,
-            "state": "NA"
+            "state": RaqiCubit.get(context).userModel!.uId
           },
           "currency": "EGP",
           "integration_id": IntegrationIDCard,

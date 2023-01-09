@@ -96,10 +96,9 @@ class RegisterScreen extends StatelessWidget {
                       defaultButton(function: (){
                         if(formKey.currentState!.validate()){
                           print(price.toString());
-                          PaymentCubit.get(context).getFirstToken(price, firstnameController.text, lastnameController.text, emailController.text, phoneController.text);
+                          PaymentCubit.get(context).getFirstToken(price, firstnameController.text, lastnameController.text, emailController.text, phoneController.text,context);
 
                         }
-
                       }, text: "${getLang(context,"pay")}"),
                     ],
                   ),

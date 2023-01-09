@@ -20,7 +20,7 @@ class EditProfileScreen extends StatelessWidget {
       builder: (context , state) {
         var userModel = RaqiCubit.get(context).userModel;
         nameController.text = userModel!.name ;
-        bioController.text = userModel.bio ;
+        bioController.text = userModel.bio == null ? " " : userModel.bio   ;
         emailController.text = userModel.email ;
         return Container(
          color: textColor,

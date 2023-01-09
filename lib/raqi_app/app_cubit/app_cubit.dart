@@ -1,8 +1,9 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart' as database;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,7 +21,6 @@ import 'package:raqi/raqi_app/modules/teachersScreens/earning_teacher_screen.dar
 import 'package:raqi/raqi_app/modules/teachersScreens/home_teacher_screen.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/messages_teacher_screen.dart';
 import 'package:raqi/raqi_app/modules/teachers_screen/teachers_screen.dart';
-import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
 import 'package:raqi/utils/call_utils.dart';
@@ -86,6 +86,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
     }
     if(currentIndex == 3){
       getUserData();
+      readData();
     }
     emit(RaqiChangeBottomNavBarState());
   }
@@ -705,6 +706,55 @@ class RaqiCubit extends Cubit<RaqiStates>{
       emit(RaqiSendContactErrorState());
     });
 
+  }
+
+  T? mapGetter<T>(Map map, String path, T defaultValue) {
+    List<String> keys = path.split('.');
+    String key = keys[0];
+
+    if (!map.containsKey(key)) {
+      return defaultValue;
+    }
+
+    if (keys.length == 1) {
+      return map[key] as T;
+    }
+
+    return mapGetter(map[keys.removeAt(0)], keys.join('.'), defaultValue);
+  }
+
+  var payment = {};
+  String minEarning = "" ;
+  database.DatabaseReference ref = database.FirebaseDatabase.instance.ref("payment");
+  readData()async{
+
+    ref.onChildAdded.forEach((element) {
+      payment = jsonDecode(jsonEncode(element.snapshot.value))  as Map<String, dynamic>;
+      // print(payment["obj"]["payment_key_claims"]["amount_cents"] as int);
+      if(payment["obj"]["data"]["message"] as String == "Approved"){
+        if(payment["obj"]["payment_key_claims"]["amount_cents"] as int == 28000){
+          minEarning = "1680";
+        }
+        if(payment["obj"]["payment_key_claims"]["amount_cents"] as int == 50000){
+          minEarning = "3360";
+        }
+        if(payment["obj"]["payment_key_claims"]["amount_cents"] as int == 8000){
+          minEarning = "420";
+        }
+        print("--------------------");
+        print(minEarning);
+        FirebaseFirestore.instance.collection("students").doc(payment["obj"]["payment_key_claims"]["billing_data"]["state"] as String).update({'minutes' : minEarning});
+        //delete it
+        database.FirebaseDatabase.instance.ref("payment/${element.snapshot.key}").remove();
+        print("++++++++++++++++++++++++++");
+        print("deleted with adding");
+      }else{
+        database.FirebaseDatabase.instance.ref("payment/${element.snapshot.key}").remove();
+        print("deleted without adding");
+      }
+
+
+    });
   }
 
 }

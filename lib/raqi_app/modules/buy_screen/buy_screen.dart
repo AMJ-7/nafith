@@ -88,7 +88,7 @@ class BuyScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                RaqiCubit.get(context).dis == 0 ? Text("80 L.E",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${80 - (80*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
+                                RaqiCubit.get(context).dis == 0 ? Text("11 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${80 - (80*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
                                 Text("3.3 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
 
                               ],
@@ -121,7 +121,7 @@ class BuyScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                RaqiCubit.get(context).dis == 0 ? Text("280 L.E",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${280 - (280*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
+                                RaqiCubit.get(context).dis == 0 ? Text("38 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${280 - (280*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
                                 Text("11.5 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
 
                               ],
@@ -154,7 +154,7 @@ class BuyScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                RaqiCubit.get(context).dis == 0 ? Text("500 L.E",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${500 - (500*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
+                                RaqiCubit.get(context).dis == 0 ? Text("68 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${500 - (500*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
                                 Text("20.6 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
 
                               ],
