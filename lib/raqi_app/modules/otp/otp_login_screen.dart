@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/layout/raqi_layout.dart';
 import 'package:raqi/raqi_app/modules/login/cubit/cubit.dart';
@@ -18,6 +17,7 @@ import 'package:raqi/raqi_app/shared/network/local/cache_helper.dart';
 class OtpLoginScreen extends StatelessWidget {
 
   var pinController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
   final String phone ;
   OtpLoginScreen(this.phone);
   @override
@@ -54,37 +54,43 @@ class OtpLoginScreen extends StatelessWidget {
                         Text('${phone}' , style: TextStyle(fontSize: 24,color: textColor),)
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0,vertical: 20),
-                      child: Pinput(
-                        length: 6,
-                        keyboardType: TextInputType.number,
-                        controller: pinController,
-                        defaultPinTheme: defaultPinTheme,
-                        focusedPinTheme: focusedPinTheme,
-                        submittedPinTheme: submittedPinTheme,
-                        pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                        textInputAction: TextInputAction.next,
-                        showCursor: true,
-                        validator: (pin) {
-                          try{FirebaseAuth.instance.signInWithCredential(
-                              PhoneAuthProvider.credential(verificationId: RaqiLoginCubit.get(context).verificationCode, smsCode: pin!)
-                          ).then((value) {
-                            if(value.user != null){
-                              print('pass to home');
-                              print(value.user!.uid);
-                              uId = value.user!.uid;
-                              RaqiLoginCubit.get(context).loginSuccess();
+                    Form(
+                      key: formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(children: [
+                          defaultTxtForm(
+                              controller: pinController,
+                              type: TextInputType.number,
+                              validate: (val){
+                                if(val!.isEmpty){
+                                  return "";
+                                }
+                              },
+                              label: "OTP"
+                          ),
+                          SizedBox(height: 15,),
+                          defaultButton(function: (){
+                            if(formKey.currentState!.validate()){
+                              try{FirebaseAuth.instance.signInWithCredential(
+                                  PhoneAuthProvider.credential(verificationId: RaqiLoginCubit.get(context).verificationCode, smsCode: pinController.text)
+                              ).then((value) {
+                                if(value.user != null){
+                                  print('pass to home');
+                                  print(value.user!.uid);
+                                  uId = value.user!.uid;
+                                  RaqiLoginCubit.get(context).loginSuccess();
+                                }
+                              });
+                              }catch(e){
+                                print('invalid otp');
+                              }
                             }
-                          });
-                          }catch(e){
-                            print('invalid otp');
-                          }
-
-                        },
-                        onCompleted: (pin) => print(pin),
+                          }, text: "CHECK"),
+                        ],),
                       ),
                     ),
+
 
                   ],
                 ),
@@ -96,31 +102,6 @@ class OtpLoginScreen extends StatelessWidget {
     );
   }
 }
-final defaultPinTheme = PinTheme(
-  width: 56,
-  height: 56,
-  textStyle: TextStyle(fontSize: 20, color: Color.fromRGBO(30, 60, 87, 1), fontWeight: FontWeight.w600),
-  decoration: BoxDecoration(
-    border: Border.all(color: Color.fromRGBO(11, 11, 69, 1),width: 2),
-    borderRadius: BorderRadius.circular(20),
-  ),
-);
-
-final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-  border: Border.all(color: buttonsColor,width: 2),
-  borderRadius: BorderRadius.circular(8),
-);
-
-final submittedPinTheme = PinTheme(
-  width: 56,
-  height: 56,
-  textStyle: TextStyle(fontSize: 20, color: Color.fromRGBO(30, 60, 87, 1), fontWeight: FontWeight.w600),
-  decoration: BoxDecoration(
-    color: Color.fromRGBO(240, 228, 247, 1),
-    border: Border.all(color: buttonsColor,width: 2),
-    borderRadius: BorderRadius.circular(20),
-  ),
-);
 
 
 
