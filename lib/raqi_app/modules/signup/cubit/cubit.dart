@@ -66,6 +66,7 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
 }){
     UserModel model = UserModel(
       name: name ,
+      bio: "",
       email: email ,
       minutes: "0",
       phone: phone ,

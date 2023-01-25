@@ -51,7 +51,7 @@ class BuyScreen extends StatelessWidget {
                           controller: couponController,
                           type: TextInputType.text,
                           validate: (val){},
-                          label: "Coupon"
+                          label: "${getLang(context,"coupon")}"
                       ),
                     ),
                     SizedBox(width: 10,),
