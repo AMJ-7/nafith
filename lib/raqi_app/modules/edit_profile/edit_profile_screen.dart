@@ -116,6 +116,21 @@ class EditProfileScreen extends StatelessWidget {
                                 prefix: Icons.email_outlined,
 
                               ),
+                              SizedBox(height: 25,),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  height: 40,
+                                  color: Colors.red[100],
+                                  child: defaultTextButton(
+                                    function: (){
+                                      RaqiCubit.get(context).deleteUser(context);
+                                    },
+                                    text: "Delete account",
+                                    color: Colors.red
+                                  ),
+                                ),
+                              )
 
                             ],
                           ),

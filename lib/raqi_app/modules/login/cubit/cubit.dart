@@ -9,7 +9,7 @@ import 'package:raqi/raqi_app/modules/login/cubit/states.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
 
-
+var cre;
 class RaqiLoginCubit extends Cubit<RaqiLoginStates>{
   RaqiLoginCubit() : super(RaqiLoginInitialState());
 
@@ -59,6 +59,7 @@ class RaqiLoginCubit extends Cubit<RaqiLoginStates>{
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phone,
         verificationCompleted: (PhoneAuthCredential credential)async{
+          cre = credential ;
           await FirebaseAuth.instance.signInWithCredential(credential)
               .then((value) {
             if(value.user != null){
@@ -100,6 +101,7 @@ class RaqiLoginCubit extends Cubit<RaqiLoginStates>{
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
+    cre = credential ;
     await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
       bool isExist = false ;
       FirebaseFirestore.instance.collection("students").get().then((val) {

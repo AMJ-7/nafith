@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart' as database;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +16,7 @@ import 'package:raqi/raqi_app/models/raqi_user_model.dart';
 import 'package:raqi/raqi_app/models/sessions_model.dart';
 import 'package:raqi/raqi_app/modules/buy_screen/buy_screen.dart';
 import 'package:raqi/raqi_app/modules/home/home_screen.dart';
+import 'package:raqi/raqi_app/modules/login/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/sessions_screen/sessions_screen.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/earning_teacher_screen.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/home_teacher_screen.dart';
@@ -76,6 +77,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
 
 
 
+  BuildContext? contex;
   void changeBottomNav(int index){
     currentIndex = index ;
     if(currentIndex == 1){
@@ -755,6 +757,24 @@ class RaqiCubit extends Cubit<RaqiStates>{
 
 
     });
+  }
+
+  deleteUser(BuildContext context)async{
+    try {
+      await FirebaseAuth.instance.currentUser!.delete().then((value) {
+        if(userModel!.type == "student"){
+          FirebaseFirestore.instance.collection("students").doc(userModel!.uId).delete();
+        }
+        if(userModel!.type == "teacher"){
+          FirebaseFirestore.instance.collection("teachers").doc(userModel!.uId).delete();
+        }
+        signOut(context);
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        showToast(text: "الرجاء تسجيل الخروج واعادة تسجيل الدخول للتأكد", state: ToastStates.ERROR);
+      }
+    }
   }
 
 }

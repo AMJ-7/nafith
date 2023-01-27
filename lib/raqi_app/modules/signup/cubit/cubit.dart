@@ -68,7 +68,7 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
       name: name ,
       bio: "",
       email: email ,
-      minutes: "0",
+      minutes: "6",
       phone: phone ,
       uId: uId ,
       gender: gender,
