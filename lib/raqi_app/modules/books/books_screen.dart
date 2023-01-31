@@ -23,6 +23,7 @@ class BooksScreen extends StatelessWidget {
       },
       builder: (context , state) {
         return Scaffold(
+          backgroundColor: Colors.grey[200],
           appBar: AppBar(
             title: Text("${getLang(context,"books")}"),
           ),
@@ -38,35 +39,75 @@ class BooksScreen extends StatelessWidget {
                     openPdf(context, file, "الرقية الشرعية من الكتاب والسنة");
 
                   },
-                  child: Card(
-                    elevation: 10,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                              child: Image.network('https://image.winudf.com/v2/image/Y29tLmFsdWthaC5wZGY3X3NjcmVlbnNob3RzXzBfNmYwNmEyZmM/screen-0.jpg?h=500&fakeurl=1&type=.jpg'
-                                ,fit: BoxFit.cover,
-                              ),
-                              width: 120,
-                              height: 150,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0 , vertical: 5),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        color: Colors.white,
+                        height: 120,
+                        child: Row(
                           children: [
                             Container(
-                                width: 220,
-                                child: Text("الرقية الشرعية من الكتاب والسنة",
-                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)),
-                            Text("د.خالد الجريسي",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Colors.grey[600]),),
+                              height: 120,
+                              width: 120,
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    child: Image(
+                                      image: NetworkImage('https://image.winudf.com/v2/image/Y29tLmFsdWthaC5wZGY3X3NjcmVlbnNob3RzXzBfNmYwNmEyZmM/screen-0.jpg?h=500&fakeurl=1&type=.jpg'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 10,),
+                                    Text(
+                                      "الرقية الشرعية من الكتاب والسنة",
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                                    ),
+                                    Row(children: [
+                                      Spacer(),
+                                      Text(
+                                        "د.خالد الجريسي",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.grey,
+
+                                        ),
+                                      ),
+                                      Text(
+                                        '',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey,
+                                            decoration: TextDecoration.lineThrough
+
+                                        ),
+                                      )
+                                    ],),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
-                        )
-                      ],
-                    ),),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Padding(
@@ -77,35 +118,76 @@ class BooksScreen extends StatelessWidget {
                     final file = await PDFApi.loadFirebase(url);
                     openPdf(context, file, "الفتاوى الذهبية في الرقى الشرعية");
                   },
-                  child: Card(
-                    elevation: 10,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                              child: Image.network('https://cms.ibn-jebreen.com/books/6_1424861439.jpg'
-                                ,fit: BoxFit.cover,
-                              ),
-                              width: 120,
-                              height: 150,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0 , vertical: 5),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        color: Colors.white,
+                        height: 120,
+                        child: Row(
                           children: [
                             Container(
-                                width: 220,
-                                child: Text("الفتاوى الذهبية في الرقى الشرعية",
-                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)),
-                            Text("عبد العزيز ابن عبد الله ابن باز",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Colors.grey[600]),),
+                              height: 120,
+                              width: 120,
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    child: Image(
+                                      image: NetworkImage('https://cms.ibn-jebreen.com/books/6_1424861439.jpg'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 10,),
+                                    Text(
+                                      "الفتاوى الذهبية في الرقى الشرعية",
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                                    ),
+                                    Row(children: [
+                                      Spacer(),
+                                      Text(
+                                          "عبد العزيز ابن باز",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey,
+
+                                          ),
+                                        ),
+
+                                      Text(
+                                        '',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey,
+                                            decoration: TextDecoration.lineThrough
+
+                                        ),
+                                      )
+                                    ],),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
-                        )
-                      ],
-                    ),),
+                        ),
+                      ),
+                    ),
+                  )
                 ),
               ),
               Padding(
@@ -116,35 +198,96 @@ class BooksScreen extends StatelessWidget {
                     final file = await PDFApi.loadFirebase(url);
                     openPdf(context, file, "لقط المرجان في علاج العين والسحر والجان");
                   },
-                  child: Card(
-                    elevation: 10,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                              child: Image.network('http://roqia.khayma.com/morjan-front.jpg'
-                                ,fit: BoxFit.cover,
-                              ),
-                              width: 120,
-                              height: 150,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0 , vertical: 5),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        color: Colors.white,
+                        height: 120,
+                        child: Row(
                           children: [
                             Container(
-                                width: 220,
-                                child: Text("لقط المرجان في علاج العين والسحر والجان",
-                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)),
-                            Text("أنس حمد عبد العزيز العويد",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Colors.grey[600]),),
+                              height: 120,
+                              width: 120,
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    child: Image(
+                                      image: NetworkImage('http://roqia.khayma.com/morjan-front.jpg'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 10,),
+                                    Text(
+                                      "لقط المرجان في علاج العين والسحر والجان",
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                                    ),
+                                    Row(children: [
+                                      Spacer(),
+                                      Text(
+                                        "أنس حمد العويد",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.grey,
+
+                                        ),
+                                      ),
+                                    ],),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
-                        )
-                      ],
-                    ),),
+                        ),
+                      ),
+                    ),
+                  )
+                  // Card(
+                  //   elevation: 10,
+                  //   child: Row(
+                  //     children: [
+                  //       Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: ClipRRect(
+                  //           borderRadius: BorderRadius.circular(10),
+                  //           child: Container(
+                  //             child: Image.network('http://roqia.khayma.com/morjan-front.jpg'
+                  //               ,fit: BoxFit.cover,
+                  //             ),
+                  //             width: 120,
+                  //             height: 150,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           Container(
+                  //               width: 220,
+                  //               child: Text("لقط المرجان في علاج العين والسحر والجان",
+                  //                 maxLines: 3,
+                  //                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)),
+                  //           Text("أنس حمد عبد العزيز العويد",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Colors.grey[600]),maxLines: 2,),
+                  //         ],
+                  //       )
+                  //     ],
+                  //   ),),
                 ),
               ),
               Row(

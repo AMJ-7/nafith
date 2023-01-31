@@ -161,7 +161,7 @@ class LoginScreen extends StatelessWidget {
                               style: TextStyle(fontSize: 16),
                             ),
                             defaultTextButton(function: (){
-                               navigateTo(context , SignupScreen());
+                               navigateTo(context , SignupScreen(0));
                             }, text: "${getLang(context,"signup")}"),
 
                           ],

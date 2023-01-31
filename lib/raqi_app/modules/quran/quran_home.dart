@@ -5,8 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:quran/quran.dart' as quran;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:raqi/raqi_app/models/surah_model.dart';
+import 'package:raqi/raqi_app/modules/quran/onlineQuran.dart';
 import 'package:raqi/raqi_app/modules/quran/reading_quran.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
+import 'package:raqi/raqi_app/shared/components/components.dart';
 
 class QuranScreen extends StatefulWidget {
   @override
@@ -39,6 +42,22 @@ class _QuranScreenState extends State<QuranScreen> with TickerProviderStateMixin
     return Scaffold(
       appBar: AppBar(
         title: Text("القُرْآنُ الكَريم" ,style: GoogleFonts.cairo(fontSize: 20),),
+        actions: [
+          InkWell(
+            onTap: (){
+              navigateTo(context, OnlineQuranScreen());
+
+            },
+            child: Row(
+            children: [
+              Icon(Icons.menu_book_outlined),
+              SizedBox(width: 5,),
+              Text("${getLang(context,"oQuran")}",style: TextStyle(color: buttonsColor),),
+              SizedBox(width: 5,)
+            ],
+        ),
+          )
+        ],
         leading: Transform.rotate(
           angle: isReverse ? pi : 2 * pi,
           child: IconButton(

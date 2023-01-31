@@ -74,5 +74,12 @@
   "send": "Göndermek",
   "chats": "Sohbetler",
   "cost": "riyalı",
-  "coupon": "kupon"
+  "coupon": "kupon",
+  "deleteM": "Lütfen çıkış yapın ve onaylamak için tekrar giriş yapın",
+  "delete": "Hesabı sil",
+  "deleteWarning" : "Bu hesabı kaldıracağınızdan emin misiniz?",
+  "del": "silmek",
+  "noAcc" : "Hesabınız yok, lütfen bir tane oluşturun!",
+  "oQuran" : "Çevrimiçi Kur'an-ı"
+
 }

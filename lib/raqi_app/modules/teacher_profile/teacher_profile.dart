@@ -83,7 +83,7 @@ class TeacherProfile extends StatelessWidget {
                   children: [
                     Icon(Icons.star , color: Colors.amber,),
                     RaqiCubit.get(context).totalRate.isNaN ? Text("0.0", style: TextStyle(fontSize: 18),)
-                        : Text("${RaqiCubit.get(context).totalRate}", style: TextStyle(fontSize: 18),)
+                        : Text("${RaqiCubit.get(context).totalRate.toStringAsFixed(1)}", style: TextStyle(fontSize: 18),)
                   ],
                 ),
                 SizedBox(height: 10,),

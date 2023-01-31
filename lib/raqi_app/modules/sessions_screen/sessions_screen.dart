@@ -12,6 +12,7 @@ class SessionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ConditionalBuilder(
           condition: RaqiCubit.get(context).reversedSessions.length > 0,
@@ -22,12 +23,13 @@ class SessionsScreen extends StatelessWidget {
               itemCount: RaqiCubit.get(context).reversedSessions.length,
             ),
           ),
-          fallback: (context) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('${getLang(context,"noSessions")}'),
-            ],
+          fallback: (context) => Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(child: Text('${getLang(context,"noSessions")}')),
+              ],
+            ),
           ),
         ),
       ],

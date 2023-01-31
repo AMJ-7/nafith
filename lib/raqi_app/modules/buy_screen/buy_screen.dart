@@ -41,7 +41,7 @@ class BuyScreen extends StatelessWidget {
                 SizedBox(height: 30,),
                 Row(
                   children: [
-                    Expanded(child: Image.asset("assets/images/card.png",height: 180,))
+                    Expanded(child: Image.asset("assets/images/card1.png",height: 180,))
                   ],),
                 SizedBox(height: 15,),
                 Row(
@@ -88,8 +88,8 @@ class BuyScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                RaqiCubit.get(context).dis == 0 ? Text("11 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${80 - (80*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
-                                Text("3.3 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
+                                RaqiCubit.get(context).dis == 0 ? Text("10 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${10 - (10*(RaqiCubit.get(context).dis/100))} ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )),
+                                Text("2.6 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
 
                               ],
                             ),
@@ -121,8 +121,8 @@ class BuyScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                RaqiCubit.get(context).dis == 0 ? Text("38 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${280 - (280*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
-                                Text("11.5 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
+                                RaqiCubit.get(context).dis == 0 ? Text("35 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${35 - (35*(RaqiCubit.get(context).dis/100))} ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )),
+                                Text("9.3 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
 
                               ],
                             ),
@@ -154,8 +154,8 @@ class BuyScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                RaqiCubit.get(context).dis == 0 ? Text("68 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${500 - (500*(RaqiCubit.get(context).dis/100))} L.E",style: TextStyle(color: Colors.white, fontSize: 20 )),
-                                Text("20.6 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
+                                RaqiCubit.get(context).dis == 0 ? Text("70 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )) : Text("${70 - (70*(RaqiCubit.get(context).dis/100))} ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 20 )),
+                                Text("18.6 \$",style: TextStyle(color: Colors.white, fontSize: 15 ),),
 
                               ],
                             ),
@@ -175,13 +175,30 @@ class BuyScreen extends StatelessWidget {
                     Expanded(
                       child: defaultButton(function: (){
                         if(RaqiCubit.get(context).pakka == 1){
-                          navigateTo(context, RegisterScreen(80));
+                          if(RaqiCubit.get(context).dis == 0){
+                            navigateTo(context, RegisterScreen(10));
+                          }
+                          else{
+                            navigateTo(context, RegisterScreen(10 - (10*(RaqiCubit.get(context).dis/100))));
+                          }
+
                         }
                         if(RaqiCubit.get(context).pakka == 2){
-                          navigateTo(context, RegisterScreen(280));
+                          if(RaqiCubit.get(context).dis == 0){
+                            navigateTo(context, RegisterScreen(35));
+                          }
+                          else{
+                            navigateTo(context, RegisterScreen(35 - (35*(RaqiCubit.get(context).dis/100))));
+                          }
                         }
                         if(RaqiCubit.get(context).pakka == 3){
-                          navigateTo(context, RegisterScreen(500));
+                          if(RaqiCubit.get(context).dis == 0){
+                            navigateTo(context, RegisterScreen(70));
+                          }
+                          else{
+                            navigateTo(context, RegisterScreen(70 - (70*(RaqiCubit.get(context).dis/100))));
+                          }
+
                         }
 
                       }, text: "${getLang(context,"buy")}",background: buttonsColor,),

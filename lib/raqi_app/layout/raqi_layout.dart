@@ -46,132 +46,134 @@ class RaqiLayout extends StatelessWidget {
           builder: (context) => PickupLayout(
             scaffold: cubit.userModel!.type != 'teacher' ? Scaffold(
               drawer: Drawer(
-                child: Column(
-                  children: [
-                    UserAccountsDrawerHeader(
-                        currentAccountPicture: CircleAvatar(
-                          child:  Container(
-                            height: double.infinity,
-                            width: double.infinity,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image.network(cubit.userModel!.image,fit: BoxFit.cover,),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      UserAccountsDrawerHeader(
+                          currentAccountPicture: CircleAvatar(
+                            child:  Container(
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image.network(cubit.userModel!.image,fit: BoxFit.cover,),
+                              ),
+                            ),
+                            backgroundColor: Colors.white,),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage("assets/images/cover.jpg")
                             ),
                           ),
-                          backgroundColor: Colors.white,),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage("assets/images/cover.jpg")
-                          ),
-                        ),
-                        accountName: Text(cubit.userModel!.name),
-                        accountEmail: Text(cubit.userModel!.email)
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: (){
-                          navigateTo(context, EditProfileScreen());
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Icon(CupertinoIcons.person,size: 28,color: buttonsColor,),
-                              SizedBox(width: 8,),
-                              Text("${getLang(context,"settings")}",style: TextStyle(fontSize: 18),)
-                            ],
+                          accountName: Text(cubit.userModel!.name),
+                          accountEmail: Text(cubit.userModel!.email)
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: (){
+                            navigateTo(context, EditProfileScreen());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(CupertinoIcons.person,size: 28,color: buttonsColor,),
+                                SizedBox(width: 8,),
+                                Text("${getLang(context,"settings")}",style: TextStyle(fontSize: 18),)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: ()async{
-                          RaqiCubit.get(context).getTeachers();
-                          navigateTo(context, MessagesScreenStudent());
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Icon(CupertinoIcons.chat_bubble_text,size: 28,color: buttonsColor,),
-                              SizedBox(width: 8,),
-                              Text("${getLang(context,"messages")}",style: TextStyle(fontSize: 18),)
-                            ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: ()async{
+                            RaqiCubit.get(context).getTeachers();
+                            navigateTo(context, MessagesScreenStudent());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(CupertinoIcons.chat_bubble_text,size: 28,color: buttonsColor,),
+                                SizedBox(width: 8,),
+                                Text("${getLang(context,"messages")}",style: TextStyle(fontSize: 18),)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: (){
-                          navigateTo(context, QuranScreen());
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.book_outlined,size: 28,color: buttonsColor,),
-                              SizedBox(width: 8,),
-                              Text("${getLang(context,"quran")}",style: TextStyle(fontSize: 18),)
-                            ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: (){
+                            navigateTo(context, QuranScreen());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.book_outlined,size: 28,color: buttonsColor,),
+                                SizedBox(width: 8,),
+                                Text("${getLang(context,"quran")}",style: TextStyle(fontSize: 18),)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: (){
-                          navigateTo(context, BooksScreen());
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Icon(CupertinoIcons.book,size: 28,color: buttonsColor,),
-                              SizedBox(width: 8,),
-                              Text("${getLang(context,"books")}",style: TextStyle(fontSize: 18),)
-                            ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: (){
+                            navigateTo(context, BooksScreen());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(CupertinoIcons.book,size: 28,color: buttonsColor,),
+                                SizedBox(width: 8,),
+                                Text("${getLang(context,"books")}",style: TextStyle(fontSize: 18),)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: (){
-                          emailContactController.text = RaqiCubit.get(context).userModel!.email;
-                          nameContactController.text = RaqiCubit.get(context).userModel!.name;
-                          _showDialog(context , 2);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.support_agent,size: 28,color: buttonsColor,),
-                              SizedBox(width: 8,),
-                              Text("${getLang(context,"contactUs")}",style: TextStyle(fontSize: 18),)
-                            ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: (){
+                            emailContactController.text = RaqiCubit.get(context).userModel!.email;
+                            nameContactController.text = RaqiCubit.get(context).userModel!.name;
+                            _showDialog(context , 2);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.support_agent,size: 28,color: buttonsColor,),
+                                SizedBox(width: 8,),
+                                Text("${getLang(context,"contactUs")}",style: TextStyle(fontSize: 18),)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
 
-                    defaultTextButton(
-                        function: (){
-                          signOut(context);
-                        },
-                        text: "${getLang(context,"logout")}",
-                        color: Colors.red
-                    )
+                      defaultTextButton(
+                          function: (){
+                            signOut(context);
+                          },
+                          text: "${getLang(context,"logout")}",
+                          color: Colors.red
+                      )
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
               appBar: AppBar(
@@ -237,88 +239,94 @@ class RaqiLayout extends StatelessWidget {
                 accountName: Text(cubit.userModel!.name),
                 accountEmail: Text(cubit.userModel!.email)
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: (){
-                  navigateTo(context, EditProfileScreen());
-                },
-                child: Padding(
+            ListView(
+              shrinkWrap: true,
+              children: [
+                Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Icon(CupertinoIcons.person,size: 28,color: buttonsColor,),
-                      SizedBox(width: 8,),
-                      Text("${getLang(context,"settings")}",style: TextStyle(fontSize: 18),)
-                    ],
+                  child: InkWell(
+                    onTap: (){
+                      navigateTo(context, EditProfileScreen());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(CupertinoIcons.person,size: 28,color: buttonsColor,),
+                          SizedBox(width: 8,),
+                          Text("${getLang(context,"settings")}",style: TextStyle(fontSize: 18),)
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: (){
-                  navigateTo(context, QuranScreen());
-                },
-                child: Padding(
+                Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Icon(Icons.book_outlined,size: 28,color: buttonsColor,),
-                      SizedBox(width: 8,),
-                      Text("${getLang(context,"quran")}",style: TextStyle(fontSize: 18),)
-                    ],
+                  child: InkWell(
+                    onTap: (){
+                      navigateTo(context, QuranScreen());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.book_outlined,size: 28,color: buttonsColor,),
+                          SizedBox(width: 8,),
+                          Text("${getLang(context,"quran")}",style: TextStyle(fontSize: 18),)
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: (){
-                  navigateTo(context, BooksScreen());
-                },
-                child: Padding(
+                Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Icon(CupertinoIcons.book,size: 28,color: buttonsColor,),
-                      SizedBox(width: 8,),
-                      Text("${getLang(context,"books")}",style: TextStyle(fontSize: 18),)
-                    ],
+                  child: InkWell(
+                    onTap: (){
+                      navigateTo(context, BooksScreen());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(CupertinoIcons.book,size: 28,color: buttonsColor,),
+                          SizedBox(width: 8,),
+                          Text("${getLang(context,"books")}",style: TextStyle(fontSize: 18),)
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: (){
-                  emailContactController.text = RaqiCubit.get(context).userModel!.email;
-                  nameContactController.text = RaqiCubit.get(context).userModel!.name;
-                  _showDialog(context , 2);
-                },
-                child: Padding(
+                Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Icon(Icons.support_agent,size: 28,color: buttonsColor,),
-                      SizedBox(width: 8,),
-                      Text("${getLang(context,"contactUs")}",style: TextStyle(fontSize: 18),)
-                    ],
+                  child: InkWell(
+                    onTap: (){
+                      emailContactController.text = RaqiCubit.get(context).userModel!.email;
+                      nameContactController.text = RaqiCubit.get(context).userModel!.name;
+                      _showDialog(context , 2);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.support_agent,size: 28,color: buttonsColor,),
+                          SizedBox(width: 8,),
+                          Text("${getLang(context,"contactUs")}",style: TextStyle(fontSize: 18),)
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
+
+                defaultTextButton(
+                    function: (){
+                      signOut(context);
+                    },
+                    text: "${getLang(context,"logout")}",
+                    color: Colors.red
+                )
+              ],
             ),
 
-            defaultTextButton(
-                function: (){
-                  signOut(context);
-                },
-                text: "${getLang(context,"logout")}",
-                color: Colors.red
-            )
 
           ],
         ),

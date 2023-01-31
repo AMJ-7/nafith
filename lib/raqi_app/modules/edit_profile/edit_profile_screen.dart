@@ -5,7 +5,7 @@ import 'package:raqi/raqi_app/app_cubit/app_states.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
 import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
-
+import 'package:raqi/raqi_app/shared/components/constants.dart';
 
 class EditProfileScreen extends StatelessWidget {
 
@@ -25,6 +25,7 @@ class EditProfileScreen extends StatelessWidget {
         return Container(
          color: textColor,
           child: Scaffold(
+            key: scaffoldKey,
             backgroundColor: Colors.transparent,
             appBar: defaultAppBar(
                 context: context,
@@ -124,9 +125,9 @@ class EditProfileScreen extends StatelessWidget {
                                   color: Colors.red[100],
                                   child: defaultTextButton(
                                     function: (){
-                                      RaqiCubit.get(context).deleteUser(context);
-                                    },
-                                    text: "Delete account",
+                                      _showDialog(context);
+                                      },
+                                    text: "${getLang(context,"delete")}",
                                     color: Colors.red
                                   ),
                                 ),
@@ -144,6 +145,17 @@ class EditProfileScreen extends StatelessWidget {
             ) ,
           ),
         ) ;
+      },
+    );
+  }
+  _showDialog(BuildContext contex)
+  {
+    BlurryDelete  alert = BlurryDelete();
+
+    showDialog(
+      context: contex,
+      builder: (BuildContext context) {
+        return alert;
       },
     );
   }

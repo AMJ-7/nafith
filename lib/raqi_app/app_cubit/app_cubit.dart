@@ -22,6 +22,7 @@ import 'package:raqi/raqi_app/modules/teachersScreens/earning_teacher_screen.dar
 import 'package:raqi/raqi_app/modules/teachersScreens/home_teacher_screen.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/messages_teacher_screen.dart';
 import 'package:raqi/raqi_app/modules/teachers_screen/teachers_screen.dart';
+import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
 import 'package:raqi/utils/call_utils.dart';
@@ -762,17 +763,19 @@ class RaqiCubit extends Cubit<RaqiStates>{
   deleteUser(BuildContext context)async{
     try {
       await FirebaseAuth.instance.currentUser!.delete().then((value) {
-        if(userModel!.type == "student"){
-          FirebaseFirestore.instance.collection("students").doc(userModel!.uId).delete();
+        if(RaqiCubit.get(context).userModel?.name != null){
+          if(userModel!.type == "student"){
+            FirebaseFirestore.instance.collection("students").doc(userModel!.uId).delete();
+          }
+          if(userModel!.type == "teacher"){
+            FirebaseFirestore.instance.collection("teachers").doc(userModel!.uId).delete();
+          }
+          signOut(Navigator.of(scaffoldKey.currentContext!));
         }
-        if(userModel!.type == "teacher"){
-          FirebaseFirestore.instance.collection("teachers").doc(userModel!.uId).delete();
-        }
-        signOut(context);
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        showToast(text: "الرجاء تسجيل الخروج واعادة تسجيل الدخول للتأكد", state: ToastStates.ERROR);
+        showToast(text: "${getLang(scaffoldKey.currentContext!,"deleteM")}", state: ToastStates.ERROR);
       }
     }
   }

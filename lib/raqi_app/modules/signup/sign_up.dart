@@ -14,6 +14,8 @@ import 'package:raqi/raqi_app/shared/components/constants.dart';
 import 'package:raqi/raqi_app/shared/network/local/cache_helper.dart';
 
 class SignupScreen extends StatelessWidget {
+  int i ;
+  SignupScreen(this.i);
 
   var formKey = GlobalKey<FormState>();
   var nameController = TextEditingController();
@@ -53,6 +55,16 @@ class SignupScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        if(i == 1)
+                          Container(
+                          height: 50,
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("${getLang(context,"noAcc")}",style: TextStyle(color: Colors.white,fontSize: 16),),
+                          ),
+                          color: Colors.red[400],
+                        ),
                         Text(
                         "${getLang(context,"signup")}",
                           style: Theme.of(context).textTheme.headline3!.copyWith(

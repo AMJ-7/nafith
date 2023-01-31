@@ -331,6 +331,50 @@ class _BlurryDialogState extends State<BlurryDialog> {
 }
 }
 
+class BlurryDelete extends StatefulWidget {
+  @override
+  State<BlurryDelete> createState() => BlurryDialogState();
+}
+
+
+class BlurryDialogState extends State<BlurryDelete> {
+  BlurryDialogState();
+  @override
+  Widget build(BuildContext context) {
+    return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+        child:  StatefulBuilder(
+          builder: (context, setState){
+            return AlertDialog(
+              title: Icon(Icons.warning,color: Colors.red,size: 40,),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                 Text("${getLang(context,"deleteWarning")}")
+                ],
+              ),
+              actions: <Widget>[
+                new TextButton(
+                  child: new Text("${getLang(context,"del")}" ,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
+                  onPressed: () {
+                      RaqiCubit.get(context).deleteUser(context);
+                      Navigator.of(scaffoldKey.currentContext!).pop();
+
+                  },
+                ),
+                new TextButton(
+                  child: Text("${getLang(context,"cancel")}"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        ));
+  }
+}
+
 int rate = 3 ;
 Widget starRate(int i){
   return InkWell(

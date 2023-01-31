@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:raqi/raqi_app/modules/login/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/login/cubit/states.dart';
 import 'package:raqi/raqi_app/modules/signup/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/signup/cubit/states.dart';
+import 'package:raqi/raqi_app/modules/signup/sign_up.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
 import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
@@ -71,16 +73,31 @@ class OtpLoginScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 15,),
                           defaultButton(function: (){
+                            int check = 0 ;
                             if(formKey.currentState!.validate()){
                               try{FirebaseAuth.instance.signInWithCredential(
                                   PhoneAuthProvider.credential(verificationId: RaqiLoginCubit.get(context).verificationCode, smsCode: pinController.text)
                               ).then((value) {
-                                if(value.user != null){
-                                  print('pass to home');
-                                  print(value.user!.uid);
-                                  uId = value.user!.uid;
-                                  RaqiLoginCubit.get(context).loginSuccess();
-                                }
+                                FirebaseFirestore.instance.collection("students").get().then((val) {
+                                  val.docs.forEach((element) {
+                                    if(element.id == value.user!.uid){
+                                        print('pass to home');
+                                        print(value.user!.uid);
+                                        uId = value.user!.uid;
+                                        RaqiLoginCubit.get(context).loginSuccess();
+                                        check = 1 ;
+                                    }
+
+
+                                  });
+
+                                  if(check == 0){
+                                    RaqiCubit.get(context).deleteUser(context);
+                                    navigateTo(context, SignupScreen(1));
+                                  }
+
+                                });
+
                               });
                               }catch(e){
                                 print('invalid otp');

@@ -19,50 +19,52 @@ class HomeScreen extends StatelessWidget {
           var userModel = RaqiCubit.get(context).userModel ;
           return ConditionalBuilder(
             condition: RaqiCubit.get(context).userModel != null,
-              builder: (context) => Column(children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10.0,left: 10,top: 10),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: CarouselSlider(
-                        items: [
-                          Image.asset('assets/images/banner1.png'),
-                          Image.asset('assets/images/banner2.png'),
-                        ],
-                        options: CarouselOptions(
-                            height: 210,
-                            initialPage: 0,
-                            viewportFraction: 1,
-                            enableInfiniteScroll: true,
-                            autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 3),
-                            autoPlayAnimationDuration: Duration(seconds: 1),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            scrollDirection: Axis.horizontal
+              builder: (context) => SingleChildScrollView(
+                child: Column(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0,left: 10,top: 10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: CarouselSlider(
+                          items: [
+                            Image.asset('assets/images/banner1.png'),
+                            Image.asset('assets/images/banner2.png'),
+                          ],
+                          options: CarouselOptions(
+                              height: 210,
+                              initialPage: 0,
+                              viewportFraction: 1,
+                              enableInfiniteScroll: true,
+                              autoPlay: true,
+                              autoPlayInterval: Duration(seconds: 3),
+                              autoPlayAnimationDuration: Duration(seconds: 1),
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              scrollDirection: Axis.horizontal
 
-                        )),
+                          )),
+                    ),
                   ),
-                ),
-                SizedBox(height: 15,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('${getLang(context,"welcome")} ${userModel!.name}')
-                  ],
-                ),
-                SizedBox(height: 15,),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: defaultButton(function: (){
-                    RaqiCubit.get(context).changeBottomNav(3);
+                  SizedBox(height: 15,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${getLang(context,"welcome")} ${userModel!.name}')
+                    ],
+                  ),
+                  SizedBox(height: 15,),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: defaultButton(function: (){
+                      RaqiCubit.get(context).changeBottomNav(3);
 
-                  },
-                      text: "${getLang(context,"subscribe")}"),
-                ),
-                defaultTextButton(function: (){
-                  RaqiCubit.get(context).changeBottomNav(1);
-                }, text: "${getLang(context,"Tlist")}", color: Colors.blue)
-              ],) ,
+                    },
+                        text: "${getLang(context,"subscribe")}"),
+                  ),
+                  defaultTextButton(function: (){
+                    RaqiCubit.get(context).changeBottomNav(1);
+                  }, text: "${getLang(context,"Tlist")}", color: Colors.blue)
+                ],),
+              ) ,
               fallback: (context) => Center(child: CircularProgressIndicator(color: buttonsColor,)));
 
     }

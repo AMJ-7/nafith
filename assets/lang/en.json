@@ -74,5 +74,13 @@
   "send": "Send",
   "chats": "Chats",
   "cost": "SR",
-  "coupon": "Coupon"
+  "coupon": "Coupon",
+  "deleteM": "Please log out and login back in to confirm",
+  "delete": "Delete Account",
+  "deleteWarning" : "Are you sure to remove this account?",
+  "del": "delete",
+  "noAcc" : "You don't have an account please create one!",
+  "oQuran" : "Online Quran"
+
+
 }

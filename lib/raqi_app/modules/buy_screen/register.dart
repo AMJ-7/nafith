@@ -12,7 +12,7 @@ class RegisterScreen extends StatelessWidget {
   var lastnameController = TextEditingController();
   var emailController = TextEditingController();
   var phoneController = TextEditingController();
-  int price;
+  double price;
   RegisterScreen(this.price);
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class RegisterScreen extends StatelessWidget {
                           Expanded(child: Image.asset("assets/images/payments.png",height: 200,))
                         ],),
                       SizedBox(height: 20,),
-                      Text("${getLang(context,"youWillPay")} $price L.E",style: TextStyle(fontSize: 20),),
+                      Text("${getLang(context,"youWillPay")} $price ${getLang(context,"cost")}",style: TextStyle(fontSize: 20),),
                       SizedBox(height: 20,),
                       defaultTxtForm(
                           controller: firstnameController,
@@ -95,8 +95,8 @@ class RegisterScreen extends StatelessWidget {
                       SizedBox(height: 15,),
                       defaultButton(function: (){
                         if(formKey.currentState!.validate()){
-                          print(price.toString());
-                          PaymentCubit.get(context).getFirstToken(price, firstnameController.text, lastnameController.text, emailController.text, phoneController.text,context);
+                          print((price*8).toString());
+                          PaymentCubit.get(context).getFirstToken(price.toInt()*8, firstnameController.text, lastnameController.text, emailController.text, phoneController.text,context);
 
                         }
                       }, text: "${getLang(context,"pay")}"),
