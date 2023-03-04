@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/models/raqi_user_model.dart';
@@ -8,6 +9,7 @@ import 'package:raqi/raqi_app/shared/network/local/cache_helper.dart';
 void signOut(context){
   CacheHelper.removeData(key: 'uId').then((value) {
     if(value){
+      uId = '';
       RaqiCubit.get(context).userModel = UserModel.fromJson({});
       navigateAndFinish(context, LoginScreen());
     }
@@ -15,7 +17,9 @@ void signOut(context){
 }
 
 dynamic uId = '' ;
+dynamic deviceToken = '' ;
 dynamic whoIcallId = '' ;
+UserModel? whoIcallModel ;
 dynamic whoIcallName = '' ;
 dynamic whoIcallPic = '' ;
 

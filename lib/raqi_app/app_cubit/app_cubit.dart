@@ -12,11 +12,14 @@ import 'package:raqi/raqi_app/app_cubit/app_states.dart';
 import 'package:raqi/raqi_app/models/call_model.dart';
 import 'package:raqi/raqi_app/models/comment_model.dart';
 import 'package:raqi/raqi_app/models/message_model.dart';
+import 'package:raqi/raqi_app/models/notification_model.dart';
 import 'package:raqi/raqi_app/models/raqi_user_model.dart';
+import 'package:raqi/raqi_app/models/reservation_model.dart';
 import 'package:raqi/raqi_app/models/sessions_model.dart';
 import 'package:raqi/raqi_app/modules/buy_screen/buy_screen.dart';
 import 'package:raqi/raqi_app/modules/home/home_screen.dart';
 import 'package:raqi/raqi_app/modules/login/cubit/cubit.dart';
+import 'package:raqi/raqi_app/modules/my_reservation/my_reservation_screen.dart';
 import 'package:raqi/raqi_app/modules/sessions_screen/sessions_screen.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/earning_teacher_screen.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/home_teacher_screen.dart';
@@ -27,7 +30,8 @@ import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
 import 'package:raqi/utils/call_utils.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-
+import 'package:http/http.dart' as http;
+ 
 class RaqiCubit extends Cubit<RaqiStates>{
   RaqiCubit() : super(RaqiInitialStates());
 
@@ -37,6 +41,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
   UserModel? userModel ;
 
   void getUserData(){
+    print("getUserData Started");
     emit(RaqiGetUserLoadingState());
     FirebaseFirestore.instance.collection('students')
         .doc(uId)
@@ -45,6 +50,13 @@ class RaqiCubit extends Cubit<RaqiStates>{
           if(value.exists){
             print(value.data());
             userModel = UserModel.fromJson(value.data());
+            if(state is RaqiGetUserSuccessState){
+
+                FirebaseFirestore.instance.collection("students").doc(userModel!.uId).update({'deviceToken' : '$deviceToken'});
+
+                print("Changed------------------");
+
+            }
             getSessions("students");
             emit(RaqiGetUserSuccessState());
           }else{
@@ -54,6 +66,13 @@ class RaqiCubit extends Cubit<RaqiStates>{
                 .then((value) {
                 print(value.data());
                 userModel = UserModel.fromJson(value.data());
+                if(state is RaqiGetUserSuccessState){
+
+                  FirebaseFirestore.instance.collection("teachers").doc(userModel!.uId).update({'deviceToken' : '$deviceToken'});
+
+                  print("Changed------------------");
+
+                }
                 getSessions("teachers");
                 getTotalMinutes();
                 emit(RaqiGetUserSuccessState());
@@ -74,7 +93,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
     TeachersScreen(),
     SessionsScreen(),
     BuyScreen(),
-  ] ;
+  ];
 
 
 
@@ -97,23 +116,28 @@ class RaqiCubit extends Cubit<RaqiStates>{
   List<Widget> screensTeacher = [
     HomeTeacherScreen(),
     MessagesScreen(),
+    MyReservationScreen(),
     EarningScreen(),
   ] ;
 
   List<String> titlesTeacher = [
     'Nafith' ,
     'Messages' ,
+    'reservation' ,
     'Earning' ,
   ];
 
   void changeBottomNavTeacher(int index){
     currentIndex = index ;
     if(currentIndex == 1){
-      getStudents();
+      getTeacherStudents();
     }
-    if(currentIndex == 2){
+    if(currentIndex == 3){
       getSessions("teachers");
       getTotalMinutes();
+    }
+    if(currentIndex == 2){
+      getMyReserved("teachers");
     }
     emit(RaqiChangeBottomNavBarState());
   }
@@ -130,13 +154,50 @@ class RaqiCubit extends Cubit<RaqiStates>{
         .then((value) {
       value.docs.forEach((element) {
 
-        if(element.data()['uId'] != userModel!.uId)
+        if(element.data()['uId'] != userModel!.uId && element.data()['gender'] == userModel!.gender)
           teachers.add(UserModel.fromJson(element.data()));
 
       });
+      print(teachers);
       emit(RaqiGetAllTeachersSuccessState());
     }).catchError((error){
       emit(RaqiGetAllTeachersErrorState(error.toString()));
+    });
+  }
+
+  List<UserModel> studentTeachers = [] ;
+  void getStudentTeachers(){
+    studentTeachers = [];
+    FirebaseFirestore.instance
+        .collection('students')
+        .doc(userModel!.uId)
+        .collection("chats")
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        studentTeachers.add(UserModel.fromJson(element.data()));
+      });
+      emit(RaqiGetAllStudentTeachersSuccessState());
+    }).catchError((error){
+      emit(RaqiGetAllStudentTeachersErrorState(error.toString()));
+    });
+  }
+
+  List<UserModel> teacherStudents = [] ;
+  void getTeacherStudents(){
+    teacherStudents = [];
+    FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(userModel!.uId)
+        .collection("chats")
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        teacherStudents.add(UserModel.fromJson(element.data()));
+      });
+      emit(RaqiGetAllStudentTeachersSuccessState());
+    }).catchError((error){
+      emit(RaqiGetAllStudentTeachersErrorState(error.toString()));
     });
   }
 
@@ -213,12 +274,13 @@ class RaqiCubit extends Cubit<RaqiStates>{
     required String receiverId,
     required String dateTime,
     required String text ,
+    required UserModel receiverModel
   }){
     MessageModel model = MessageModel(
         text: text ,
         senderId: userModel!.uId ,
         receiverId: receiverId ,
-        dateTime: dateTime
+        dateTime: dateTime,
     );
 
     FirebaseFirestore
@@ -230,6 +292,16 @@ class RaqiCubit extends Cubit<RaqiStates>{
         .collection('messages')
         .add(model.toMap())
         .then((value) {
+
+      FirebaseFirestore.instance
+          .collection('students')
+          .doc(userModel!.uId)
+          .collection('chats')
+          .doc(receiverId)
+          .set(receiverModel.toMap())
+          .then((value) {
+      }).catchError((error){});
+
       emit(RaqiSendMessageSuccessState());
     }).catchError((error){
       emit(RaqiSendMessageErrorState());
@@ -244,6 +316,17 @@ class RaqiCubit extends Cubit<RaqiStates>{
         .collection('messages')
         .add(model.toMap())
         .then((value) {
+
+      FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(receiverId)
+          .collection('chats')
+          .doc(userModel!.uId)
+          .set(userModel!.toMap())
+          .then((value) {
+
+      }).catchError((error){});
+
       emit(RaqiSendMessageSuccessState());
     }).catchError((error){
       emit(RaqiSendMessageErrorState());
@@ -255,6 +338,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
     required String receiverId,
     required String dateTime,
     required String text ,
+    required UserModel receiverModel
   }){
     MessageModel model = MessageModel(
         text: text ,
@@ -272,6 +356,16 @@ class RaqiCubit extends Cubit<RaqiStates>{
         .collection('messages')
         .add(model.toMap())
         .then((value) {
+
+      FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(userModel!.uId)
+          .collection('chats')
+          .doc(receiverId)
+          .set(receiverModel.toMap())
+          .then((value) {
+      }).catchError((error){});
+
       emit(RaqiSendMessageSuccessState());
     }).catchError((error){
       emit(RaqiSendMessageErrorState());
@@ -286,6 +380,17 @@ class RaqiCubit extends Cubit<RaqiStates>{
         .collection('messages')
         .add(model.toMap())
         .then((value) {
+
+      FirebaseFirestore.instance
+          .collection('students')
+          .doc(receiverId)
+          .collection('chats')
+          .doc(userModel!.uId)
+          .set(userModel!.toMap())
+          .then((value) {
+
+      }).catchError((error){});
+
       emit(RaqiSendMessageSuccessState());
     }).catchError((error){
       emit(RaqiSendMessageErrorState());
@@ -355,7 +460,11 @@ class RaqiCubit extends Cubit<RaqiStates>{
         image: image??userModel!.image ,
         uId: userModel!.uId,
         bio: bio ,
-        minutes: userModel!.minutes
+        minutes: userModel!.minutes,
+        gender: userModel!.gender,
+        type: userModel!.type,
+        rate: userModel!.rate,
+        deviceToken: userModel!.deviceToken
     );
     FirebaseFirestore.instance
         .collection('students')
@@ -419,6 +528,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
         rate: rate,
     );
     emit(RaqiCommentLoadingState());
+    getRates(teacherId);
     FirebaseFirestore
         .instance
         .collection('teachers')
@@ -426,7 +536,8 @@ class RaqiCubit extends Cubit<RaqiStates>{
         .collection('comments')
         .add(model.toMap())
         .then((value) {
-      emit(RaqiCommentSuccessState());
+          FirebaseFirestore.instance.collection("teachers").doc(teacherId).update({'rate' : totalRate});
+          emit(RaqiCommentSuccessState());
     }).catchError((error){
       emit(RaqiCommentErrorState());
     });
@@ -779,5 +890,256 @@ class RaqiCubit extends Cubit<RaqiStates>{
       }
     }
   }
+
+  var from, to;
+  bool willReserve = true ;
+
+  willReverseFun(){
+    for(int i = 0 ; i < alreadyReservedList.length ; i++){
+      if(from.millisecondsSinceEpoch == alreadyReservedList[i]!["FTS"]
+          || (alreadyReservedList[i]!["FTS"] < from.millisecondsSinceEpoch && from.millisecondsSinceEpoch < alreadyReservedList[i]!["LTS"])
+          || (alreadyReservedList[i]!["FTS"] < to.millisecondsSinceEpoch && to.millisecondsSinceEpoch < alreadyReservedList[i]!["LTS"]) ||
+          (from.millisecondsSinceEpoch < alreadyReservedList[i]!["FTS"] && alreadyReservedList[i]!["FTS"] < to.millisecondsSinceEpoch)){
+        willReserve = false ;
+      }
+    }
+  }
+
+  void reserve(
+      teacherId,
+      teacherName,
+      teacherImage,
+      ){
+    ReservationModel model = ReservationModel(
+        FTS: from.millisecondsSinceEpoch,
+        LTS: to.millisecondsSinceEpoch,
+        from: DateFormat('yyyy-MM-dd – kk:mm').format(from).toString(),
+        to: DateFormat('yyyy-MM-dd – kk:mm').format(to).toString(),
+        studentImage: userModel!.image,
+        studentName: userModel!.name,
+        studentId: userModel!.uId,
+        teacherId: teacherId,
+        teacherName: teacherName,
+        teacherImage: teacherImage,
+        duration: to.difference(from).inMinutes
+    );
+    willReverseFun();
+    if(willReserve == true){
+      emit(RaqiReserveLoadingState());
+      FirebaseFirestore
+          .instance
+          .collection('teachers')
+          .doc(teacherId)
+          .collection('reserved').doc("${from.millisecondsSinceEpoch}").set(model.toMap())
+          .then((value) {
+        FirebaseFirestore
+            .instance
+            .collection('students')
+            .doc(userModel!.uId)
+            .collection('reserved').doc("${from.millisecondsSinceEpoch}").set(model.toMap()).then((value) {
+              from = null ;
+              to = null ;
+              willReserve = true ;
+        });
+        emit(RaqiReserveSuccess());
+        showToast(text: "Reserved!", state: ToastStates.SUCCESS);
+      }).catchError((error){
+        print(error.toString());
+        emit(RaqiReserveErrorState());
+      });
+    }
+    else{
+      showToast(text: "This session already Reversed!", state: ToastStates.ERROR);
+      from = null ;
+      to = null ;
+      willReserve = true ;
+
+    }
+
+  }
+
+  List<ReservationModel> reserved =[];
+  List<ReservationModel> reverseReserved =[];
+
+  Map<String, dynamic>? alreadyReserved;
+  List<Map<String, dynamic>?> alreadyReservedList = [];
+
+  void getReserved(teacherId){
+    emit(RaqiGetReservedLoadingState());
+    FirebaseFirestore
+        .instance
+        .collection("teachers")
+        .doc(teacherId)
+        .collection("reserved")
+        .orderBy('FTS')
+        .snapshots()
+        .listen((event) {
+      reserved = [];
+      reverseReserved =[];
+      event.docs.forEach((element) {
+        reserved.add(ReservationModel.fromJson(element.data()));
+        alreadyReserved = {"FTS" : element.data()['FTS'], "LTS" : element.data()['LTS']};
+        alreadyReservedList.add(alreadyReserved);
+      });
+      print(alreadyReservedList);
+      reverseReserved = reserved.reversed.toList();
+      emit(RaqiGetReservedSuccessState());
+    });
+  }
+
+
+  List<ReservationModel> myReserved =[];
+  List<ReservationModel> myReverseReserved =[];
+  void getMyReserved(String type){
+    emit(RaqiGetReservedLoadingState());
+    FirebaseFirestore
+        .instance
+        .collection(type)
+        .doc(userModel!.uId)
+        .collection("reserved")
+        .orderBy('FTS')
+        .snapshots()
+        .listen((event) {
+      myReserved =[];
+      myReverseReserved =[];
+      event.docs.forEach((element) {
+        myReserved.add(ReservationModel.fromJson(element.data()));
+      });
+      myReverseReserved = myReserved.reversed.toList();
+      emit(RaqiGetReservedSuccessState());
+    });
+  }
+
+  deleteStudentReserve(ReservationModel model){
+    FirebaseFirestore.instance.collection("students").doc(userModel!.uId).collection("reserved").doc("${model.FTS}").delete();
+    FirebaseFirestore.instance.collection("teachers").doc(model.teacherId).collection("reserved").doc("${model.FTS}").delete();
+    showToast(text: "Reserved Session Deleted!", state: ToastStates.SUCCESS);
+  }
+
+  sendNotification(String title,String body, String token, String type,String uId)async{
+    final data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status':'done',
+      'message':'title',
+      'type': type,
+      'uId': uId
+
+    };
+
+    try{
+      http.Response response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),headers: <String,String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=AAAAxuSqD8g:APA91bFzOEkz-bGdq4nNmyX9RIepZ2z7AiMeBSJrJ08JFjEv9I4FoqDiDbzASksZqyE6WuAUWLbiR-naeAz3rKuCHXPdWtB8nw5w1oSGhWaxl-_-Gr-pomU1iiFgaMEEcBjQtK5ckVDU'
+      },
+        body: jsonEncode(<String,dynamic>{
+          'notification': <String,dynamic>{'title': title, 'body': body},
+          'priority': 'high',
+          'data': data,
+          'to': '$token'
+        })
+      );
+
+      if(response.statusCode == 200){
+        print("notification is sent");
+      }else{
+        print("something wrong in notification sending");
+
+      }
+
+    }catch(e){}
+
+  }
+
+  void saveNotification(
+    String notificationType,
+    String title,
+    String body,
+    String receiverId,
+  ){
+    NotificationModel model = NotificationModel(
+      senderName: userModel!.name,
+      senderImage: userModel!.image,
+      notificationType: notificationType,
+      title: title,
+      body: body,
+      dateTime: DateTime.now().toString(),
+    );
+    emit(RaqiSaveNotificationLoadingState());
+    if(userModel!.type == "teacher"){
+      FirebaseFirestore
+          .instance
+          .collection('students')
+          .doc(receiverId)
+          .collection('notifications')
+          .add(model.toMap())
+          .then((value) {
+        emit(RaqiSaveNotificationSuccessState());
+      }).catchError((error){
+        emit(RaqiSaveNotificationErrorState());
+      });
+    }
+
+    if(userModel!.type == "student"){
+      FirebaseFirestore
+          .instance
+          .collection('teachers')
+          .doc(receiverId)
+          .collection('notifications')
+          .add(model.toMap())
+          .then((value) {
+        emit(RaqiSaveNotificationSuccessState());
+      }).catchError((error){
+        emit(RaqiSaveNotificationErrorState());
+      });
+    }
+  }
+
+
+  List<NotificationModel> notifications =[];
+  List<NotificationModel> reversedNotifications =[];
+  void getNotifications(){
+    emit(RaqiGetNotificationsLoadingState());
+
+    if(userModel!.type == "student"){
+      FirebaseFirestore
+          .instance
+          .collection("students")
+          .doc(userModel!.uId)
+          .collection("notifications")
+          .orderBy('dateTime')
+          .snapshots()
+          .listen((event) {
+        notifications = [];
+        reversedNotifications = [];
+        event.docs.forEach((element) {
+          notifications.add(NotificationModel.fromJson(element.data()));
+        });
+        reversedNotifications = notifications.reversed.toList();
+        emit(RaqiGetNotificationsSuccessState());
+      });
+    }
+
+    if(userModel!.type == "teacher"){
+      FirebaseFirestore
+          .instance
+          .collection("teachers")
+          .doc(userModel!.uId)
+          .collection("notifications")
+          .orderBy('dateTime')
+          .snapshots()
+          .listen((event) {
+        notifications = [];
+        reversedNotifications = [];
+        event.docs.forEach((element) {
+          notifications.add(NotificationModel.fromJson(element.data()));
+        });
+        reversedNotifications = notifications.reversed.toList();
+        emit(RaqiGetNotificationsSuccessState());
+      });
+    }
+  }
+
+
 
 }

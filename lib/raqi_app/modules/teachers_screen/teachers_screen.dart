@@ -89,10 +89,21 @@ Widget buildTeacherItem(UserModel model , context) {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 40,
-              backgroundImage: model.image == null ? NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png'): NetworkImage('${model.image}'),
+            Column(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 40,
+                  backgroundImage: model.image == null ? NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png'): NetworkImage('${model.image}'),
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.star , color: Colors.amber,),
+                    model.rate == null ? Text("0.0", style: TextStyle(fontSize: 18),)
+                        : Text("${model.rate.toStringAsFixed(1)}", style: TextStyle(fontSize: 18),),
+                  ],
+                )
+              ],
             ),
             SizedBox(width: 15,),
             Column(
@@ -105,7 +116,31 @@ Widget buildTeacherItem(UserModel model , context) {
                     Icon(Icons.person_outline,color: buttonsColor,),
                     Text('${model.gender}',style: TextStyle(fontSize: 16),)
                   ],
-                )
+                ),
+                SizedBox(height: 5,),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    color: buttonsColor,
+                    width: 150,
+                    height: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Container(
+                          color: Colors.white,
+                          width: 150,
+                          height: 40,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(model.bio,style: TextStyle(fontWeight: FontWeight.bold),),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             Spacer(),

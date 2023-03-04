@@ -7,10 +7,11 @@ class UserModel{
   dynamic type ;
   dynamic gender ;
   dynamic bio ;
-  dynamic degree ;
+  dynamic rate ;
   dynamic ejazat ;
   dynamic language ;
   dynamic minutes ;
+  dynamic deviceToken ;
 
   UserModel({
     this.name,
@@ -21,10 +22,11 @@ class UserModel{
     this.type,
     this.gender,
     this.bio ,
-    this.degree ,
+    this.rate ,
     this.ejazat ,
     this.language ,
     this.minutes ,
+    this.deviceToken ,
 });
 
   UserModel.fromJson(Map<String , dynamic>? json){
@@ -36,10 +38,11 @@ class UserModel{
     type = json['type'];
     gender = json['gender'];
     bio = json['bio'];
-    degree = json['degree'];
+    rate = json['rate'];
     ejazat = json['ejazat'];
     language = json['language'];
     minutes = json['minutes'];
+    deviceToken = json['deviceToken'];
   }
 
   Map<String , dynamic> toMap(){
@@ -52,10 +55,11 @@ class UserModel{
       'type' : type ,
       'gender' : gender,
       'bio' : bio,
-      'degree' : degree,
-      'ejazat' : ejazat,
+      'rate' : rate,
+       'ejazat' : ejazat,
       'language' : language,
       'minutes' : minutes,
+      'deviceToken' : deviceToken,
     };
   }
 }

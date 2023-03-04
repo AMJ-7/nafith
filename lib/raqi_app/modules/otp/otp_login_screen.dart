@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
+import 'package:raqi/raqi_app/app_cubit/app_states.dart';
 import 'package:raqi/raqi_app/layout/raqi_layout.dart';
 import 'package:raqi/raqi_app/modules/login/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/login/cubit/states.dart';
@@ -36,6 +37,7 @@ class OtpLoginScreen extends StatelessWidget {
                 value: uId).then((value) {
               navigateAndFinish(context, RaqiLayout());
             });
+
           }
         } ,
         builder:(context , state){
@@ -73,7 +75,6 @@ class OtpLoginScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 15,),
                           defaultButton(function: (){
-                            int check = 0 ;
                             if(formKey.currentState!.validate()){
                               try{FirebaseAuth.instance.signInWithCredential(
                                   PhoneAuthProvider.credential(verificationId: RaqiLoginCubit.get(context).verificationCode, smsCode: pinController.text)
@@ -85,18 +86,32 @@ class OtpLoginScreen extends StatelessWidget {
                                         print(value.user!.uid);
                                         uId = value.user!.uid;
                                         RaqiLoginCubit.get(context).loginSuccess();
-                                        check = 1 ;
                                     }
 
 
                                   });
 
-                                  if(check == 0){
-                                    RaqiCubit.get(context).deleteUser(context);
-                                    navigateTo(context, SignupScreen(1));
-                                  }
+                                  // if(check == 0){
+                                  //   RaqiCubit.get(context).deleteUser(context);
+                                  //   navigateTo(context, SignupScreen(1));
+                                  // }
 
                                 });
+                                if(RaqiLoginCubit.get(context).check == 0){
+                                  FirebaseFirestore.instance.collection("teachers").get().then((val) {
+                                    val.docs.forEach((element) {
+                                      if(element.id == value.user!.uid){
+                                        print('pass to home');
+                                        print(value.user!.uid);
+                                        uId = value.user!.uid;
+                                        RaqiLoginCubit.get(context).loginSuccess();
+                                      }
+
+                                    });
+
+                                  });
+                                }
+
 
                               });
                               }catch(e){

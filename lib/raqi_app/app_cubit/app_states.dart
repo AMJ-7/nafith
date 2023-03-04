@@ -15,6 +15,12 @@ class RaqiGetAllTeachersErrorState extends RaqiStates {
   RaqiGetAllTeachersErrorState(this.Error);
 }
 
+class RaqiGetAllStudentTeachersSuccessState extends RaqiStates {}
+class RaqiGetAllStudentTeachersErrorState extends RaqiStates {
+  final String Error ;
+  RaqiGetAllStudentTeachersErrorState(this.Error);
+}
+
 class RaqiGetPostsSuccessState extends RaqiStates {}
 class RaqiGetPostsLoadingState extends RaqiStates {}
 class RaqiGetPostsErrorState extends RaqiStates {
@@ -74,9 +80,17 @@ class RaqiSaveSessionLoadingState extends RaqiStates {}
 class RaqiSaveSessionErrorState extends RaqiStates {}
 class RaqiSaveSessionSuccessState extends RaqiStates {}
 
+class RaqiSaveNotificationLoadingState extends RaqiStates {}
+class RaqiSaveNotificationErrorState extends RaqiStates {}
+class RaqiSaveNotificationSuccessState extends RaqiStates {}
+
 class RaqiGetSessionsLoadingState extends RaqiStates {}
 class RaqiGetSessionsErrorState extends RaqiStates {}
 class RaqiGetSessionsSuccessState extends RaqiStates {}
+
+class RaqiGetNotificationsLoadingState extends RaqiStates {}
+class RaqiGetNotificationsErrorState extends RaqiStates {}
+class RaqiGetNotificationsSuccessState extends RaqiStates {}
 
 class RaqiGetTeacherLoadingState extends RaqiStates {}
 class RaqiGetTeacherErrorState extends RaqiStates {}
@@ -118,6 +132,13 @@ class RaqiGetCoupons extends RaqiStates {}
 
 class RaqiSendContactSuccessState extends RaqiStates {}
 class RaqiSendContactErrorState extends RaqiStates {}
+
+class RaqiReserveLoadingState extends RaqiStates {}
+class RaqiReserveSuccess extends RaqiStates {}
+class RaqiReserveErrorState extends RaqiStates {}
+
+class RaqiGetReservedLoadingState extends RaqiStates {}
+class RaqiGetReservedSuccessState extends RaqiStates {}
 
 
 

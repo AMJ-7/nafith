@@ -19,15 +19,15 @@ class MessagesScreenStudent extends StatelessWidget {
       listener: (context , state){},
       builder: (context , state){
         return ConditionalBuilder(
-            condition: RaqiCubit.get(context).teachers.length > 0,
+            condition: RaqiCubit.get(context).studentTeachers.length > 0,
             builder: (context) => Scaffold(
               backgroundColor: Colors.grey[200],
               appBar: AppBar(title: Text("${getLang(context,"chats")}"),),
               body: ListView.separated(
                   physics: BouncingScrollPhysics(),
-                  itemBuilder: (context , index) => buildChatItem(RaqiCubit.get(context).teachers[index] , context),
+                  itemBuilder: (context , index) => buildChatItem(RaqiCubit.get(context).studentTeachers[index] , context),
                   separatorBuilder: (context , index) => myDivider(),
-                  itemCount: RaqiCubit.get(context).teachers.length
+                  itemCount: RaqiCubit.get(context).studentTeachers.length
               ),
             ),
             fallback: (Context) => Scaffold(

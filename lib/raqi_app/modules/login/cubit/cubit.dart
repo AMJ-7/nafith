@@ -15,7 +15,9 @@ class RaqiLoginCubit extends Cubit<RaqiLoginStates>{
 
   static RaqiLoginCubit get(context) => BlocProvider.of(context);
 
+  int check = 0 ;
   void loginSuccess(){
+    check = 1 ;
     emit(RaqiLoginSuccessState());
   }
   void changeCountry(){
@@ -125,5 +127,7 @@ class RaqiLoginCubit extends Cubit<RaqiLoginStates>{
 
     });
   }
+
+
 
 }

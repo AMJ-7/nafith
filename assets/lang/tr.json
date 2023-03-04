@@ -43,6 +43,7 @@
   "editProfile": "Profili Düzenle",
   "submit": "Göndermek",
   "bio": "biyo",
+  "bioQ": "Kullanıcıların sizi tanımlayabilmesi için bir açıklama seçin",
 
   "quran": "Kuran",
   "books": "Kitabın",
@@ -80,6 +81,14 @@
   "deleteWarning" : "Bu hesabı kaldıracağınızdan emin misiniz?",
   "del": "silmek",
   "noAcc" : "Hesabınız yok, lütfen bir tane oluşturun!",
-  "oQuran" : "Çevrimiçi Kur'an-ı"
-
+  "oQuran" : "Çevrimiçi Kur'an-ı",
+  "reservation": "rezervasyon",
+  "reserve": "rezerv",
+  "noReserved": "ayrılmış oturum yok!",
+  "reservedThis": "bunu rezerve etti: ",
+  "reservedSession": "ayrılmış oturum",
+  "duration": "Süre: ",
+  "from": "itibaren: ",
+  "to": "ile: ",
+  "notifications": "Bildirimler"
 }

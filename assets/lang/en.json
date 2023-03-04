@@ -43,6 +43,7 @@
   "editProfile": "Edit Profile",
   "submit": "Submit",
   "bio": "Bio",
+  "bioQ": "Choose a bio so users can identify you",
 
   "quran": "Quran",
   "books": "Books",
@@ -80,7 +81,17 @@
   "deleteWarning" : "Are you sure to remove this account?",
   "del": "delete",
   "noAcc" : "You don't have an account please create one!",
-  "oQuran" : "Online Quran"
+  "oQuran" : "Online Quran",
+  "reservation": "Reservation",
+  "reserve": "Reserve",
+  "noReserved": "no reserved sessions!",
+  "reservedThis": "reserved this: ",
+  "reservedSession": "reserved session",
+  "duration": "Duration: ",
+  "from": "From: ",
+  "to": "to: ",
+  "notifications": "Notifications"
+
 
 
 }

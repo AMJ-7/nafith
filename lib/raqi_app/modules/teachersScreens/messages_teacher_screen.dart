@@ -17,12 +17,12 @@ class MessagesScreen extends StatelessWidget {
       listener: (context , state){},
       builder: (context , state){
         return ConditionalBuilder(
-            condition: RaqiCubit.get(context).students.length > 0,
+            condition: RaqiCubit.get(context).teacherStudents.length > 0,
             builder: (context) => ListView.separated(
                 physics: BouncingScrollPhysics(),
-                itemBuilder: (context , index) => buildChatItem(RaqiCubit.get(context).students[index] , context),
+                itemBuilder: (context , index) => buildChatItem(RaqiCubit.get(context).teacherStudents[index] , context),
                 separatorBuilder: (context , index) => myDivider(),
-                itemCount: RaqiCubit.get(context).students.length
+                itemCount: RaqiCubit.get(context).teacherStudents.length
             ),
             fallback: (Context) => Center(
                 child: Column(

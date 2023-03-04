@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,31 +57,38 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
 //     });
 //   }
 
-  void userCreate({
+  void userCreate ({
     required String email ,
     required String? name ,
     String? phone ,
     required String uId ,
     required String gender ,
-    required String type
-}){
+    required String type,
+    required String bio,
+})async{
+
+    String? deviceToken = await FirebaseMessaging.instance.getToken();
+    print(deviceToken);
+
     UserModel model = UserModel(
       name: name ,
-      bio: "",
+      bio: bio,
       email: email ,
       minutes: "6",
       phone: phone ,
       uId: uId ,
       gender: gender,
       type: type,
-      image: type == "teacher" ? "https://image.shutterstock.com/image-photo/image-260nw-574775293.jpg" :  "https://i.pinimg.com/564x/32/99/a8/3299a848fb55c90ca201163f9a6abad6.jpg",
+      image: gender == "male" ? "https://i.pinimg.com/564x/6e/e4/09/6ee4094c7b1c71dd38bafb564777663e.jpg" :  "https://i.pinimg.com/originals/fa/b8/78/fab878307b38ae9c45efdedea9e20fe8.jpg",
+      deviceToken: deviceToken
     );
       if(type == 'student'){
         FirebaseFirestore.instance
             .collection('students')
             .doc(uId)
             .set(model.toMap())
-            .then((value) {
+            .then((value) async{
+          await FirebaseMessaging.instance.subscribeToTopic('students');
           emit(RaqiCreateUserSuccessState());
         }).catchError((error){
           emit(RaqiCreateUserErrorState(error.toString()));
@@ -91,7 +99,8 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
             .collection('teachers')
             .doc(uId)
             .set(model.toMap())
-            .then((value) {
+            .then((value) async{
+          await FirebaseMessaging.instance.subscribeToTopic('teachers');
           emit(RaqiCreateUserSuccessState());
         }).catchError((error){
           emit(RaqiCreateUserErrorState(error.toString()));
@@ -116,6 +125,7 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
       String name,
       String gender,
       String type,
+      String bio,
       context,
 
       )async{
@@ -134,7 +144,8 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
                 phone: phone,
                 uId: value.user!.uid,
                 gender: gender,
-                type: type
+                type: type,
+                bio: bio
             );
             uId = value.user!.uid;
             RaqiSignupCubit.get(context).signupSuccess();
@@ -192,6 +203,7 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
             uId: value.user!.uid,
             gender: "",
             type: "student",
+            bio: "لا يوجد وصف"
           );
           uId = value.user!.uid;
           RaqiSignupCubit.get(context).signupSuccess();
@@ -202,6 +214,20 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
       });
 
     });
+  }
+ //1508
+  String? dropdownvalue = "مناسب لتعليم المبتدئين" ;
+
+  var items = [
+    "مناسب لتعليم المبتدئين",
+    "مناسب لتعليم المتقدمين",
+    "مناسب لتعليم الاطفال",
+    "مناسب لتعليم الكبار",
+  ];
+
+  changeDropdown(String? newValue){
+    dropdownvalue = newValue;
+    emit(RaqiChangeDropdown());
   }
 
 

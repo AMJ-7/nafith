@@ -1,10 +1,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/app_cubit/app_states.dart';
 import 'package:raqi/raqi_app/models/comment_model.dart';
 import 'package:raqi/raqi_app/modules/chat/chat_details_screen.dart';
+import 'package:raqi/raqi_app/modules/reservation/reservation_screen.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
 import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
@@ -29,7 +31,15 @@ class TeacherProfile extends StatelessWidget {
         return ConditionalBuilder(
           condition: RaqiCubit.get(context).teacherModel != null,
           builder: (context) => Scaffold(
-            appBar: AppBar(title: Text(model!.name),),
+            appBar: AppBar(
+              title: Text(model!.name),
+              actions: [
+                IconButton(onPressed: (){
+                  RaqiCubit.get(context).getReserved(model.uId);
+                  navigateTo(context, ReservationScreen());
+                }, icon: Icon(CupertinoIcons.calendar_badge_plus,color: buttonsColor,))
+              ],
+            ),
             body: Column(
               children: [
                 Container(
@@ -73,10 +83,17 @@ class TeacherProfile extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 5,),
-                Text(model.name,
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      fontSize: 24
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(model.name,
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 24
+                      ),
+                    ),
+                    SizedBox(width: 5,),
+                    Text("(${model.bio})",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),)
+                  ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +196,42 @@ Widget buildCommentItem(context ,CommentModel model){
                   Text(model.senderName,style: TextStyle(fontSize: 16),),
                   Text(model.dateTime,style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 10),)
                 ],
-              )
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if(model.rate == 1)...[
+                    Icon(Icons.star , color: Colors.amber,),
+                  ]
+                  else if(model.rate == 2)...[
+                    Icon(Icons.star , color: Colors.amber,),
+                    Icon(Icons.star , color: Colors.amber,),
+                  ]
+
+                  else if(model.rate == 3)...[
+                    Icon(Icons.star , color: Colors.amber,),
+                    Icon(Icons.star , color: Colors.amber,),
+                    Icon(Icons.star , color: Colors.amber,),
+                  ]
+
+                  else if(model.rate == 4)...[
+                        Icon(Icons.star , color: Colors.amber,),
+                        Icon(Icons.star , color: Colors.amber,),
+                        Icon(Icons.star , color: Colors.amber,),
+                        Icon(Icons.star , color: Colors.amber,),
+                  ]
+
+                  else if(model.rate == 5)...[
+                          Icon(Icons.star , color: Colors.amber,),
+                          Icon(Icons.star , color: Colors.amber,),
+                          Icon(Icons.star , color: Colors.amber,),
+                          Icon(Icons.star , color: Colors.amber,),
+                          Icon(Icons.star , color: Colors.amber,),
+                        ]
+                ],
+              ),
+              SizedBox(width: 15,)
 
 
 

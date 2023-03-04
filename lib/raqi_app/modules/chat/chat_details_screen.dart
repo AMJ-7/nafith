@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -120,15 +121,42 @@ class ChatDetailsScreen extends StatelessWidget {
                                 RaqiCubit.get(context).teacherSendMessage(
                                     receiverId: teacherModel!.uId,
                                     dateTime: DateTime.now().toString(),
-                                    text: chatMessageController.text
+                                    text: chatMessageController.text,
+                                    receiverModel: teacherModel!
                                 );
                               }else{
                                 RaqiCubit.get(context).studentSendMessage(
                                     receiverId: teacherModel!.uId,
                                     dateTime: DateTime.now().toString(),
-                                    text: chatMessageController.text
+                                    text: chatMessageController.text,
+                                    receiverModel: teacherModel!
+
                                 );
                               }
+                              RaqiCubit.get(context).sendNotification("${RaqiCubit.get(context).userModel!.name}", chatMessageController.text, teacherModel!.deviceToken,"chat","${RaqiCubit.get(context).userModel!.uId}");
+                              if(RaqiCubit.get(context).userModel == "student"){
+                                FirebaseFirestore.instance
+                                    .collection('students')
+                                    .doc(RaqiCubit.get(context).userModel!.uId)
+                                    .collection('chats')
+                                    .doc(teacherModel!.uId)
+                                    .set(teacherModel!.toMap())
+                                    .then((value) async{
+                                  FirebaseFirestore.instance
+                                      .collection('teachers')
+                                      .doc(teacherModel!.uId)
+                                      .collection('chats')
+                                      .doc(RaqiCubit.get(context).userModel!.uId)
+                                      .set(RaqiCubit.get(context).userModel!.toMap())
+                                      .then((value) async{
+
+                                  }).catchError((error){});
+                                }).catchError((error){});
+                              }
+
+
+
+
                               chatMessageController.text = '';
                               scrollController.jumpTo(scrollController.position.maxScrollExtent);
                             }

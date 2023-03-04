@@ -11,6 +11,8 @@ import 'package:raqi/raqi_app/modules/books/books_screen.dart';
 import 'package:raqi/raqi_app/modules/call/pickup/pickup_layout.dart';
 import 'package:raqi/raqi_app/modules/chat/messages_student_screen.dart';
 import 'package:raqi/raqi_app/modules/edit_profile/edit_profile_screen.dart';
+import 'package:raqi/raqi_app/modules/my_reservation/my_reservation_screen.dart';
+import 'package:raqi/raqi_app/modules/notifications/notifications_screen.dart';
 import 'package:raqi/raqi_app/modules/quran/quran_home.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/messages_teacher_screen.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
@@ -42,7 +44,7 @@ class RaqiLayout extends StatelessWidget {
       builder: (context , state) {
         var cubit = RaqiCubit.get(context);
         return ConditionalBuilder(
-          condition: RaqiCubit.get(context).userModel != null,
+          condition: RaqiCubit.get(context).userModel != null && cubit.userModel!.image != null,
           builder: (context) => PickupLayout(
             scaffold: cubit.userModel!.type != 'teacher' ? Scaffold(
               drawer: Drawer(
@@ -91,16 +93,16 @@ class RaqiLayout extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           onTap: ()async{
-                            RaqiCubit.get(context).getTeachers();
-                            navigateTo(context, MessagesScreenStudent());
+                            RaqiCubit.get(context).getMyReserved("students");
+                            navigateTo(context, MyReservationScreen());
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Icon(CupertinoIcons.chat_bubble_text,size: 28,color: buttonsColor,),
+                                Icon(CupertinoIcons.calendar,size: 28,color: buttonsColor,),
                                 SizedBox(width: 8,),
-                                Text("${getLang(context,"messages")}",style: TextStyle(fontSize: 18),)
+                                Text("${getLang(context,"reservation")}",style: TextStyle(fontSize: 18),)
                               ],
                             ),
                           ),
@@ -178,7 +180,18 @@ class RaqiLayout extends StatelessWidget {
               ),
               appBar: AppBar(
                 actions: [
-                  IconButton(onPressed: (){},
+                  InkWell(
+                    onTap: ()async{
+                      RaqiCubit.get(context).getStudentTeachers();
+                      navigateTo(context, MessagesScreenStudent());
+                    },
+                    child: Icon(CupertinoIcons.chat_bubble_text_fill,size: 28,color: buttonsColor,),
+                  ),
+                  SizedBox(width: 5,),
+                  IconButton(onPressed: (){
+                    RaqiCubit.get(context).getNotifications();
+                    navigateTo(context, NotificationsScreen());
+                  },
                       icon: Icon(Icons.notifications)),
                 ],
                 centerTitle: true,
@@ -333,7 +346,10 @@ class RaqiLayout extends StatelessWidget {
       ),
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: (){},
+          IconButton(onPressed: (){
+            RaqiCubit.get(context).getNotifications();
+            navigateTo(context, NotificationsScreen());
+          },
               icon: Icon(Icons.notifications)),
         ],
         centerTitle: true,
@@ -352,6 +368,9 @@ class RaqiLayout extends StatelessWidget {
           BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: "${getLang(context,"messages")}"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_month_outlined),
+              label: "${getLang(context,"reservation")}"),
           BottomNavigationBarItem(icon: Icon(Icons.monetization_on)
               , label: "${getLang(context,"earning")}"),
         ],

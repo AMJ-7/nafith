@@ -54,6 +54,7 @@ class HomeTeacherScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: defaultButton(function: (){
+                    RaqiCubit.get(context).changeBottomNavTeacher(3);
 
                   },
                       text: '${getLang(context,"eMoney")}'),

@@ -20,6 +20,7 @@ class SignupScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
   var nameController = TextEditingController();
   var emailController = TextEditingController();
+  var bioController = TextEditingController();
   var phoneController = TextEditingController();
   var passwordController = TextEditingController();
   var type = 'student';
@@ -27,6 +28,7 @@ class SignupScreen extends StatelessWidget {
   String gender = 'male';
 
   String? country ;
+
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +135,51 @@ class SignupScreen extends StatelessWidget {
                             label: "${getLang(context,"email")}",
                             prefix: Icons.email_outlined
                         ),
+                        SizedBox(height: 15,),
+                        if(type == "teacher")...[
+                          Container(
+                            width: double.infinity,
+                            child: DecoratedBox(decoration: BoxDecoration(
+                                color:Colors.white, //background color of dropdown button
+                                border: Border.all(color: buttonsColor, width:3), //border of dropdown button
+                                borderRadius: BorderRadius.circular(10), //border raiuds of dropdown button
+                                boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                                  BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                                      blurRadius: 5) //blur radius of shadow
+                                ]
+                            ),
+                              child: Center(
+                                child: DropdownButton(
+                                    value: RaqiSignupCubit.get(context).dropdownvalue,
+                                    items: RaqiSignupCubit.get(context).items.map((e) {
+                                      return DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? newValue){
+                                      RaqiSignupCubit.get(context).changeDropdown(newValue);
+                                    }
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                        if(type == "student")...[
+                          defaultTxtForm(
+                              controller: bioController,
+                              type: TextInputType.text,
+                              validate: (value){
+                                if(value!.isEmpty){
+                                  return "${getLang(context,"bioQ")}";
+                                }
+
+                              },
+                              label: "${getLang(context,"bio")}",
+                              prefix: Icons.short_text
+                          ),
+                        ],
                       Row(children: [
                         Expanded(
                           child: RadioListTile(
@@ -197,7 +244,8 @@ class SignupScreen extends StatelessWidget {
                                     nameController.text,
                                     emailController.text,
                                     type,
-                                    gender
+                                    gender,
+                                    type == "student" ? bioController.text : RaqiSignupCubit.get(context).dropdownvalue!
                                 ));
                                 }
                               },

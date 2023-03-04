@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/layout/raqi_layout.dart';
 import 'package:raqi/raqi_app/models/comment_model.dart';
@@ -258,6 +260,8 @@ class _BlurryDialogState extends State<BlurryDialog> {
                 onPressed: () {
                   if(commentKey.currentState!.validate()){
                     RaqiCubit.get(context).commentOnTeacher(teacherId: whoIcallId, dateTime: now.toString(), text: commentController.text,rate: rate);
+                    RaqiCubit.get(context).sendNotification("تقييم جديد!", "تهانينا ${RaqiCubit.get(context).userModel!.name} قد قيمك ", whoIcallModel!.deviceToken, "rate", RaqiCubit.get(context).userModel!.uId);
+                    RaqiCubit.get(context).saveNotification("rate", "تقييم جديد!", "تهانينا ${RaqiCubit.get(context).userModel!.name} قد قيمك ",whoIcallModel!.uId);
                     Navigator.of(context).pop();
                 }
                 },
@@ -359,6 +363,100 @@ class BlurryDialogState extends State<BlurryDelete> {
                   onPressed: () {
                       RaqiCubit.get(context).deleteUser(context);
                       Navigator.of(scaffoldKey.currentContext!).pop();
+
+                  },
+                ),
+                new TextButton(
+                  child: Text("${getLang(context,"cancel")}"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        ));
+  }
+}
+
+class BlurryCal extends StatefulWidget {
+  @override
+  State<BlurryCal> createState() => BlurryDialogState3();
+}
+
+
+class BlurryDialogState3 extends State<BlurryCal> {
+  BlurryDialogState3();
+  @override
+  Widget build(BuildContext context) {
+    var from = "--";
+    var to = "--";
+    return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+        child:  StatefulBuilder(
+          builder: (context, setState){
+            return AlertDialog(
+              title: Icon(Icons.calendar_today_outlined,size: 40,),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("please choose the session time you want"),
+                  SizedBox(height: 15,),
+                  Row(
+                    children: [
+                      Text("From: "),
+                      Text(from,style: TextStyle(color: buttonsColor)),
+                      Spacer(),
+                      IconButton(onPressed: (){
+                        DatePicker.showDateTimePicker(
+                            context,
+                            minTime: DateTime.now().add(Duration(hours: 1)),
+                            maxTime: DateTime.now().add(Duration(days: 7))
+                        ).then((value) {
+                          setState(() {
+                            from = DateFormat('yyyy-MM-dd – kk:mm').format(value!).toString();
+                            RaqiCubit.get(context).from = value ;
+                          });
+                        });
+                      }, icon: Icon(Icons.calendar_month_outlined,color: buttonsColor,))
+                    ],
+                  ),
+                  SizedBox(height: 15,),
+                  if(RaqiCubit.get(context).from != null)
+                    Row(
+                    children: [
+                      Text("to: "),
+                      Text(to,style: TextStyle(color: buttonsColor)),
+                      Spacer(),
+                      IconButton(onPressed: (){
+                        DatePicker.showDateTimePicker(
+                            context,
+                            minTime: RaqiCubit.get(context).from.add(Duration(minutes: 30)),
+                            maxTime: RaqiCubit.get(context).from.add(Duration(hours: 6))
+                        ).then((value) {
+                          setState(() {
+                            to = DateFormat('yyyy-MM-dd – kk:mm').format(value!).toString();
+                            RaqiCubit.get(context).to = value;
+                          });
+                        });
+                      }, icon: Icon(Icons.calendar_month_outlined,color: buttonsColor,))
+                    ],
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                new TextButton(
+                  child: new Text("${getLang(context,"reserve")}" ,style: TextStyle(color: Colors.green,fontWeight: FontWeight.bold),),
+                  onPressed: () {
+                    if(RaqiCubit.get(context).to != null){
+                      RaqiCubit.get(context).reserve(RaqiCubit.get(context).teacherModel!.uId,RaqiCubit.get(context).teacherModel!.name,RaqiCubit.get(context).teacherModel!.image);
+                      RaqiCubit.get(context).sendNotification("حجز جديد!", "تهانينا ${RaqiCubit.get(context).userModel!.name} حجز موعد جديد معك ", RaqiCubit.get(context).teacherModel!.deviceToken, "reserve", RaqiCubit.get(context).userModel!.uId);
+                      RaqiCubit.get(context).saveNotification("reserve","حجز جديد!", "تهانينا ${RaqiCubit.get(context).userModel!.name} حجز موعد جديد معك ", RaqiCubit.get(context).teacherModel!.uId);
+                      Navigator.of(context).pop();
+                    }
+                    else{
+                      showToast(text: "please choose the session date", state: ToastStates.WARNING);
+                    }
 
                   },
                 ),

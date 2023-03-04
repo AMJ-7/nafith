@@ -5,6 +5,7 @@ import 'package:raqi/raqi_app/models/call_model.dart';
 import 'package:raqi/raqi_app/models/raqi_user_model.dart';
 import 'package:raqi/raqi_app/modules/call/video/video_call.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
+import 'package:raqi/raqi_app/shared/components/constants.dart';
 
 class CallUtils{
   static dial({
@@ -25,6 +26,9 @@ class CallUtils{
     call.hasDialled = true ;
 
     if(callMade){
+      whoIcallModel = to;
+      RaqiCubit.get(context).sendNotification("اتصال وارد", "${from.name}...يتصل بك", to.deviceToken, "call", from.uId);
+      RaqiCubit.get(context).saveNotification("call","اتصال وارد", "${from.name}...حاول الاتصال بك", from.uId);
       navigateTo(context, CallPage(call: call, channelId: call.callerId,));
     }
   }
