@@ -216,13 +216,13 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
     });
   }
  //1508
-  String? dropdownvalue = "مناسب لتعليم المبتدئين" ;
+  String? dropdownvalue = "مناسب للمبتدئين" ;
 
   var items = [
-    "مناسب لتعليم المبتدئين",
-    "مناسب لتعليم المتقدمين",
-    "مناسب لتعليم الاطفال",
-    "مناسب لتعليم الكبار",
+    "مناسب للمبتدئين",
+    "مناسب للمتقدمين",
+    "مناسب للاطفال",
+    "مناسب للكبار",
   ];
 
   changeDropdown(String? newValue){

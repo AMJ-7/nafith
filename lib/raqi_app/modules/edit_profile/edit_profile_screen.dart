@@ -31,12 +31,16 @@ class EditProfileScreen extends StatelessWidget {
                 context: context,
                 title: "${getLang(context,"editProfile")}",
                 actions: [
-                  Padding(
+                  if(userModel.type == "student")
+                    Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: defaultTextButton(function: (){
                       RaqiCubit.get(context).updateUser(name: nameController.text,
                           email: emailController.text,
-                          bio: bioController.text);
+                          bio: bioController.text,
+                          type: RaqiCubit.get(context).userModel!.type,
+                          gender: RaqiCubit.get(context).userModel!.gender
+                      );
 
                     }, text: "${getLang(context,"submit")}" , color: Colors.white),
                   )
@@ -86,6 +90,10 @@ class EditProfileScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 40.0 , horizontal: 30),
                           child: Column(
                             children: [
+                              if(userModel.type == "teacher")...[
+                                Text("لتعديل بياناتك الرجاء التواصل مع الدعم الفني",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),),
+                                SizedBox(height: 15,)
+                              ],
                               defaultTxtForm(
                                   controller: nameController,
                                   type: TextInputType.name,
@@ -96,7 +104,9 @@ class EditProfileScreen extends StatelessWidget {
                                     return null ;
                                   },
                                   label: "${getLang(context,"name")}",
-                                prefix: Icons.person,
+                                  prefix: Icons.person,
+                                  isClickable: userModel.type == "teacher" ? false : true,
+                                  inputTextColor: userModel.type == "teacher" ? Colors.grey : Colors.black,
 
                               ),
                               SizedBox(height: 15,),
@@ -106,6 +116,8 @@ class EditProfileScreen extends StatelessWidget {
                                 validate: (value){},
                                 label: "${getLang(context,"bio")}",
                                 prefix: Icons.info_outline,
+                                isClickable: userModel.type == "teacher" ? false : true,
+                                inputTextColor: userModel.type == "teacher" ? Colors.grey : Colors.black,
 
                               ),
                               SizedBox(height: 15,),
@@ -115,6 +127,8 @@ class EditProfileScreen extends StatelessWidget {
                                 validate: (value){},
                                 label: "${getLang(context,"email")}",
                                 prefix: Icons.email_outlined,
+                                isClickable: userModel.type == "teacher" ? false : true,
+                                inputTextColor: userModel.type == "teacher" ? Colors.grey : Colors.black,
 
                               ),
                               SizedBox(height: 25,),

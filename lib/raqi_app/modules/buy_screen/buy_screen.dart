@@ -41,11 +41,6 @@ class BuyScreen extends StatelessWidget {
                 SizedBox(height: 30,),
                 Row(
                   children: [
-                    Expanded(child: Image.asset("assets/images/card1.png",height: 180,))
-                  ],),
-                SizedBox(height: 15,),
-                Row(
-                  children: [
                     Expanded(
                       child: defaultTxtForm(
                           controller: couponController,
@@ -68,7 +63,7 @@ class BuyScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(height: 15,),
+                SizedBox(height: 30,),
                 GestureDetector(
                   onTap: (){
                     RaqiCubit.get(context).emitPakka(1);

@@ -39,10 +39,12 @@ Widget defaultTxtForm({
   VoidCallback? onPrefixPressed ,
   Color prefixColor = buttonsColor,
   Color inputTextColor = Colors.black,
+  int maxLines = 1
 
 }) => TextFormField(
   style: TextStyle(color: inputTextColor),
   validator: validate,
+  maxLines: maxLines,
   obscureText: isPassword,
   controller: controller,
   decoration: InputDecoration(
@@ -304,7 +306,7 @@ class _BlurryDialogState extends State<BlurryDialog> {
                 SizedBox(height: 10,),
                 Form(
                   key: commentKey,
-                  child: defaultTxtForm(controller: messageContactController, type: TextInputType.text, validate: (value){
+                  child: defaultTxtForm(maxLines: 4,controller: messageContactController, type: TextInputType.text, validate: (value){
                     if(value!.isEmpty){
                       return "${getLang(context,"whatUWillSay")}";
                     }

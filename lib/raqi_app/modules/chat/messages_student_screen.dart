@@ -31,6 +31,9 @@ class MessagesScreenStudent extends StatelessWidget {
               ),
             ),
             fallback: (Context) => Scaffold(
+              appBar: AppBar(
+                title: Text("${getLang(context,"chats")}"),
+              ),
               body: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

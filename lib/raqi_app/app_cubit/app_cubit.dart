@@ -448,6 +448,8 @@ class RaqiCubit extends Cubit<RaqiStates>{
     required String name ,
     required String email ,
     required String bio ,
+    required String type ,
+    required String gender ,
     String? image ,
     String? cover
 
@@ -461,8 +463,8 @@ class RaqiCubit extends Cubit<RaqiStates>{
         uId: userModel!.uId,
         bio: bio ,
         minutes: userModel!.minutes,
-        gender: userModel!.gender,
-        type: userModel!.type,
+        gender: gender,
+        type: type,
         rate: userModel!.rate,
         deviceToken: userModel!.deviceToken
     );
@@ -746,7 +748,9 @@ class RaqiCubit extends Cubit<RaqiStates>{
         updateUser(name: userModel!.name,
             bio: userModel!.bio ,
             image: value,
-            email: userModel!.email
+            email: userModel!.email,
+            type: userModel!.type,
+            gender: userModel!.gender
         );
         firebase_storage.FirebaseStorage.instance.refFromURL(changedImage).delete();
       }).catchError((error){
