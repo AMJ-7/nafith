@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,40 @@ class LoginScreen extends StatelessWidget {
                           builder: (context) => defaultButton(
                               function: (){
                                 if(formKey.currentState!.validate()){
-                                  navigateTo(context,country != null ? OtpLoginScreen("+${country}${phoneController.text}") : OtpLoginScreen("${phoneController.text}"));
+                                  var phone = country != null ? "+${country}${phoneController.text}" : "${phoneController.text}";
+                                  bool exist = false ;
+
+                                  FirebaseFirestore.instance.collection('students').get().then((value) {
+                                    value.docs.forEach((element) {
+                                      if(element.data()['phone'] == phone){
+                                        exist = true ;
+                                      }
+                                    });
+                                    print("-------------------------------");
+
+                                  }).then((value) {
+                                    FirebaseFirestore.instance.collection('teachers').get().then((value) {
+                                      value.docs.forEach((element) {
+                                        if(element.data()['phone'] == phone){
+                                          exist = true ;
+                                        }
+                                      });
+                                      print("-------------------------------");
+
+                                    }).then((value) {
+                                      if(exist == true){
+                                        navigateTo(context,country != null ? OtpLoginScreen("+${country}${phoneController.text}") : OtpLoginScreen("${phoneController.text}"));
+                                      }
+                                      else if(exist == false){
+                                        showToast(text: "phone number not exist!", state: ToastStates.ERROR);
+                                      }
+
+                                    });
+
+                                  });
+
+
+
                                 }
                               },
                               text: "${getLang(context,"loginB")}"
@@ -183,6 +217,10 @@ class LoginScreen extends StatelessWidget {
       context: context,
       showPhoneCode: true, // optional. Shows phone code before the country name.
       onSelect: (Country _country) {
+        RaqiCubit.get(context).myCountryName = _country.name;
+        RaqiCubit.get(context).myCountryCode = _country.countryCode;
+        print(RaqiCubit.get(context).myCountryName);
+        print(RaqiCubit.get(context).myCountryCode);
         country = _country.phoneCode ;
         print('${getLang(context,"signup")} ${_country.phoneCode}');
         RaqiLoginCubit.get(context).changeCountry();

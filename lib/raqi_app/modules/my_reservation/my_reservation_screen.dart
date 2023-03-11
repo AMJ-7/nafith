@@ -38,7 +38,7 @@ class MyReservationScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(width: 10,),
-                    Text("My Reservations"),
+                    Text("${getLang(context,"myReserve")}"),
                   ],
                 ),
               ),
@@ -56,7 +56,7 @@ class MyReservationScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Center(child: Text('no reserved sessions!')),
+                        Center(child: Text('${getLang(context,"noReserved")}')),
                       ],
                     ),
                   ),
@@ -104,13 +104,13 @@ class MyReservationScreen extends StatelessWidget {
               if(RaqiCubit.get(context).userModel!.type == "student")...[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("reserved with ${model.teacherName}: ",style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.bold,fontSize: 14)),
+                  child: Text("${getLang(context,"reservedWith")} ${model.teacherName}: ",style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.bold,fontSize: 14)),
                 ),
               ],
               if(RaqiCubit.get(context).userModel!.type == "teacher")...[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("${model.studentName} reserved this: ",style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.bold,fontSize: 14)),
+                  child: Text("${model.studentName} ${getLang(context,"reservedThis")}",style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.bold,fontSize: 14)),
                 ),
               ],
               ClipRRect(
@@ -132,22 +132,22 @@ class MyReservationScreen extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("reserved session",style: TextStyle(fontSize: 16),),
+                                Text("${getLang(context,"reservedSession")}",style: TextStyle(fontSize: 16),),
                                 Row(
                                   children: [
-                                    Text("Duration: "),
+                                    Text("${getLang(context,"duration")}"),
                                     Text("${model.duration} Min",style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),),
                                   ],
                                 ),
                                 Row(
                                   children: [
-                                    Text("From: "),
+                                    Text("${getLang(context,"from")}"),
                                     Text(model.from,style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 12),),
                                   ],
                                 ),
                                 Row(
                                   children: [
-                                    Text("To: "),
+                                    Text("${getLang(context,"to")}"),
                                     Text(model.to,style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 12),),
                                   ],
                                 ),

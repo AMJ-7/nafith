@@ -120,15 +120,11 @@ class RaqiGetSearchUserErrorState extends RaqiStates {}
 class RaqiEndCallSuccess extends RaqiStates {}
 class RaqiEmitRate extends RaqiStates {}
 
-class RaqiFirstPakka extends RaqiStates {}
-class RaqiSecPakka extends RaqiStates {}
-class RaqiThirdPakka extends RaqiStates {}
 
 class RaqiLoadBook extends RaqiStates {}
 
 class RaqiGetTotalMins extends RaqiStates {}
 
-class RaqiGetCoupons extends RaqiStates {}
 
 class RaqiSendContactSuccessState extends RaqiStates {}
 class RaqiSendContactErrorState extends RaqiStates {}
@@ -139,6 +135,14 @@ class RaqiReserveErrorState extends RaqiStates {}
 
 class RaqiGetReservedLoadingState extends RaqiStates {}
 class RaqiGetReservedSuccessState extends RaqiStates {}
+
+class getFollowerLoadingState extends RaqiStates {}
+class getFollowerSuccessState extends RaqiStates {}
+class getFollowerErorrState extends RaqiStates {}
+
+class getMyFollowersSuccessState extends RaqiStates {}
+class getMyFollowersLoadingState extends RaqiStates {}
+class getMyFollowersErorrState extends RaqiStates {}
 
 
 

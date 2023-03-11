@@ -155,6 +155,13 @@ Widget buildTeacherItem(UserModel model , context) {
                             context: context
                         );
                       }
+                      else if(int.parse(RaqiCubit.get(context).fatherMins) > 0){
+                        CallUtils.dial(
+                            from: RaqiCubit.get(context).userModel,
+                            to: model,
+                            context: context
+                        );
+                      }
                       else{
                         showToast(text: "You do not have minutes, please recharge and try again", state: ToastStates.ERROR);
                       }

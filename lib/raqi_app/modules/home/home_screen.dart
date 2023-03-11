@@ -48,14 +48,27 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('${getLang(context,"welcome")} ${userModel!.name}')
+                      Text('${getLang(context,"welcome")} ${userModel!.name}'),
                     ],
                   ),
                   SizedBox(height: 15,),
                   Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("${getLang(context,"min")}: ${RaqiCubit.get(context).userModel!.minutes}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                        SizedBox(width: 30,),
+                        if(RaqiCubit.get(context).father != null)
+                          Text("${getLang(context,"affiliateMin")}: ${RaqiCubit.get(context).fatherMins}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 7,),
+                  Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: defaultButton(function: (){
-                      RaqiCubit.get(context).changeBottomNav(3);
+                      RaqiCubit.get(context).changeBottomNav(4);
 
                     },
                         text: "${getLang(context,"subscribe")}"),

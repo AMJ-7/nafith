@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:raqi/firebase_options.dart';
@@ -9,6 +10,7 @@ import 'package:raqi/raqi_app/app_cubit/app_states.dart';
 import 'package:raqi/raqi_app/layout/raqi_layout.dart';
 import 'package:raqi/raqi_app/modules/chat/chat_details_screen.dart';
 import 'package:raqi/raqi_app/modules/on_boarding/on_boarding_screen.dart';
+import 'package:raqi/raqi_app/modules/payment/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/signup/sign_up.dart';
 import 'package:raqi/raqi_app/shared/bloc_observer.dart';
 import 'package:raqi/raqi_app/shared/components/applocale.dart';
@@ -19,6 +21,7 @@ import 'package:raqi/raqi_app/shared/network/notification_service.dart';
 import 'package:raqi/raqi_app/styles/themes.dart';
 import 'raqi_app/shared/components/constants.dart';
 import 'raqi_app/shared/network/local/cache_helper.dart';
+
 
   // when app is in background
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -50,7 +53,6 @@ Future<void> main() async{
   );
   print('User granted permission: ${settings.authorizationStatus}');
 
-
   // when click on notification
   FirebaseMessaging.onMessageOpenedApp.listen((event) {
     LocalNotificationService.display(event);
@@ -68,6 +70,13 @@ Future<void> main() async{
 
   deviceToken = await FirebaseMessaging.instance.getToken();
   print(deviceToken);
+
+  SystemChrome.setPreferredOrientations(
+      [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ],
+  );
 
 
 
@@ -99,6 +108,7 @@ class MyApp extends StatelessWidget{
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => RaqiCubit()),
+        BlocProvider(create: (BuildContext context) => PaymentCubit()),
       ],
       child: BlocConsumer<RaqiCubit , RaqiStates>(
         listener: (context , state){},

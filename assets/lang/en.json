@@ -87,10 +87,21 @@
   "noReserved": "no reserved sessions!",
   "reservedThis": "reserved this: ",
   "reservedSession": "reserved session",
+  "reservedWith": "reserved With",
   "duration": "Duration: ",
   "from": "From: ",
-  "to": "to: ",
-  "notifications": "Notifications"
+  "to": "To: ",
+  "notifications": "Notifications",
+  "affiliated": "affiliated",
+  "addAffiliate": "add Affiliate",
+  "affiliateMin": "affiliate Mins",
+  "affiliateNum": "Affiliates",
+  "continue": "continue",
+  "pleaseSession": "please choose the session time you want",
+  "myReserve": "My Reservations",
+  "addHisPhone": "Enter his phone number:",
+  "add": "Add",
+  "toEdit": "Contact us to edit your profile"
 
 
 

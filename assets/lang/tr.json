@@ -87,8 +87,19 @@
   "noReserved": "ayrılmış oturum yok!",
   "reservedThis": "bunu rezerve etti: ",
   "reservedSession": "ayrılmış oturum",
+  "reservedWith": "ile ayrılmış",
   "duration": "Süre: ",
   "from": "itibaren: ",
   "to": "ile: ",
-  "notifications": "Bildirimler"
+  "notifications": "Bildirimler",
+  "affiliated": "bağlı",
+  "addAffiliate": "Ortak ekle",
+  "affiliateMin": "bağlı dakikaları",
+  "affiliateNum": "iştirakler",
+  "continue": "devam",
+  "pleaseSession": "lütfen istediğiniz seans saatini seçiniz",
+  "myReserve": "Rezervasyonlarım",
+  "addHisPhone": "Telefon numarasını girin:",
+  "add": "Ekle",
+  "toEdit": "Profilinizi düzenlemek için bize ulaşın"
 }

@@ -18,11 +18,11 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PaymentCubit(),
-      child: BlocConsumer<PaymentCubit , PaymentStates>(
+      child: BlocConsumer<PaymentCubit , PaymobStates>(
         listener: (context , state){
-          if(state is PaymentRequestTokenSuccessState){
-            navigateTo(context, VisaCardScreen());
-          }
+          // if(state is PaymentRequestTokenSuccessState){
+          //   navigateTo(context, VisaCardScreen());
+          // }
         },
         builder: (context , state){
           return Scaffold(

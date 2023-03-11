@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart' as database;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:raqi/raqi_app/app_cubit/app_states.dart';
@@ -16,15 +17,15 @@ import 'package:raqi/raqi_app/models/notification_model.dart';
 import 'package:raqi/raqi_app/models/raqi_user_model.dart';
 import 'package:raqi/raqi_app/models/reservation_model.dart';
 import 'package:raqi/raqi_app/models/sessions_model.dart';
-import 'package:raqi/raqi_app/modules/buy_screen/buy_screen.dart';
+import 'package:raqi/raqi_app/modules/followers/followers_screen.dart';
 import 'package:raqi/raqi_app/modules/home/home_screen.dart';
-import 'package:raqi/raqi_app/modules/login/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/my_reservation/my_reservation_screen.dart';
 import 'package:raqi/raqi_app/modules/sessions_screen/sessions_screen.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/earning_teacher_screen.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/home_teacher_screen.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/messages_teacher_screen.dart';
 import 'package:raqi/raqi_app/modules/teachers_screen/teachers_screen.dart';
+import 'package:raqi/raqi_app/paytaps/presentation/payment/payment_screen.dart';
 import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
@@ -58,6 +59,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
 
             }
             getSessions("students");
+            getFather();
             emit(RaqiGetUserSuccessState());
           }else{
             FirebaseFirestore.instance.collection('teachers')
@@ -92,7 +94,8 @@ class RaqiCubit extends Cubit<RaqiStates>{
     HomeScreen(),
     TeachersScreen(),
     SessionsScreen(),
-    BuyScreen(),
+    FollowersScreen(),
+    PaymentScreen(),
   ];
 
 
@@ -106,9 +109,11 @@ class RaqiCubit extends Cubit<RaqiStates>{
     if(currentIndex == 2){
       getSessions("students");
     }
-    if(currentIndex == 3){
+    if(currentIndex == 4){
       getUserData();
-      readData();
+    }
+    if(currentIndex == 3){
+      getMyFollowers();
     }
     emit(RaqiChangeBottomNavBarState());
   }
@@ -257,6 +262,14 @@ class RaqiCubit extends Cubit<RaqiStates>{
             to: RaqiCubit.get(context).teacherModel ,
             context: context
         );
+      }
+      else if(int.parse(RaqiCubit.get(context).fatherMins) > 0){
+        CallUtils.dial(
+            from: RaqiCubit.get(context).userModel,
+            to: RaqiCubit.get(context).teacherModel ,
+            context: context
+        );
+        showToast(text: "call using affiliate minutes", state: ToastStates.ERROR);
       }
       else{
         showToast(text: "You do not have minutes, please recharge and try again", state: ToastStates.ERROR);
@@ -594,19 +607,7 @@ class RaqiCubit extends Cubit<RaqiStates>{
 
   }
 
-  int pakka = 2 ;
-  void emitPakka(int myPakka){
-    pakka = myPakka ;
-    if(pakka == 1){
-      emit(RaqiFirstPakka());
-    }
-    if(pakka == 2){
-      emit(RaqiSecPakka());
-    }
-    if(pakka == 3){
-      emit(RaqiThirdPakka());
-    }
-  }
+
 
 
   //Calculate Minutes for student
@@ -629,9 +630,17 @@ class RaqiCubit extends Cubit<RaqiStates>{
     diffInMinutes = diff.inMinutes;
     print(diff.inMinutes);
     print("==========================================");
-    var oldMin = int.parse(userModel!.minutes);
-    var totalMin = oldMin - diff.inMinutes;
-    FirebaseFirestore.instance.collection("students").doc(userModel!.uId).update({'minutes' : '$totalMin'});
+    if(int.parse(userModel!.minutes) > 0){
+      var oldMin = int.parse(userModel!.minutes);
+      var totalMin = oldMin - diff.inMinutes;
+      FirebaseFirestore.instance.collection("students").doc(userModel!.uId).update({'minutes' : '$totalMin'});
+    }
+    else if(int.parse(fatherMins) > 0){
+      var oldMin = int.parse(fatherMins);
+      var totalMin = oldMin - diff.inMinutes;
+      FirebaseFirestore.instance.collection("students").doc(father!.uId).update({'minutes' : '$totalMin'});
+
+    }
   }
 
   void saveSession({
@@ -784,27 +793,6 @@ class RaqiCubit extends Cubit<RaqiStates>{
 
   }
 
-  List coupons = [];
-  int dis = 0;
-  bool copExist = false;
-  getCoupon(String coupon){
-    FirebaseFirestore.instance.collection("coupons").get().then((value) {
-      value.docs.forEach((element) {
-        if(element.id == coupon){
-          dis = int.parse(element.data()["discount"]);
-          copExist = true ;
-        }
-      });
-    });
-    if(copExist == true){
-      showToast(text: "Coupon Done", state: ToastStates.SUCCESS);
-    }if(copExist == false){
-      showToast(text: "not exist", state: ToastStates.ERROR);
-    }
-    print(dis);
-    print("==========================================================");
-    emit(RaqiGetCoupons());
-  }
 
 
   contactUs(String text){
@@ -1144,6 +1132,90 @@ class RaqiCubit extends Cubit<RaqiStates>{
     }
   }
 
+  dynamic myCountryName ;
+  dynamic myCountryCode ;
 
 
+
+  bool followerAvailable = false ;
+  UserModel? follower ;
+  void getFollower(dynamic phone,context){
+    emit(getFollowerLoadingState());
+    FirebaseFirestore.instance.collection('students').get().then((value) {
+      value.docs.forEach((element) {
+        if(element.data()['phone'] == phone){
+          followerAvailable = true;
+          follower = UserModel.fromJson(element.data());
+        }
+      });
+
+    }).then((value) {
+      if(followerAvailable == true){
+        FirebaseFirestore.instance
+            .collection('students')
+            .doc(userModel!.uId)
+            .collection('sons')
+            .doc(follower!.uId)
+            .set(follower!.toMap())
+            .then((value) {
+          FirebaseFirestore.instance.collection("students").doc(follower!.uId).update({'ejazat' : '${userModel!.uId}'}).then((value) {
+            Navigator.pop(context);
+            getMyFollowers();
+            showToast(text: "تمت اضافة ${follower!.name} بنجاح", state: ToastStates.SUCCESS);
+            emit(getFollowerSuccessState());
+            follower = null ;
+            followerAvailable = false ;
+          });
+        }).catchError((error){});
+      }
+      else{
+        showToast(text: "مستخدم غير متوفر!", state: ToastStates.ERROR);
+        emit(getFollowerErorrState());
+      }
+      print(followerAvailable);
+      print(follower);
+    });
+
+  }
+
+  List<UserModel> myFollowers = [] ;
+  void getMyFollowers(){
+    myFollowers = [];
+    FirebaseFirestore.instance
+        .collection('students')
+        .doc(userModel!.uId)
+        .collection("sons")
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        myFollowers.add(UserModel.fromJson(element.data()));
+      });
+      emit(getMyFollowersSuccessState());
+    }).catchError((error){
+      emit(getMyFollowersErorrState());
+    });
+  }
+
+  deleteFollower(followerId) {
+    FirebaseFirestore.instance.collection("students").doc(userModel!.uId)
+        .collection("sons").doc("${followerId}")
+        .delete();
+    FirebaseFirestore.instance.collection("students")
+        .doc("${followerId}")
+        .update({'ejazat': null}).then((value) {
+          getMyFollowers();
+      showToast(text: "تمت ازاله التابع بنجاح", state: ToastStates.SUCCESS);
+    });
+  }
+
+  UserModel? father ;
+  String fatherMins = "0" ;
+  getFather(){
+    if(userModel!.ejazat != null){
+      FirebaseFirestore.instance.collection("students").doc(userModel!.ejazat).get().then((value) {
+        father = UserModel.fromJson(value.data());
+        fatherMins = father!.minutes;
+      });
+    }
+  }
 }

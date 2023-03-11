@@ -91,7 +91,7 @@ class EditProfileScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               if(userModel.type == "teacher")...[
-                                Text("لتعديل بياناتك الرجاء التواصل مع الدعم الفني",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),),
+                                Text("${getLang(context,"toEdit")}",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),),
                                 SizedBox(height: 15,)
                               ],
                               defaultTxtForm(

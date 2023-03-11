@@ -107,7 +107,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       submit();
                     }
                     else{
-                      boardController.nextPage(duration: Duration(milliseconds: 750), curve: Curves.easeInCirc);
+                      boardController.nextPage(duration: Duration(milliseconds: 750), curve: Curves.decelerate);
                     }
 
                   },

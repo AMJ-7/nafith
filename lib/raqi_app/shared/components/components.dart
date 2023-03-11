@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -381,6 +382,94 @@ class BlurryDialogState extends State<BlurryDelete> {
   }
 }
 
+class BlurryAdd extends StatefulWidget {
+  @override
+  State<BlurryAdd> createState() => BlurryDialogStateAdd();
+}
+
+
+class BlurryDialogStateAdd extends State<BlurryAdd> {
+  String? country ;
+
+  var formKey = GlobalKey<FormState>();
+
+  var phoneController = TextEditingController();
+
+  BlurryDialogStateAdd();
+  @override
+  Widget build(BuildContext context) {
+    return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+        child:  StatefulBuilder(
+          builder: (context, setState){
+            return AlertDialog(
+              title: Icon(Icons.person_add_alt_outlined,color: buttonsColor,size: 40,),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("${getLang(context,"addHisPhone")}"),
+                  SizedBox(height: 15,),
+                  TextFormField(
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+                    validator: (value){
+                      if(value!.isEmpty){
+                        return "${getLang(context,"phoneQ")}";
+                      }
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "${getLang(context,"phone")}",
+                      prefixIcon: country == null ? GestureDetector(
+                        child: Icon(Icons.arrow_drop_down_sharp), onTap: (){
+                        pickCountry(context);
+                      },) : GestureDetector(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('+${country}'),
+                          ],
+                        ),onTap: (){
+                        pickCountry(context);
+                      },),
+                    ),
+
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                new TextButton(
+                  child: new Text("${getLang(context,"add")}" ,style: TextStyle(color: buttonsColor,fontWeight: FontWeight.bold),),
+                  onPressed: () {
+                    RaqiCubit.get(context).getFollower(country != null ? "+${country}${phoneController.text}" : "${phoneController.text}", context);
+                  },
+                ),
+                new TextButton(
+                  child: Text("${getLang(context,"cancel")}"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        ));
+  }
+  pickCountry(context){
+    showCountryPicker(
+      context: context,
+      showPhoneCode: true, // optional. Shows phone code before the country name.
+      onSelect: (Country _country) {
+        setState(() {
+          country = _country.phoneCode ;
+          print('${getLang(context,"signup")} ${_country.phoneCode}');
+        });
+
+      },
+    );
+  }
+}
+
 class BlurryCal extends StatefulWidget {
   @override
   State<BlurryCal> createState() => BlurryDialogState3();
@@ -402,11 +491,11 @@ class BlurryDialogState3 extends State<BlurryCal> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("please choose the session time you want"),
+                  Text("${getLang(context,"pleaseSession")}"),
                   SizedBox(height: 15,),
                   Row(
                     children: [
-                      Text("From: "),
+                      Text("${getLang(context,"from")}"),
                       Text(from,style: TextStyle(color: buttonsColor)),
                       Spacer(),
                       IconButton(onPressed: (){
@@ -427,7 +516,7 @@ class BlurryDialogState3 extends State<BlurryCal> {
                   if(RaqiCubit.get(context).from != null)
                     Row(
                     children: [
-                      Text("to: "),
+                      Text("${getLang(context,"to")} "),
                       Text(to,style: TextStyle(color: buttonsColor)),
                       Spacer(),
                       IconButton(onPressed: (){

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
@@ -185,7 +186,7 @@ class SignupScreen extends StatelessWidget {
                           child: RadioListTile(
                             activeColor: buttonsColor,
                               title: Text("${getLang(context,"male")}"),
-                              value: "${getLang(context,"male")}",
+                              value: "male",
                               groupValue: gender,
                               onChanged: (value){
                                 gender = value.toString() ;
@@ -198,7 +199,7 @@ class SignupScreen extends StatelessWidget {
                           child: RadioListTile(
                             activeColor: buttonsColor,
                               title: Text("${getLang(context,"female")}"),
-                              value: "${getLang(context,"female")}",
+                              value: "female",
                               groupValue: gender,
                               onChanged: (value){
                                 gender = value.toString() ;
@@ -239,14 +240,48 @@ class SignupScreen extends StatelessWidget {
                           builder: (context) => defaultButton(
                               function: (){
                                 if(formKey.currentState!.validate()){
-                                  navigateTo(context, OtpScreen(
-                                      country != null ? "+${country}${phoneController.text}" : "${phoneController.text}",
-                                    nameController.text,
-                                    emailController.text,
-                                    type,
-                                    gender,
-                                    type == "student" ? bioController.text : RaqiSignupCubit.get(context).dropdownvalue!
-                                ));
+                                  var phone = country != null ? "+${country}${phoneController.text}" : "${phoneController.text}";
+                                  bool exist = false ;
+
+                                      FirebaseFirestore.instance.collection('students').get().then((value) {
+                                        value.docs.forEach((element) {
+                                          if(element.data()['phone'] == phone){
+                                            exist = true ;
+                                          }
+                                        });
+                                        print("-------------------------------");
+
+                                      }).then((value) {
+                                        FirebaseFirestore.instance.collection('teachers').get().then((value) {
+                                          value.docs.forEach((element) {
+                                            if(element.data()['phone'] == phone){
+                                              exist = true ;
+                                            }
+                                          });
+                                          print("-------------------------------");
+
+                                        }).then((value) {
+                                          if(exist == false){
+                                            navigateTo(context, OtpScreen(
+                                                country != null ? "+${country}${phoneController.text}" : "${phoneController.text}",
+                                                nameController.text,
+                                                emailController.text,
+                                                type,
+                                                gender,
+                                                type == "student" ? bioController.text : RaqiSignupCubit.get(context).dropdownvalue!
+                                            ));
+                                          }
+                                          else if(exist == true){
+                                            showToast(text: "phone number already exist!", state: ToastStates.ERROR);
+                                          }
+
+                                        });
+
+                                      });
+
+
+
+
                                 }
                               },
                               text: "${getLang(context,"signupB")}"
@@ -311,4 +346,6 @@ class SignupScreen extends StatelessWidget {
       },
     );
   }
+
+
 }

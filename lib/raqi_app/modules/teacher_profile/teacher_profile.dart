@@ -124,6 +124,13 @@ class TeacherProfile extends StatelessWidget {
                               context: context
                           );
                         }
+                        else if(int.parse(RaqiCubit.get(context).fatherMins) > 0){
+                          CallUtils.dial(
+                              from: RaqiCubit.get(context).userModel,
+                              to: model,
+                              context: context
+                          );
+                        }
                         else{
                           showToast(text: "You do not have minutes, please recharge and try again", state: ToastStates.ERROR);
                         }
@@ -185,7 +192,7 @@ Widget buildCommentItem(context ,CommentModel model){
             children: [
               CircleAvatar(
                   child: Image.network(
-                      'https://i.pinimg.com/564x/32/99/a8/3299a848fb55c90ca201163f9a6abad6.jpg',
+                      model.senderImage,
                     fit: BoxFit.cover,
                   ),
                 radius: 30,

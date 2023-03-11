@@ -1,21 +1,27 @@
-abstract class PaymentStates{}
+abstract class PaymobStates{}
 
-class PaymentInitState extends PaymentStates{}
+class PaymobInitState extends PaymobStates{}
 
-class PaymentSuccessState extends PaymentStates{}
-class PaymentErrorState extends PaymentStates{
+class PaymobSuccessState extends PaymobStates{}
+class PaymobErrorState extends PaymobStates{
   String error;
-  PaymentErrorState(this.error);
+  PaymobErrorState(this.error);
 }
 
-class PaymentOrderIdSuccessState extends PaymentStates{}
-class PaymentOrderIdErrorState extends PaymentStates{
+class PaymobOrderIdSuccessState extends PaymobStates{}
+class PaymobOrderIdErrorState extends PaymobStates{
   String error;
-  PaymentOrderIdErrorState(this.error);
+  PaymobOrderIdErrorState(this.error);
 }
 
-class PaymentRequestTokenSuccessState extends PaymentStates{}
-class PaymentRequestTokenErrorState extends PaymentStates{
+class PaymobRequestTokenSuccessState extends PaymobStates{}
+class PaymobRequestTokenErrorState extends PaymobStates{
   String error;
-  PaymentRequestTokenErrorState(this.error);
+  PaymobRequestTokenErrorState(this.error);
 }
+
+class RaqiGetCoupons extends PaymobStates {}
+
+class RaqiFirstPakka extends PaymobStates {}
+class RaqiSecPakka extends PaymobStates {}
+class RaqiThirdPakka extends PaymobStates {}

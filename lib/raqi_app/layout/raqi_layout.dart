@@ -31,6 +31,7 @@ class RaqiLayout extends StatelessWidget {
       "${getLang(context,"Nafith")}" ,
       "${getLang(context,"teachers")}" ,
       "${getLang(context,"sessions")}" ,
+      "${getLang(context,"affiliated")}" ,
       "${getLang(context,"dependents")}"
     ];
 
@@ -212,6 +213,8 @@ class RaqiLayout extends StatelessWidget {
                       label: "${getLang(context,"teachers")}"),
                   BottomNavigationBarItem(icon: Icon(Icons.video_camera_front_rounded)
                       , label: "${getLang(context,"sessions")}"),
+                  BottomNavigationBarItem(icon: Icon(Icons.people_alt)
+                      , label: "${getLang(context,"affiliated")}"),
                   BottomNavigationBarItem(icon: Icon(Icons.timer)
                       ,label: "${getLang(context,"dependents")}"),
                 ],

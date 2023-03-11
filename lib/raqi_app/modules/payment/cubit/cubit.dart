@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
 import 'package:raqi/raqi_app/models/first_token.dart';
 import 'package:raqi/raqi_app/modules/payment/cubit/states.dart';
+import 'package:raqi/raqi_app/modules/payment/visacard.dart';
+import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
 import 'package:raqi/raqi_app/shared/network/dio.dart';
 
-class PaymentCubit extends Cubit<PaymentStates>{
-  PaymentCubit() : super(PaymentInitState());
+class PaymentCubit extends Cubit<PaymobStates>{
+  PaymentCubit() : super(PaymobInitState());
 
   static PaymentCubit get(context) => BlocProvider.of(context);
 
@@ -17,10 +20,10 @@ class PaymentCubit extends Cubit<PaymentStates>{
           PaymobToken = value.data['token'];
           print('First Token : ${PaymobToken}');
           getOrderId(price, firstName, lastName, email, phone,context);
-          emit(PaymentSuccessState());
+          emit(PaymobSuccessState());
     })
         .catchError((error){
-          emit(PaymentErrorState(error));
+          emit(PaymobErrorState(error));
 
     });
   }
@@ -38,11 +41,11 @@ class PaymentCubit extends Cubit<PaymentStates>{
       PaymobOrderId = value.data['id'].toString();
       print('Order ID : ${PaymobOrderId}');
       getFinalTokenCard(price, firstName, lastName, email, phone,context);
-      emit(PaymentOrderIdSuccessState());
+      emit(PaymobOrderIdSuccessState());
 
     })
         .catchError((error){
-      emit(PaymentOrderIdErrorState(error));
+      emit(PaymobOrderIdErrorState(error));
 
     });
   }
@@ -76,13 +79,51 @@ class PaymentCubit extends Cubit<PaymentStates>{
     ).then((value) {
       PaymobFinalToken = value.data['token'].toString();
       print('Final Token Card : ${PaymobFinalToken}');
-      emit(PaymentRequestTokenSuccessState());
+      navigateTo(context, VisaCardScreen());
+      emit(PaymobRequestTokenSuccessState());
 
     })
         .catchError((error){
-      emit(PaymentRequestTokenErrorState(error.toString()));
+      emit(PaymobRequestTokenErrorState(error.toString()));
       print(error);
 
     });
+  }
+
+
+  int pakka = 2 ;
+  void emitPakka(int myPakka){
+    pakka = myPakka ;
+    if(pakka == 1){
+      emit(RaqiFirstPakka());
+    }
+    if(pakka == 2){
+      emit(RaqiSecPakka());
+    }
+    if(pakka == 3){
+      emit(RaqiThirdPakka());
+    }
+  }
+
+  List coupons = [];
+  int dis = 0;
+  bool copExist = false;
+  getCoupon(String coupon){
+    FirebaseFirestore.instance.collection("coupons").get().then((value) {
+      value.docs.forEach((element) {
+        if(element.id == coupon){
+          dis = int.parse(element.data()["discount"]);
+          copExist = true ;
+        }
+      });
+    });
+    if(copExist == true){
+      showToast(text: "Coupon Done", state: ToastStates.SUCCESS);
+    }if(copExist == false){
+      showToast(text: "not exist", state: ToastStates.ERROR);
+    }
+    print(dis);
+    print("==========================================================");
+    emit(RaqiGetCoupons());
   }
 }

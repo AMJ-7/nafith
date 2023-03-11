@@ -87,8 +87,20 @@
   "noReserved": "لا جلسات محجوزة!",
   "reservedThis": "حجز هذا: ",
   "reservedSession": "جلسة محجوزة",
+  "reservedWith": "بواسطة",
   "duration": "المدة: ",
   "from": "من: ",
   "to": "حتى: ",
-  "notifications": "الاشعارات"
+  "notifications": "الاشعارات",
+  "affiliated": "التابعين",
+  "addAffiliate": "أضافة تابع",
+  "affiliateMin": "دقائق التابع",
+  "affiliateNum": "عدد التابعين",
+  "continue": "أستمرار",
+  "pleaseSession": "اختر موعد الجلسة التي تريد",
+  "myReserve": "حجوزاتي",
+  "addHisPhone": "اضف رقم هاتف التابع",
+  "add": "أضف",
+  "toEdit": "لتعديل بياناتك الرجاء التواصل مع الدعم الفني"
+
 }
