@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +61,6 @@ Future<void> main() async{
     print(event.data.toString());
   });
 
-
   // when app is opened
   FirebaseMessaging.onMessage.listen((event) {
     LocalNotificationService.display(event);
@@ -82,6 +83,7 @@ Future<void> main() async{
 
 
   Bloc.observer = MyBlocObserver();
+
 
 
 
@@ -134,6 +136,7 @@ class MyApp extends StatelessWidget{
               if (currentLang != null){
                 for(Locale locale in supportLang){
                   if(locale.languageCode == currentLang.languageCode){
+                    print(currentLang.languageCode);
                     return currentLang ;
                   }
 

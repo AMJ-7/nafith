@@ -23,19 +23,19 @@
 		<key>CFBundleSignature</key>
 		<string>????</string>
 		<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
-        <!-- Google Sign-in Section -->
-        <key>CFBundleURLTypes</key>
-        <array>
-        	<dict>
-        		<key>CFBundleTypeRole</key>
-        		<string>Editor</string>
-        		<key>CFBundleURLSchemes</key>
-        		<array>
-        			<string>com.googleusercontent.apps.854239875016-u15m5pbrkgecc61m0hanbtvka2rb9534</string>
-        		</array>
-        	</dict>
-        </array>
-        <!-- End of the Google Sign-in Section -->
+		<!-- Google Sign-in Section -->
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.googleusercontent.apps.854239875016-u15m5pbrkgecc61m0hanbtvka2rb9534</string>
+				</array>
+			</dict>
+		</array>
+		<!-- End of the Google Sign-in Section -->
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
@@ -64,16 +64,20 @@
 		<key>UIStatusBarHidden</key>
 		<false/>
 		<key>NSCameraUsageDescription</key>
-        <string>Camera Library Use</string>
-        <key>NSMicrophoneUsageDescription</key>
-        <string>Mic Use</string>
-        <key>NSContactsUsageDescription</key>
-        <string>Contact list to chat</string>
-        <key>NSAppleMusicUsageDescription</key>
-        <string>Needs to hear recordings</string>
-        <key>NSLocationWhenInUseUsageDescription</key>
-        <string>This app needs access to location when open.</string>
-        <key>NSLocationAlwaysUsageDescription</key>
-        <string>This app needs access to location when in the background.</string>
+		<string>Camera Library Use</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Mic Use</string>
+		<key>NSContactsUsageDescription</key>
+		<string>Contact list to chat</string>
+		<key>NSAppleMusicUsageDescription</key>
+		<string>Needs to hear recordings</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app needs access to location when open.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>This app needs access to location when in the background.</string>
+		<key>LSApplicationQueriesSchemes</key>
+        <array>
+          <string>whatsapp</string>
+        </array>
 	</dict>
 </plist>

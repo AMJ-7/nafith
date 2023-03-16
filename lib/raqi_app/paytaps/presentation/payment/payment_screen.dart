@@ -23,7 +23,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final PaymentViewModel _viewModel = PaymentViewModel();
   var flag = 0;
   int pakka = 2 ;
-  double amount = 35 ;
+  double amount = 50 ;
   var couponController = TextEditingController();
 
   @override
@@ -101,7 +101,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 onTap: (){
                                   setState(() {
                                     pakka = 1 ;
-                                    amount = 10 ;
+                                    amount = 15 ;
                                     print(pakka);
                                   });
                                 },
@@ -125,8 +125,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              PaymentCubit.get(context).dis == 0 ? Text("10 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )) : Text("${10 - (10*(PaymentCubit.get(context).dis/100))} ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )),
-                                              Text("420 ${getLang(context,"min")}",style: TextStyle(color: Colors.white, fontSize: 14 ))
+                                              PaymentCubit.get(context).dis == 0 ? Text("15 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )) : Text("${15 - (15*(PaymentCubit.get(context).dis/100))} ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )),
+                                              Text("20 ${getLang(context,"min")}",style: TextStyle(color: Colors.white, fontSize: 14 ))
                                             ],
                                           ),
                                         ],
@@ -142,7 +142,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 onTap: (){
                                   setState(() {
                                     pakka = 2 ;
-                                    amount = 35 ;
+                                    amount = 50 ;
                                   });
                                 },
                                 child: Container(
@@ -165,8 +165,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              PaymentCubit.get(context).dis == 0 ? Text("35 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )) : Text("${35 - (35*(PaymentCubit.get(context).dis/100))} ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )),
-                                              Text("1680 ${getLang(context,"min")}",style: TextStyle(color: Colors.white, fontSize: 14 ))
+                                              PaymentCubit.get(context).dis == 0 ? Text("50 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )) : Text("${50 - (50*(PaymentCubit.get(context).dis/100))} ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )),
+                                              Text("60 ${getLang(context,"min")}",style: TextStyle(color: Colors.white, fontSize: 14 ))
 
                                             ],
                                           ),
@@ -183,7 +183,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 onTap: (){
                                   setState(() {
                                     pakka = 3 ;
-                                    amount = 70 ;
+                                    amount = 100 ;
                                   });
                                 },
                                 child: Container(
@@ -206,8 +206,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              PaymentCubit.get(context).dis == 0 ? Text("70 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )) : Text("${70 - (70*(PaymentCubit.get(context).dis/100))} ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )),
-                                              Text("3360 ${getLang(context,"min")}",style: TextStyle(color: Colors.white, fontSize: 14 ))
+                                              PaymentCubit.get(context).dis == 0 ? Text("100 ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )) : Text("${100 - (100*(PaymentCubit.get(context).dis/100))} ${getLang(context,"cost")}",style: TextStyle(color: Colors.white, fontSize: 16 )),
+                                              Text("120 ${getLang(context,"min")}",style: TextStyle(color: Colors.white, fontSize: 14 ))
 
                                             ],
                                           ),

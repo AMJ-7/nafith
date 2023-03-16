@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:raqi/raqi_app/app_cubit/app_cubit.dart';
@@ -15,7 +17,7 @@ void signOut(context){
     }
   });
 }
-
+Locale myLocale = window.locale;
 dynamic uId = '' ;
 dynamic deviceToken = '' ;
 dynamic whoIcallId = '' ;

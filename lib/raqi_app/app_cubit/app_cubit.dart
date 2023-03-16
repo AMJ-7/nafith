@@ -558,7 +558,6 @@ class RaqiCubit extends Cubit<RaqiStates>{
     });
 
   }
-
   List<CommentModel> comments =[];
   void getComments(teacherId){
     emit(RaqiGetCommentsLoadingState());

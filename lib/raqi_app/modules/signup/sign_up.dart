@@ -8,6 +8,7 @@ import 'package:raqi/raqi_app/layout/raqi_layout.dart';
 import 'package:raqi/raqi_app/modules/otp/otp_signup_screen.dart';
 import 'package:raqi/raqi_app/modules/signup/cubit/cubit.dart';
 import 'package:raqi/raqi_app/modules/signup/cubit/states.dart';
+import 'package:raqi/raqi_app/modules/terms_screen/terms_screen.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
 import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
@@ -26,6 +27,7 @@ class SignupScreen extends StatelessWidget {
   var passwordController = TextEditingController();
   var type = 'student';
   bool isChecked = false ;
+  bool agreeTerms = false ;
   String gender = 'male';
 
   String? country ;
@@ -232,6 +234,26 @@ class SignupScreen extends StatelessWidget {
                             ],
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                  activeColor: buttonsColor,
+                                  value: agreeTerms,
+                                  onChanged: (value){
+                                    agreeTerms = !agreeTerms ;
+                                    RaqiSignupCubit.get(context).changeCheckBox();
+                                    print(agreeTerms);
+                                  }
+                              ),
+                              Text("${getLang(context,"agreeTo")}"),
+                              TextButton(onPressed: (){
+                                navigateTo(context, TermsScreen());
+                              }, child: Text("${getLang(context,"terms")}",style: TextStyle(color: Colors.blue),))
+                            ],
+                          ),
+                        ),
                         SizedBox(
                           height: 10,
                         ),
@@ -239,11 +261,21 @@ class SignupScreen extends StatelessWidget {
                           condition: state is! RaqiSignupLoadingState,
                           builder: (context) => defaultButton(
                               function: (){
-                                if(formKey.currentState!.validate()){
-                                  var phone = country != null ? "+${country}${phoneController.text}" : "${phoneController.text}";
-                                  bool exist = false ;
+                                if(agreeTerms){
+                                  if(formKey.currentState!.validate()){
+                                    var phone = country != null ? "+${country}${phoneController.text}" : "${phoneController.text}";
+                                    bool exist = false ;
 
-                                      FirebaseFirestore.instance.collection('students').get().then((value) {
+                                    FirebaseFirestore.instance.collection('students').get().then((value) {
+                                      value.docs.forEach((element) {
+                                        if(element.data()['phone'] == phone){
+                                          exist = true ;
+                                        }
+                                      });
+                                      print("-------------------------------");
+
+                                    }).then((value) {
+                                      FirebaseFirestore.instance.collection('teachers').get().then((value) {
                                         value.docs.forEach((element) {
                                           if(element.data()['phone'] == phone){
                                             exist = true ;
@@ -252,36 +284,31 @@ class SignupScreen extends StatelessWidget {
                                         print("-------------------------------");
 
                                       }).then((value) {
-                                        FirebaseFirestore.instance.collection('teachers').get().then((value) {
-                                          value.docs.forEach((element) {
-                                            if(element.data()['phone'] == phone){
-                                              exist = true ;
-                                            }
-                                          });
-                                          print("-------------------------------");
-
-                                        }).then((value) {
-                                          if(exist == false){
-                                            navigateTo(context, OtpScreen(
-                                                country != null ? "+${country}${phoneController.text}" : "${phoneController.text}",
-                                                nameController.text,
-                                                emailController.text,
-                                                type,
-                                                gender,
-                                                type == "student" ? bioController.text : RaqiSignupCubit.get(context).dropdownvalue!
-                                            ));
-                                          }
-                                          else if(exist == true){
-                                            showToast(text: "phone number already exist!", state: ToastStates.ERROR);
-                                          }
-
-                                        });
+                                        if(exist == false){
+                                          navigateTo(context, OtpScreen(
+                                              country != null ? "+${country}${phoneController.text}" : "${phoneController.text}",
+                                              nameController.text,
+                                              emailController.text,
+                                              type,
+                                              gender,
+                                              type == "student" ? bioController.text : RaqiSignupCubit.get(context).dropdownvalue!
+                                          ));
+                                        }
+                                        else if(exist == true){
+                                          showToast(text: "phone number already exist!", state: ToastStates.ERROR);
+                                        }
 
                                       });
 
+                                    });
 
 
 
+
+                                  }
+                                }
+                                else{
+                                  showToast(text: "${getLang(context,"must")}", state: ToastStates.WARNING);
                                 }
                               },
                               text: "${getLang(context,"signupB")}"

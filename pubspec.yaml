@@ -65,6 +65,7 @@ dependencies:
   share_plus: ^4.1.0
   flutter_riverpod: ^1.0.4
   flutter_svg: ^1.1.4
+  url_launcher: ^6.1.10
 
   #firebase
   firebase_core: ^2.4.1
@@ -78,15 +79,23 @@ dependencies:
   flutter_local_notifications: ^13.0.0
 
 dev_dependencies:
+  flutter_native_splash: ^2.2.19
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.12.0
 
 
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/nafith.jpg"
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/nafith.jpg
+  android: true
+  ios: true
+  android_gravity: center
 
 
 
@@ -120,6 +129,10 @@ flutter:
     - family: regular
       fonts:
         - asset: assets/fonts/Play-Bold.ttf
+
+    - family: cairo
+      fonts:
+        - asset: assets/fonts/cairo.ttf
 
     - family: Iconly-Broken
       fonts:

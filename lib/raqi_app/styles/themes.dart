@@ -1,10 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
+import 'package:raqi/raqi_app/shared/components/constants.dart';
 
 
 ThemeData darkTheme = ThemeData(
-  fontFamily: 'regular',
+  fontFamily: myLocale.languageCode == "ar" ? 'cairo' : 'regular' ,
     floatingActionButtonTheme:FloatingActionButtonThemeData(
         backgroundColor: buttonsColor
     ),
@@ -12,7 +13,7 @@ ThemeData darkTheme = ThemeData(
     appBarTheme: AppBarTheme(
       iconTheme: IconThemeData(color: buttonsColor),
       titleTextStyle: TextStyle(
-          fontFamily: 'regular',
+          fontFamily: myLocale.languageCode == "ar" ? 'cairo' : 'regular' ,
           color: Colors.white,
           fontSize: 25,
           fontWeight: FontWeight.bold
@@ -38,7 +39,7 @@ ThemeData darkTheme = ThemeData(
   ),
 ) ;
 ThemeData lightTheme = ThemeData(
-    fontFamily: 'regular',
+    fontFamily: myLocale.languageCode == "ar" ? 'cairo' : 'regular' ,
     floatingActionButtonTheme:FloatingActionButtonThemeData(
         backgroundColor: buttonsColor
     ),
@@ -46,7 +47,7 @@ ThemeData lightTheme = ThemeData(
     appBarTheme: AppBarTheme(
       iconTheme: IconThemeData(color: buttonsColor),
       titleTextStyle: TextStyle(
-        fontFamily: 'regular',
+        fontFamily: myLocale.languageCode == "ar" ? 'cairo' : 'regular' ,
           color: textColor,
           fontSize: 25,
           fontWeight: FontWeight.bold

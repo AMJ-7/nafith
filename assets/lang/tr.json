@@ -101,5 +101,9 @@
   "myReserve": "Rezervasyonlarım",
   "addHisPhone": "Telefon numarasını girin:",
   "add": "Ekle",
-  "toEdit": "Profilinizi düzenlemek için bize ulaşın"
+  "toEdit": "Profilinizi düzenlemek için bize ulaşın",
+  "agreeTo": "a katılıyorum",
+  "terms": "Şartlar ve koşullar",
+  "must": "Şartlar ve koşulları kabul etmelisiniz"
+
 }

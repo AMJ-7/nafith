@@ -19,6 +19,7 @@ import 'package:raqi/raqi_app/shared/colors.dart';
 import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
 import 'package:raqi/raqi_app/shared/components/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 var commentController = TextEditingController();
 var messageContactController = TextEditingController();
@@ -148,10 +149,12 @@ class RaqiLayout extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
-                          onTap: (){
-                            emailContactController.text = RaqiCubit.get(context).userModel!.email;
-                            nameContactController.text = RaqiCubit.get(context).userModel!.name;
-                            _showDialog(context , 2);
+                          onTap: ()async{
+                            var whatsappUrl ="whatsapp://send?phone=+966550650011";
+                            await canLaunch(whatsappUrl)? launch(whatsappUrl):showToast(text: "تعذر الوصول لتطبيق واتساب",state: ToastStates.ERROR);
+                            // emailContactController.text = RaqiCubit.get(context).userModel!.email;
+                            // nameContactController.text = RaqiCubit.get(context).userModel!.name;
+                            // _showDialog(context , 2);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),

@@ -101,7 +101,10 @@
   "myReserve": "My Reservations",
   "addHisPhone": "Enter his phone number:",
   "add": "Add",
-  "toEdit": "Contact us to edit your profile"
+  "toEdit": "Contact us to edit your profile",
+  "agreeTo": "Agree To the",
+  "terms": "terms and conditions",
+  "must": "You must agree to the terms and conditions"
 
 
 
