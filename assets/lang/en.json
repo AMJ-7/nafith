@@ -1,8 +1,8 @@
 {
   "Nafith" : "Nafith",
   "inNafith" : "In Nafith",
-  "onBoard1" : "It helps you to memorize and recite the Qur'an",
-  "onBoard2" : "It includes the most skilled sheikhs for you and your children" ,
+  "onBoard1" : "legal spell (remotely)\nYour effective treatment of evil eye, envy, magic and touch",
+  "onBoard2" : "It includes the most skilled healers to be a reason for your recovery, God willing" ,
   "onBoard3" : "Rooms for women only" ,
   "skip" : "Skip" ,
   "login" : "LOGIN." ,
@@ -104,7 +104,8 @@
   "toEdit": "Contact us to edit your profile",
   "agreeTo": "Agree To the",
   "terms": "terms and conditions",
-  "must": "You must agree to the terms and conditions"
+  "must": "You must agree to the terms and conditions",
+  "privacy": "privacy policy"
 
 
 

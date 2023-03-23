@@ -1,8 +1,8 @@
 {
   "Nafith" : "Nafith",
   "inNafith" : "nafith'te",
-  "onBoard1" : "Kur'an-ı Kerim'i ezberlemenize ve okumanıza yardımcı olur.",
-  "onBoard2" : "Siz ve çocuklarınız için en yetenekli şeyhleri içerir." ,
+  "onBoard1" : "yasal büyü (uzaktan)\nNazar, kıskançlık, büyü ve dokunmaya karşı etkili tedaviniz",
+  "onBoard2" : "İyileşmenize bir sebep olacak en yetenekli şifacıları içerir, İnşallah" ,
   "onBoard3" : "sadece bayanlara özel odalar" ,
   "skip" : "Atlamak" ,
   "login" : "GİRİŞ YAPMAK." ,
@@ -104,6 +104,7 @@
   "toEdit": "Profilinizi düzenlemek için bize ulaşın",
   "agreeTo": "a katılıyorum",
   "terms": "Şartlar ve koşullar",
-  "must": "Şartlar ve koşulları kabul etmelisiniz"
+  "must": "Şartlar ve koşulları kabul etmelisiniz",
+  "privacy": "Gizlilik Politikası"
 
 }

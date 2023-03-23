@@ -219,10 +219,9 @@ class RaqiSignupCubit extends Cubit<RaqiSignupStates>{
   String? dropdownvalue = "مناسب للمبتدئين" ;
 
   var items = [
-    "مناسب للمبتدئين",
-    "مناسب للمتقدمين",
-    "مناسب للاطفال",
-    "مناسب للكبار",
+    "رقية عامة",
+    "رقية السحر",
+    "رقية العين",
   ];
 
   changeDropdown(String? newValue){

@@ -15,6 +15,7 @@ import 'package:raqi/raqi_app/modules/my_reservation/my_reservation_screen.dart'
 import 'package:raqi/raqi_app/modules/notifications/notifications_screen.dart';
 import 'package:raqi/raqi_app/modules/quran/quran_home.dart';
 import 'package:raqi/raqi_app/modules/teachersScreens/messages_teacher_screen.dart';
+import 'package:raqi/raqi_app/modules/terms_screen/terms_screen.dart';
 import 'package:raqi/raqi_app/shared/colors.dart';
 import 'package:raqi/raqi_app/shared/components/applocale.dart';
 import 'package:raqi/raqi_app/shared/components/components.dart';
@@ -163,6 +164,24 @@ class RaqiLayout extends StatelessWidget {
                                 Icon(Icons.support_agent,size: 28,color: buttonsColor,),
                                 SizedBox(width: 8,),
                                 Text("${getLang(context,"contactUs")}",style: TextStyle(fontSize: 18),)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: ()async{
+                            navigateTo(context, TermsScreen());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.checklist_outlined,size: 28,color: buttonsColor,),
+                                SizedBox(width: 8,),
+                                Text("${getLang(context,"privacy")}",style: TextStyle(fontSize: 18),)
                               ],
                             ),
                           ),
@@ -318,10 +337,12 @@ class RaqiLayout extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
-                    onTap: (){
-                      emailContactController.text = RaqiCubit.get(context).userModel!.email;
-                      nameContactController.text = RaqiCubit.get(context).userModel!.name;
-                      _showDialog(context , 2);
+                    onTap: ()async{
+                      var whatsappUrl ="whatsapp://send?phone=+966550650011";
+                      await canLaunch(whatsappUrl)? launch(whatsappUrl):showToast(text: "تعذر الوصول لتطبيق واتساب",state: ToastStates.ERROR);
+                      // emailContactController.text = RaqiCubit.get(context).userModel!.email;
+                      // nameContactController.text = RaqiCubit.get(context).userModel!.name;
+                      // _showDialog(context , 2);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -330,6 +351,24 @@ class RaqiLayout extends StatelessWidget {
                           Icon(Icons.support_agent,size: 28,color: buttonsColor,),
                           SizedBox(width: 8,),
                           Text("${getLang(context,"contactUs")}",style: TextStyle(fontSize: 18),)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: ()async{
+                      navigateTo(context, TermsScreen());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.checklist_outlined,size: 28,color: buttonsColor,),
+                          SizedBox(width: 8,),
+                          Text("${getLang(context,"privacy")}",style: TextStyle(fontSize: 18),)
                         ],
                       ),
                     ),
