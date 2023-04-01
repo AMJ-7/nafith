@@ -49,6 +49,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           _viewModel.startCardPayment(PaymentCubit.get(context).dis == 0 ? amount : amount - (amount*(PaymentCubit.get(context).dis/100)), RaqiCubit.get(context).userModel!.uId,context);
                         }
                         if(flag == 1){
+                          print("apple pay");
                           _viewModel.startApplePayment(PaymentCubit.get(context).dis == 0 ? amount : amount - (amount*(PaymentCubit.get(context).dis/100)), RaqiCubit.get(context).userModel!.uId,context);
                         }
                       },
